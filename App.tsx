@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -16,51 +16,56 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import SelectDropdown from 'react-native-select-dropdown';
+import { pipeline } from '@xenova/transformers';
+import Section from './components/form/Section';
+import * as Translation from './components/Translation';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const tasks = [
+  'translation',
+  'text-generation',
+  'masked-language-modelling',
+  'sequence-classification',
+  'token-classification',
+  'zero-shot-classification',
+  'question-answering',
+  'summarization',
+  'code-completion',
+  'automatic-speech-recognition',
+  'image-to-text',
+  'image-classification',
+  'zero-shot-image-classification',
+  'object-detection',
+];
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [task, setTask] = useState<Nullable<string>>(null);
+  const [settings, setSettings] = useState<Nullable<object>>(null);
+  const [params, setParams] = useState<Nullable<object>>(null);
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  useEffect(() => {
+    setSettings(null);
+    setParams(null);
+  }, [task]);
+
+  const onProgress  = useCallback((event: any) => {
+    console.log(event);
+  }, []);
+
+  const run = useCallback(async (args: any) => {
+    if (!task || !args?.length) return;
+    const pipe = await pipeline(task, null, { progress_callback: onProgress });
+    const result = await pipe(...args);
+    pipe.dispose();
+    return result;
+  }, [task, onProgress]);
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -71,25 +76,32 @@ function App(): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
+        <View>
+          <Text style={styles.title}># transformers.js</Text>
+          <Section title="Task">
+            <SelectDropdown
+              data={tasks}
+              onSelect={(selected) => {
+                setTask(selected);
+              }}
+              buttonTextAfterSelection={(selectedItem) => selectedItem}
+              rowTextForSelection={(item) => item}
+            />
           </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
+          <Section title="Settings">
+            {task === 'translation' && <Translation.Settings onChange={setSettings} />}
+            {!task && <Text>Select task first</Text>}
           </Section>
-          <Section title="Debug">
-            <DebugInstructions />
+          <Section title="Parameters">
+            {task === 'translation' && <Translation.Parameters onChange={setParams} />}
+            {!task && <Text>N/A</Text>}
           </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
+          <Section title="Interact">
+            <View style={styles.container}>
+              {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
+              {!task && <Text>N/A</Text>}
+            </View>
           </Section>
-          <LearnMoreLinks />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -97,21 +109,13 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  container: {
+    flex: 1,
   },
 });
 
