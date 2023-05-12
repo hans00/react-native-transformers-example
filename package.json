@@ -10,8 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
+    "@xenova/transformers": "https://github.com/hans00/transformers.js",
+    "onnxruntime-react-native": "^1.14.0",
     "react": "18.2.0",
-    "react-native": "0.71.8"
+    "react-native": "0.71.8",
+    "react-native-fs": "^2.20.0",
+    "react-native-select-dropdown": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
