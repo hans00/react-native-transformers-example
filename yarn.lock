@@ -5991,6 +5991,11 @@ onnxruntime-common@~1.14.0:
   resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.14.0.tgz#2bb5dac5261269779aa5fb6536ca379657de8bf6"
   integrity sha512-3LJpegM2iMNRX2wUmtYfeX/ytfOzNwAWKSq1HbRrKc9+uqG/FsEA0bbKZl1btQeZaXhC26l44NWpNUeXPII7Ew==
 
+onnxruntime-common@~1.15.0-dev.20230502-abdd4f518a:
+  version "1.15.0-dev.20230502-abdd4f518a"
+  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.15.0-dev.20230502-abdd4f518a.tgz#0943218c01f52c0a84e1d0233a2cff9453133871"
+  integrity sha512-n4XlEa9HqUuMT34sNKssKXYx/prWGjooAM3gQF0Xq1E80YD6VS1pxeXwHWtZYNjVFi8C94w4HxvvErNKuODNag==
+
 onnxruntime-node@^1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/onnxruntime-node/-/onnxruntime-node-1.14.0.tgz#c4ae6c355cfae7d83abaf36dd39a905c4a010217"
@@ -6006,6 +6011,15 @@ onnxruntime-react-native@^1.14.0:
     "@expo/config-plugins" "^4.1.5"
     buffer "^6.0.3"
     onnxruntime-common "~1.14.0"
+
+onnxruntime-react-native@^1.15.0-dev.20230502-abdd4f518a:
+  version "1.15.0-dev.20230502-abdd4f518a"
+  resolved "https://registry.yarnpkg.com/onnxruntime-react-native/-/onnxruntime-react-native-1.15.0-dev.20230502-abdd4f518a.tgz#36779f3f5ee80b3f01fa25aa99aecda2de266e20"
+  integrity sha512-5tGJWokFH3Z8s9TmPB0Ogm3oqtaHnxX7hw62XfZyI2/poB85WLNTDcydkehrLbKkiDrAxXnXMEeDMFy2VaEJjA==
+  dependencies:
+    "@expo/config-plugins" "^4.1.5"
+    buffer "^6.0.3"
+    onnxruntime-common "~1.15.0-dev.20230502-abdd4f518a"
 
 onnxruntime-web@^1.14.0:
   version "1.14.0"
