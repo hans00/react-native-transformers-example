@@ -6,7 +6,6 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -20,6 +19,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
 import { pipeline } from '@xenova/transformers';
 import Section from './components/form/Section';
+import Progress from './components/Progress';
 import * as Translation from './components/Translation';
 
 const tasks = [
@@ -45,6 +45,8 @@ function App(): JSX.Element {
   const [task, setTask] = useState<Nullable<string>>(null);
   const [settings, setSettings] = useState<Nullable<object>>(null);
   const [params, setParams] = useState<Nullable<object>>(null);
+  const [download, setDownload] = useState<object>({});
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -53,18 +55,38 @@ function App(): JSX.Element {
   useEffect(() => {
     setSettings(null);
     setParams(null);
+    setDownload({});
+    setLoading(false);
   }, [task]);
 
   const onProgress  = useCallback((event: any) => {
     console.log(event);
+    if (event?.file) {
+      const { file, status, progress } = event;
+      setLoading(true);
+      setDownload((prev) => ({
+        ...prev,
+        [file]: { status, progress },
+      }));
+    }
+    if (event?.status === 'ready') {
+      setLoading(false);
+    }
   }, []);
 
   const run = useCallback(async (args: any) => {
     if (!task || !args?.length) return;
-    const pipe = await pipeline(task, null, { progress_callback: onProgress });
-    const result = await pipe(...args);
-    pipe.dispose();
-    return result;
+    let pipe
+    try {
+      pipe = await pipeline(task, null, { progress_callback: onProgress });
+      const result = await pipe(...args);
+      pipe.dispose();
+      return result;
+    } except (e) {
+      console.error(e);
+      pipe?.dispose();
+      throw e;
+    }
   }, [task, onProgress]);
 
   return (
@@ -96,6 +118,15 @@ function App(): JSX.Element {
             {task === 'translation' && <Translation.Parameters onChange={setParams} />}
             {!task && <Text>N/A</Text>}
           </Section>
+          {isLoading && (
+            <Section title="Progress">
+              <View style={styles.container}>
+                {Object.entries(download).map(([key, value]) => (
+                  <Progress key={key} name={key} {...value} />
+                ))}
+              </View>
+            </Section>
+          )}
           <Section title="Interact">
             <View style={styles.container}>
               {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}

@@ -3,7 +3,6 @@ import type {PropsWithChildren} from 'react';
 import {
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 
@@ -12,7 +11,6 @@ type SectionProps = PropsWithChildren<{
 }>;
 
 export default function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionTitle}>
