@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.0.5",
-    "@xenova/transformers": "../transformers.js",
+    "@fugood/react-native-audio-pcm-stream": "^1.1.4",
+    "@xenova/transformers": "https://github.com/hans00/transformers.js",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "events": "^3.3.0",
