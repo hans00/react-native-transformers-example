@@ -21,6 +21,7 @@ import { pipeline } from '@xenova/transformers';
 import Section from './components/form/Section';
 import Progress from './components/Progress';
 import * as Translation from './components/Translation';
+import * as ASR from './components/ASR';
 
 const tasks = [
   'translation',
@@ -112,10 +113,12 @@ function App(): JSX.Element {
           </Section>
           <Section title="Settings">
             {task === 'translation' && <Translation.Settings onChange={setSettings} />}
+            {task === 'automatic-speech-recognition' && <ASR.Settings onChange={setSettings} />}
             {!task && <Text>Select task first</Text>}
           </Section>
           <Section title="Parameters">
             {task === 'translation' && <Translation.Parameters onChange={setParams} />}
+            {task === 'automatic-speech-recognition' && <ASR.Parameters onChange={setParams} />}
             {!task && <Text>N/A</Text>}
           </Section>
           {isLoading && (
@@ -130,6 +133,7 @@ function App(): JSX.Element {
           <Section title="Interact">
             <View style={styles.container}>
               {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
+              {task === 'automatic-speech-recognition' && <ASR.Interact settings={settings} params={params} runPipe={run} />}
               {!task && <Text>N/A</Text>}
             </View>
           </Section>
