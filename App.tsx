@@ -76,13 +76,13 @@ function App(): JSX.Element {
 
   const run = useCallback(async (args: any) => {
     if (!task || !args?.length) return;
-    let pipe
+    let pipe;
     try {
       pipe = await pipeline(task, null, { progress_callback: onProgress });
       const result = await pipe(...args);
       pipe.dispose();
       return result;
-    } except (e) {
+    } catch (e) {
       console.error(e);
       pipe?.dispose();
       throw e;
