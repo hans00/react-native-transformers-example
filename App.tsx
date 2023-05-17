@@ -54,8 +54,6 @@ function App(): JSX.Element {
   };
 
   useEffect(() => {
-    setSettings(null);
-    setParams(null);
     setDownload({});
     setLoading(false);
   }, [task]);
@@ -75,12 +73,12 @@ function App(): JSX.Element {
     }
   }, []);
 
-  const run = useCallback(async (args: any) => {
-    if (!task || !args?.length) return;
+  const run = useCallback(async (useTask, ...args) => {
+    if (!task || !useTask || !args?.length) return;
     let pipe;
     try {
-      pipe = await pipeline(task, null, { progress_callback: onProgress });
-      const result = await pipe(...args);
+      pipe = await pipeline(useTask, null, { progress_callback: onProgress });
+      const result = await pipe._call(...args);
       pipe.dispose();
       return result;
     } catch (e) {
@@ -99,7 +97,7 @@ function App(): JSX.Element {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <View>
+        <View style={styles.container}>
           <Text style={styles.title}># transformers.js</Text>
           <Section title="Task">
             <SelectDropdown
@@ -121,6 +119,13 @@ function App(): JSX.Element {
             {task === 'automatic-speech-recognition' && <ASR.Parameters onChange={setParams} />}
             {!task && <Text>N/A</Text>}
           </Section>
+          <Section title="Interact">
+            <View style={styles.flex}>
+              {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
+              {task === 'automatic-speech-recognition' && <ASR.Interact settings={settings} params={params} runPipe={run} />}
+              {!task && <Text>N/A</Text>}
+            </View>
+          </Section>
           {isLoading && (
             <Section title="Progress">
               <View style={styles.container}>
@@ -130,13 +135,6 @@ function App(): JSX.Element {
               </View>
             </Section>
           )}
-          <Section title="Interact">
-            <View style={styles.container}>
-              {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
-              {task === 'automatic-speech-recognition' && <ASR.Interact settings={settings} params={params} runPipe={run} />}
-              {!task && <Text>N/A</Text>}
-            </View>
-          </Section>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -145,11 +143,16 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   container: {
+    flex: 1,
+    paddingTop: 20,
+    paddingBottom: 80,
+  },
+  flex: {
     flex: 1,
   },
 });

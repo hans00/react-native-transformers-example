@@ -30,7 +30,8 @@ export default class AudioRecorder {
       channels: this.channels,
     });
     this.listener = AudioStream.on('data', (data) => {
-      const sample = decodeS16LE(Buffer.from(data, 'base64'));
+      const sample = decodeS16LE(Buffer.from(data, 'base64'))
+        .map(v => v / 32768)
       this.samples = this.samples.concat(sample);
     });
     await AudioStream.start();

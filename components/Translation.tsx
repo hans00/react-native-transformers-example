@@ -50,7 +50,12 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
   const [output, setOutput] = useState<string>('');
 
   const call = useCallback(async () => {
-    const result = await runPipe([input, {...settings, ...params}]);
+    console.log(settings, params, input);
+    const result = await runPipe(
+      `translation_${settings.languageFrom}_to_${settings.languageTo}`,
+      [input],
+      params
+    );
     setOutput(result);
   }, [input, settings, params]);
 

@@ -33,7 +33,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
   const recorder = useRef<Nullable<Recorder>>(null);
 
   const call = useCallback(async (input) => {
-    const result = await runPipe([input, {...settings, ...params}]);
+    const result = await runPipe('automatic-speech-recognition', [input], params);
     setOutput(result);
   }, [settings, params]);
 
