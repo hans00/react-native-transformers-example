@@ -1,3 +1,10 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "stream": "stream-browserify",
+      "buffer": "@craftzdog/react-native-buffer",
+      "zlib": "browserify-zlib"
+    }
+  }
 }
