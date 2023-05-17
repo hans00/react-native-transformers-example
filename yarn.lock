@@ -2039,7 +2039,7 @@
 
 "@xenova/transformers@https://github.com/hans00/transformers.js":
   version "2.0.0-alpha.4"
-  resolved "https://github.com/hans00/transformers.js#bb550f1d26a0470d4074f3b44a6d07853df3ef18"
+  resolved "https://github.com/hans00/transformers.js#891a0a45a3ea80480220ec0cc7f9bf5c29579166"
   dependencies:
     onnxruntime-web "^1.14.0"
     sharp "^0.32.0"
