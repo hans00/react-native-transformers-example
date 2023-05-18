@@ -80,11 +80,11 @@ function App(): JSX.Element {
     try {
       pipe = await pipeline(useTask, null, { progress_callback: onProgress });
       const result = await pipe._call(...args);
-      pipe.dispose();
+      await pipe.dispose();
       return result;
     } catch (e) {
       console.error(e);
-      pipe?.dispose();
+      await pipe?.dispose();
       throw e;
     }
   }, [task, onProgress]);
