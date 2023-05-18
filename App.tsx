@@ -79,7 +79,7 @@ function App(): JSX.Element {
     let pipe;
     try {
       pipe = await pipeline(useTask, null, { progress_callback: onProgress });
-      const result = await pipe(...args);
+      const result = await pipe._call(...args);
       await pipe.dispose();
       console.log('Result:', result);
       return result;
