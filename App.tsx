@@ -43,6 +43,8 @@ const tasks = [
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = useColor('background');
+  const color = useColor('foreground');
+  const textColor = { color };
 
   const [task, setTask] = useState<Nullable<string>>(null);
   const [settings, setSettings] = useState<Nullable<object>>(null);
@@ -97,7 +99,7 @@ function App(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <View style={styles.container}>
-          <Text style={styles.title}># transformers.js</Text>
+          <Text style={[styles.title, textColor]}># transformers.js</Text>
           <Section title="Task">
             <SelectDropdown
               data={tasks}
@@ -111,18 +113,18 @@ function App(): JSX.Element {
           <Section title="Settings">
             {task === 'translation' && <Translation.Settings onChange={setSettings} />}
             {task === 'automatic-speech-recognition' && <ASR.Settings onChange={setSettings} />}
-            {!task && <Text>Select task first</Text>}
+            {!task && <Text style={textColor}>Select task first</Text>}
           </Section>
           <Section title="Parameters">
             {task === 'translation' && <Translation.Parameters onChange={setParams} />}
             {task === 'automatic-speech-recognition' && <ASR.Parameters onChange={setParams} />}
-            {!task && <Text>N/A</Text>}
+            {!task && <Text style={textColor}>N/A</Text>}
           </Section>
           <Section title="Interact">
             <View style={styles.flex}>
               {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
               {task === 'automatic-speech-recognition' && <ASR.Interact settings={settings} params={params} runPipe={run} />}
-              {!task && <Text>N/A</Text>}
+              {!task && <Text style={textColor}>N/A</Text>}
             </View>
           </Section>
           {isLoading && (
