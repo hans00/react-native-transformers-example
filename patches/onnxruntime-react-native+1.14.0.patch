@@ -1,13 +1,14 @@
 diff --git a/node_modules/onnxruntime-react-native/android/build.gradle b/node_modules/onnxruntime-react-native/android/build.gradle
-index 4c8a318..c5b70f3 100644
+index 4c8a318..65b58c1 100644
 --- a/node_modules/onnxruntime-react-native/android/build.gradle
 +++ b/node_modules/onnxruntime-react-native/android/build.gradle
-@@ -135,5 +135,7 @@ dependencies {
+@@ -135,5 +135,8 @@ dependencies {
  
    // Mobile build:
    // implementation "com.microsoft.onnxruntime:onnxruntime-mobile:latest.integration@aar"
 -  implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
 +  // implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
 +  // Use local AAR file
-+  implementation files('../../../onnxruntime-mobile-1.14.0-patched.aar')
++	implementation project(":onnxruntime-patched")
++
  }
