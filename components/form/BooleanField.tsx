@@ -9,14 +9,14 @@ import {
 interface Props {
   title?: string;
   value?: boolean;
-  onChange: (value: boolean) => void;
+  onChange?: (value: boolean) => void;
 }
 
 export default function BooleanField(props: Props): JSX.Element {
   const { title, onChange, value } = props;
 
   const handlePress = useCallback(() => {
-    onChange(!value);
+    onChange?.(!value);
   }, [onChange, value]);
 
   return (

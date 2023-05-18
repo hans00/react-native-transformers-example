@@ -7,7 +7,7 @@ import {
 
 interface Props {
   title: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export default function Button({ onPress, title }: Props): JSX.Element {

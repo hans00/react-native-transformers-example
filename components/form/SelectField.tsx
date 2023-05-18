@@ -12,7 +12,7 @@ interface Props {
   options: string[];
   placeholder?: string;
   defaultValue?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
 }
 
 export default function SelectField(props: Props): JSX.Element {

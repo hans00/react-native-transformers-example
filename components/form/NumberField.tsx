@@ -12,7 +12,7 @@ interface Props {
   placeholder?: string;
   value?: number;
   isInteger?: boolean;
-  onChange: (value: number) => void;
+  onChange?: (value: number) => void;
   editable?: boolean;
 }
 
@@ -25,9 +25,9 @@ export default function NumberField(props: Props): JSX.Element {
   const handleChange = useCallback(() => {
     const num = Number(value)
     if (!Number.isNaN(num) && (!isInteger || Number.isInteger(num))) {
-      onChange(num);
+      onChange?.(num);
     } else {
-      onChange(0);
+      onChange?.(0);
     }
   }, [onChange])
 

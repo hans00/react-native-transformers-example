@@ -11,7 +11,7 @@ interface Props {
   title?: string;
   placeholder?: string;
   value?: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   editable?: boolean;
   multiline?: boolean;
 }
@@ -30,7 +30,7 @@ export default function TextField(props: Props): JSX.Element {
   const textColor = { color };
 
   const handleChange = useCallback(() => {
-    onChange(value);
+    onChange?.(value);
   }, [onChange]);
 
   return (
