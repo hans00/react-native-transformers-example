@@ -1,7 +1,7 @@
 import type {PropsWithChildren, Props} from 'react';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useColor } from '../../utils/style';
+import { useColor } from '../utils/style';
 
 type ProgressProps = Props<{
   name: string;
