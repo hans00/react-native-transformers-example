@@ -11,6 +11,7 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  useColorScheme,
   Text,
   View,
 } from 'react-native';
@@ -40,6 +41,7 @@ const tasks = [
 ];
 
 function App(): JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = useColor('background');
 
   const [task, setTask] = useState<Nullable<string>>(null);
