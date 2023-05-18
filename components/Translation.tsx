@@ -48,15 +48,20 @@ interface InteractProps {
 export function Interact({ settings, params, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>('Hello, how are you?');
   const [output, setOutput] = useState<string>('');
+  const [isWIP, setWIP] = useState<boolean>(false);
 
   const call = useCallback(async () => {
-    console.log(settings, params, input);
-    const [{ translation_text }] = await runPipe(
-      `translation_${settings.languageFrom}_to_${settings.languageTo}`,
-      [input],
-      params
-    );
-    setOutput(translation_text);
+    try {
+      setWIP(true);
+      const [{ translation_text }] = await runPipe(
+        `translation_${settings.languageFrom}_to_${settings.languageTo}`,
+        [input],
+        params
+      );
+      setOutput(text);
+    } catch {
+      setWIP(false);
+    }
   }, [input, settings, params]);
 
   return (
@@ -76,6 +81,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       <Button
         title="Generate"
         onPress={call}
+        disabled={isWIP}
       />
     </>
   )

@@ -31,10 +31,16 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
   const recorder = useRef<Nullable<Recorder>>(null);
+  const [isWIP, setWIP] = useState<boolean>(false);
 
   const call = useCallback(async (input) => {
-    const { text } = await runPipe('automatic-speech-recognition', new Float32Array(input), params);
-    setOutput(text);
+    try {
+      setWIP(true);
+      const { text } = await runPipe('automatic-speech-recognition', new Float32Array(input), params);
+      setOutput(text);
+    } catch {
+      setWIP(false);
+    }
   }, [settings, params]);
 
   const startRecord = useCallback(async () => {
@@ -73,10 +79,12 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       <Button
         title="Start Record"
         onPress={startRecord}
+        disabled={isRecording || isWIP}
       />
       <Button
         title="Stop & Inference"
         onPress={stopRecord}
+        disabled={!isRecording || isWIP}
       />
       <TextField
         title="Output"

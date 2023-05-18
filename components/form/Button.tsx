@@ -8,11 +8,13 @@ import {
 interface Props {
   title: string;
   onPress?: () => void;
+  disabled?: boolean;
 }
 
-export default function Button({ onPress, title }: Props): JSX.Element {
+export default function Button({ onPress, title, disabled }: Props): JSX.Element {
   return (
     <Pressable
+      disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
         {
@@ -21,6 +23,7 @@ export default function Button({ onPress, title }: Props): JSX.Element {
             : 'white'
         },
         styles.button,
+        disabled && styles.disabled,
       ]}
     >
       <Text style={styles.text}>
@@ -41,5 +44,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center',
+  },
+  disabled: {
+    opacity: 0.5,
   },
 });
