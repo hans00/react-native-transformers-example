@@ -34,14 +34,12 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
   const [isWIP, setWIP] = useState<boolean>(false);
 
   const call = useCallback(async (input) => {
+    setWIP(true);
     try {
-      setWIP(true);
       const { text } = await runPipe('automatic-speech-recognition', new Float32Array(input), params);
       setOutput(text);
-      setWIP(false);
-    } catch {
-      setWIP(false);
-    }
+    } catch {}
+    setWIP(false);
   }, [settings, params]);
 
   const startRecord = useCallback(async () => {

@@ -51,17 +51,16 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
   const [isWIP, setWIP] = useState<boolean>(false);
 
   const call = useCallback(async () => {
+    setWIP(true);
     try {
-      setWIP(true);
       const [{ translation_text: text }] = await runPipe(
         `translation_${settings.languageFrom}_to_${settings.languageTo}`,
         [input],
         params
       );
       setOutput(text);
-    } catch {
-      setWIP(false);
-    }
+    } catch {}
+    setWIP(false);
   }, [input, settings, params]);
 
   return (
