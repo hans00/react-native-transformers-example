@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.dinuscxj.classreplace'
 
 import com.android.build.OutputFile
 
@@ -165,6 +166,11 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+}
+
+classreplace {
+    sourceType 'class' 
+    configFiles file('src/classreplace/class-replace-config.txt')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

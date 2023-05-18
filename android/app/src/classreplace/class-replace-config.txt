@@ -1,0 +1,3 @@
+app/src/classreplace/class/OnnxTensor.class:ai/onnxruntime/OnnxTensor.class
+app/src/classreplace/class/OrtUtil.class:ai/onnxruntime/OrtUtil.class
+app/src/classreplace/class/TensorInfo.class:ai/onnxruntime/TensorInfo.class
