@@ -1,6 +1,7 @@
 import type {PropsWithChildren, Props} from 'react';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useColor } from '../../utils/style';
 
 type ProgressProps = Props<{
   name: string;
@@ -11,9 +12,13 @@ type ProgressProps = Props<{
 export default function Progress(props: ProgressProps): JSX.Element {
   const { progress, name, status } = props;
   const value = progress ?? (status === 'done' ? 1 : 0);
+
+  const color = useColor('foreground');
+  const textColor = { color };
+
   return (
     <View style={styles.progress}>
-      <Text style={styles.progressTitle}>{name}</Text>
+      <Text style={[styles.progressTitle, textColor]}>{name}</Text>
       <View style={styles.progressContainer}>
         <View style={[styles.progressValue, { width: `${value * 100}%` }]} />
       </View>
