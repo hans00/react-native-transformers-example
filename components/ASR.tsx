@@ -38,6 +38,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       setWIP(true);
       const { text } = await runPipe('automatic-speech-recognition', new Float32Array(input), params);
       setOutput(text);
+      setWIP(false);
     } catch {
       setWIP(false);
     }

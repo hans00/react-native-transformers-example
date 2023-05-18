@@ -9,7 +9,7 @@ const decodeS16LE = (buffer) =>
 
 export default class AudioRecorder {
   constructor({
-    sampleRate = 32000,
+    sampleRate = 16000,
     bitDepth = 16,
     channels = 1,
     bufferSize = 4096,
