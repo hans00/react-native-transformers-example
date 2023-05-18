@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { useColor } from '../../utils/style';
 
 interface Props {
   title?: string;
@@ -18,6 +19,9 @@ export default function SelectField(props: Props): JSX.Element {
   const { title, options, onChange, value, placeholder } = props;
   const ref = useRef(null);
 
+  const color = useColor('foreground');
+  const textColor = { color };
+
   useEffect(() => {
     if (value)
       ref.current?.selectIndex(options.indexOf(value));
@@ -25,7 +29,7 @@ export default function SelectField(props: Props): JSX.Element {
 
   return (
     <View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, textColor]}>{title}</Text>
       <SelectDropdown
         ref={ref}
         data={options}

@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
+import { useColor } from '../../utils/style';
 
 interface Props {
   title?: string;
@@ -25,16 +26,20 @@ export default function TextField(props: Props): JSX.Element {
     multiline,
   } = props;
 
+  const color = useColor('foreground');
+  const textColor = { color };
+
   const handleChange = useCallback(() => {
     onChange(value);
   }, [onChange]);
 
   return (
     <View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, textColor]}>{title}</Text>
       <TextInput
         style={[
           styles.input,
+          textColor,
           multiline && styles.multiline,
         ]}
         onChangeText={handleChange}

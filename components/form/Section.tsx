@@ -5,15 +5,19 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useColor } from '../../utils/style';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
 export default function Section({children, title}: SectionProps): JSX.Element {
+  const color = useColor('foreground');
+  const textColor = { color };
+
   return (
     <View style={styles.sectionContainer}>
-      <Text style={styles.sectionTitle}>
+      <Text style={[styles.sectionTitle, textColor]}>
         {title}
       </Text>
       <View style={styles.sectionContent}>

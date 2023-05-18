@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
 } from 'react-native';
+import { useColor } from '../../utils/style';
 
 interface Props {
   title?: string;
@@ -18,6 +19,9 @@ interface Props {
 export default function NumberField(props: Props): JSX.Element {
   const { title, onChange, placeholder, value, isInteger, editable } = props;
 
+  const color = useColor('foreground');
+  const textColor = { color };
+
   const handleChange = useCallback(() => {
     const num = Number(value)
     if (!Number.isNaN(num) && (!isInteger || Number.isInteger(num))) {
@@ -29,9 +33,9 @@ export default function NumberField(props: Props): JSX.Element {
 
   return (
     <View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, textColor]}>{title}</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, textColor]}
         onChangeText={handleChange}
         value={value ? String(value) : '0'}
         placeholder={placeholder}

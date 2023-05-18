@@ -12,12 +12,11 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
 import { pipeline } from '@xenova/transformers';
+import { useColor } from './utils/style';
 import Section from './components/form/Section';
 import Progress from './components/Progress';
 import * as Translation from './components/Translation';
@@ -41,7 +40,7 @@ const tasks = [
 ];
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundColor = useColor('background');
 
   const [task, setTask] = useState<Nullable<string>>(null);
   const [settings, setSettings] = useState<Nullable<object>>(null);
@@ -49,9 +48,7 @@ function App(): JSX.Element {
   const [download, setDownload] = useState<object>({});
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const backgroundStyle = { backgroundColor };
 
   useEffect(() => {
     setDownload({});
@@ -92,7 +89,7 @@ function App(): JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        backgroundColor={backgroundColor}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
