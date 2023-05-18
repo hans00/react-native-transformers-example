@@ -5,6 +5,7 @@ import {
   View,
   Pressable,
 } from 'react-native';
+import { useColor } from '../../utils/style';
 
 interface Props {
   title?: string;
@@ -15,13 +16,16 @@ interface Props {
 export default function BooleanField(props: Props): JSX.Element {
   const { title, onChange, value } = props;
 
+  const color = useColor('foreground');
+  const textColor = { color };
+
   const handlePress = useCallback(() => {
     onChange?.(!value);
   }, [onChange, value]);
 
   return (
     <View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={[styles.title, textColor]}>{title}</Text>
       <Pressable
         onPress={handlePress}
         style={({ pressed }) => [
