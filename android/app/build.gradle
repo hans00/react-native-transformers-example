@@ -1,6 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-apply plugin: 'com.dinuscxj.classreplace'
 
 import com.android.build.OutputFile
 
@@ -168,9 +167,19 @@ dependencies {
     }
 }
 
-classreplace {
-    sourceType 'class' 
-    configFiles file('src/classreplace/class-replace-config.txt')
+// Replace {TensorInfo,OrtUtil,OnnxTensor}.class
+task patchedJar(type: Zip, dependsOn: jar) {
+    extension 'jar'
+    from(zipTree(jar.archivePath)) {
+        exclude 'ai/onnxruntime/OnnxTensor.class'
+        exclude 'ai/onnxruntime/OrtUtil.class'
+        exclude 'ai/onnxruntime/OnnxTensor.class'
+    }
+    from("src/patches") {
+        include 'ai/onnxruntime/OnnxTensor.class'
+        include 'ai/onnxruntime/OrtUtil.class'
+        include 'ai/onnxruntime/OnnxTensor.class'
+    }
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
