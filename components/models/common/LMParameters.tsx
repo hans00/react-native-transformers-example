@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import SelectField from './form/SelectField';
-import NumberField from './form/NumberField';
-import BooleanField from './form/BooleanField';
+import SelectField from '../../form/SelectField';
+import NumberField from '../../form/NumberField';
+import BooleanField from '../../form/BooleanField';
 
 export default function Parameters(props: Props): JSX.Element {
   const { onChange } = props;

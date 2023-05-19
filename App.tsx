@@ -20,25 +20,7 @@ import { pipeline } from '@xenova/transformers';
 import { useColor } from './utils/style';
 import Section from './components/form/Section';
 import Progress from './components/Progress';
-import * as Translation from './components/Translation';
-import * as ASR from './components/ASR';
-
-const tasks = [
-  'translation',
-  'text-generation',
-  'masked-language-modelling',
-  'sequence-classification',
-  'token-classification',
-  'zero-shot-classification',
-  'question-answering',
-  'summarization',
-  'code-completion',
-  'automatic-speech-recognition',
-  'image-to-text',
-  'image-classification',
-  'zero-shot-image-classification',
-  'object-detection',
-];
+import Models from './components/models'
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -92,6 +74,10 @@ function App(): JSX.Element {
     }
   }, [task, onProgress]);
 
+  const SettingsComponent = Models[task]?.Settings;
+  const ParametersComponent = Models[task]?.Parameters;
+  const InteractComponent = Models[task]?.Interact;
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -105,29 +91,35 @@ function App(): JSX.Element {
           <Text style={[styles.title, textColor]}># transformers.js</Text>
           <Section title="Task">
             <SelectDropdown
-              data={tasks}
+              data={Object.keys(Models)}
               onSelect={(selected) => {
                 setTask(selected);
               }}
-              buttonTextAfterSelection={(selectedItem) => selectedItem}
-              rowTextForSelection={(item) => item}
+              buttonTextAfterSelection={(item) => Models[item].title}
+              rowTextForSelection={(item) => Models[item].title}
             />
           </Section>
           <Section title="Settings">
-            {task === 'translation' && <Translation.Settings onChange={setSettings} />}
-            {task === 'automatic-speech-recognition' && <ASR.Settings onChange={setSettings} />}
-            {!task && <Text style={textColor}>Select task first</Text>}
+            {SettingsComponent ? (
+              <SettingsComponent onChange={setSettings} />
+            ) : (
+              <Text style={textColor}>Select task first</Text>
+            )}
           </Section>
           <Section title="Parameters">
-            {task === 'translation' && <Translation.Parameters onChange={setParams} />}
-            {task === 'automatic-speech-recognition' && <ASR.Parameters onChange={setParams} />}
-            {!task && <Text style={textColor}>N/A</Text>}
+            {ParametersComponent ? (
+              <ParametersComponent onChange={setParams} />
+            ) : (
+              <Text style={textColor}>N/A</Text>
+            )}
           </Section>
           <Section title="Interact">
             <View style={styles.flex}>
-              {task === 'translation' && <Translation.Interact settings={settings} params={params} runPipe={run} />}
-              {task === 'automatic-speech-recognition' && <ASR.Interact settings={settings} params={params} runPipe={run} />}
-              {!task && <Text style={textColor}>N/A</Text>}
+              {InteractComponent ? (
+                <InteractComponent settings={settings} params={params} runPipe={run} />
+              ) : (
+                <Text style={textColor}>N/A</Text>
+              )}
             </View>
           </Section>
           {isLoading && (

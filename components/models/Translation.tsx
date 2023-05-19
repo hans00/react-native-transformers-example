@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import SelectField from './form/SelectField';
-import TextField from './form/TextField';
-import Button from './form/Button';
+import SelectField from '../form/SelectField';
+import TextField from '../form/TextField';
+import Button from '../form/Button';
+
+export const title = 'Translation';
 
 interface Props {
   onChange: (settings: object) => void;
@@ -37,7 +39,7 @@ export function Settings(props: Props): JSX.Element {
   )
 }
 
-export { default as Parameters } from './LMParameters';
+export { default as Parameters } from './common/LMParameters';
 
 interface InteractProps {
   settings: object;

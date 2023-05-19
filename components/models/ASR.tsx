@@ -1,25 +1,30 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Text, PermissionsAndroid, Platform, Alert } from 'react-native';
-import SelectField from './form/SelectField';
-import TextField from './form/TextField';
-import NumberField from './form/NumberField';
-import BooleanField from './form/BooleanField';
-import Button from './form/Button';
-import Recorder from '../utils/recorder';
+import SelectField from '../form/SelectField';
+import TextField from '../form/TextField';
+import NumberField from '../form/NumberField';
+import BooleanField from '../form/BooleanField';
+import Button from '../form/Button';
+import Recorder from '../../utils/recorder';
+import { useColor } from '../../utils/style';
+
+export const title = 'Speech Recognition';
 
 interface Props {
   onChange: (settings: object) => void;
 }
 
 export function Settings(props: Props): JSX.Element {
+  const color = useColor('foreground');
+  const textColor = { color };
   return (
     <>
-      <Text>Nothing</Text>
+      <Text style={textColor}>Nothing</Text>
     </>
   )
 }
 
-export { default as Parameters } from './LMParameters';
+export { default as Parameters } from './common/LMParameters';
 
 interface InteractProps {
   settings: object;
