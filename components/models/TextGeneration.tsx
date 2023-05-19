@@ -6,25 +6,35 @@ import NumberField from '../form/NumberField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Recorder from '../../utils/recorder';
-import { useColor } from '../../utils/style';
 
 export const title = 'Text Generation';
+
+export { default as Settings } from './common/Empty';
 
 interface Props {
   onChange: (settings: object) => void;
 }
 
-export function Settings(props: Props): JSX.Element {
-  const color = useColor('foreground');
-  const textColor = { color };
+export function Parameters(props: Props): JSX.Element {
+  const { onChange } = props;
+  const [params, setParams] = useState<object>({
+    topk: 5,
+  });
+
+  useEffect(() => {
+    onChange(params)
+  }, [params])
+
   return (
     <>
-      <Text style={textColor}>Nothing</Text>
+      <NumberField
+        title="No. samples"
+        value={params.topk}
+        onChange={(value) => setParams({ ...params, topk: value })}
+      />
     </>
   )
-}
-
-export { default as Parameters } from './common/LMParameters';
+};
 
 interface InteractProps {
   settings: object;
@@ -34,7 +44,7 @@ interface InteractProps {
 
 const sampleText = 'I enjoy walking with my cute dog,'
 
-export function Interact({ settings, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const [text, setText] = useState<string>(sampleText);
   const [isWIP, setWIP] = useState<boolean>(false);
 
@@ -45,7 +55,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       setText(generated_text);
     } catch {}
     setWIP(false);
-  }, [text, settings, params]);
+  }, [text, params]);
 
   return (
     <>

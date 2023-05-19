@@ -20,7 +20,8 @@ import { pipeline } from '@xenova/transformers';
 import { useColor } from './utils/style';
 import Section from './components/form/Section';
 import Progress from './components/Progress';
-import Models from './components/models'
+import Models from './components/models';
+import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -84,6 +85,20 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundColor}
       />
+      <GCanvasView
+        style={{
+          width: 1000, // 1000 should enough for offscreen canvas usage
+          height: 1000, // or Dimensions.get('window').height * 2 like https://github.com/flyskywhy/react-native-babylonjs/commit/d5df5d2
+          position: 'absolute',
+          left: 1000, // 1000 should enough to not display on screen means offscreen canvas :P
+          top: 0,
+          zIndex: -100, // -100 should enough to not bother onscreen canvas
+        }}
+        offscreenCanvas
+        onCanvasCreate={(canvas) => console.log('Off-screen canvas is ready')}
+        devicePixelRatio={1}
+        isGestureResponsible={false}
+      />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -125,8 +140,8 @@ function App(): JSX.Element {
           {isLoading && (
             <Section title="Progress">
               <View style={styles.container}>
-                {Object.entries(download).map(([key, value]) => (
-                  <Progress key={key} name={key} {...value} />
+                {Object.entries(download).map(([key, { progress, status }]) => (
+                  <Progress key={key} title={key} value={progress} status={status} />
                 ))}
               </View>
             </Section>

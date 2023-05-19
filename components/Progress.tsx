@@ -4,23 +4,23 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useColor } from '../utils/style';
 
 type ProgressProps = Props<{
-  name: string;
-  progress?: number;
+  title: string;
+  value?: number;
   status?: 'initiate' | 'download' | 'done';
 }>;
 
 export default function Progress(props: ProgressProps): JSX.Element {
-  const { progress, name, status } = props;
-  const value = progress ?? (status === 'done' ? 1 : 0);
+  const { value, title, status } = props;
+  const width = (value ?? (status === 'done' ? 1 : 0)) * 100;
 
   const color = useColor('foreground');
   const textColor = { color };
 
   return (
     <View style={styles.progress}>
-      <Text style={[styles.progressTitle, textColor]}>{name}</Text>
+      <Text style={[styles.progressTitle, textColor]}>{title}</Text>
       <View style={styles.progressContainer}>
-        <View style={[styles.progressValue, { width: `${value * 100}%` }]} />
+        <View style={[styles.progressValue, { width: `${width}%` }]} />
       </View>
     </View>
   );

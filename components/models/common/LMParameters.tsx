@@ -3,6 +3,10 @@ import SelectField from '../../form/SelectField';
 import NumberField from '../../form/NumberField';
 import BooleanField from '../../form/BooleanField';
 
+interface Props {
+  onChange: (settings: object) => void;
+}
+
 export default function Parameters(props: Props): JSX.Element {
   const { onChange } = props;
   const [params, setParams] = useState<object>({

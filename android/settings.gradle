@@ -4,3 +4,12 @@ include ':app'
 includeBuild('../node_modules/react-native-gradle-plugin')
 include ':onnxruntime-patched'
 project(':onnxruntime-patched').projectDir = new File(rootProject.projectDir, '../onnxruntime-patched')
+
+include ':android:gcanvas_library'
+project(':android:gcanvas_library').projectDir = new File(rootProject.projectDir, '../node_modules/@flyskywhy/react-native-gcanvas/android/gcanvas_library')
+include ':android:bridge_spec'
+project(':android:bridge_spec').projectDir = new File(rootProject.projectDir, '../node_modules/@flyskywhy/react-native-gcanvas/android/bridge_spec')
+include ':android:adapters:gcanvas_imageloader_fresco'
+project(':android:adapters:gcanvas_imageloader_fresco').projectDir = new File(rootProject.projectDir, '../node_modules/@flyskywhy/react-native-gcanvas/android/adapters/gcanvas_imageloader_fresco')
+include ':android:adapters:bridge_adapter'
+project(':android:adapters:bridge_adapter').projectDir = new File(rootProject.projectDir, '../node_modules/@flyskywhy/react-native-gcanvas/android/adapters/bridge_adapter')

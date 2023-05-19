@@ -9,6 +9,10 @@
 - `events`
 - `util`
 
+```js
+global.Buffer = Buffer;
+```
+
 ### Add these babel config
 
 ```js

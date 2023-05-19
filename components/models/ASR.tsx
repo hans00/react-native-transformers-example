@@ -10,19 +10,7 @@ import { useColor } from '../../utils/style';
 
 export const title = 'Speech Recognition';
 
-interface Props {
-  onChange: (settings: object) => void;
-}
-
-export function Settings(props: Props): JSX.Element {
-  const color = useColor('foreground');
-  const textColor = { color };
-  return (
-    <>
-      <Text style={textColor}>Nothing</Text>
-    </>
-  )
-}
+export { default as Settings } from './common/Empty';
 
 export { default as Parameters } from './common/LMParameters';
 
@@ -32,7 +20,7 @@ interface InteractProps {
   runPipe: (args: any) => Promise<any>;
 }
 
-export function Interact({ settings, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
   const recorder = useRef<Nullable<Recorder>>(null);
@@ -45,7 +33,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [settings, params]);
+  }, [params]);
 
   const startRecord = useCallback(async () => {
     if (Platform.OS === 'android') {
