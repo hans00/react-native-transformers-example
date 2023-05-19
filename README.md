@@ -5,7 +5,7 @@
 ### Polyfills
 
 - `text-encoding-polyfill`
-- `assert
+- `assert`
 - `events`
 - `util`
 
