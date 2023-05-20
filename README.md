@@ -212,7 +212,7 @@ index b9b7835da2..6a2096a2af 100644
 
 > It will get better image decode performance.
 > But may make app unstable.
-> You should reuse 
+> Should more reuse canvas instance
 
 - `@flyskywhy/react-native-browser-polyfill`
 - `@flyskywhy/react-native-gcanvas`
