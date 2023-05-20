@@ -12,11 +12,75 @@ index 4c8a318..65b58c1 100644
 +	implementation project(":onnxruntime-patched")
 +
  }
+diff --git a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java b/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
+index fe59cef..41c1dd2 100644
+--- a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
++++ b/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
+@@ -39,6 +39,8 @@ import java.util.Set;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
+ 
++import com.facebook.react.modules.blob.BlobModule;
++
+ @RequiresApi(api = Build.VERSION_CODES.N)
+ public class OnnxruntimeModule extends ReactContextBaseJavaModule {
+   private static ReactApplicationContext reactContext;
+@@ -165,6 +167,8 @@ public class OnnxruntimeModule extends ReactContextBaseJavaModule {
+       throw new Exception("Model is not loaded: " + key);
+     }
+ 
++    BlobModule blobModule = reactContext.getNativeModule(BlobModule.class);
++
+     RunOptions runOptions = parseRunOptions(options);
+ 
+     long startTime = System.currentTimeMillis();
+@@ -217,7 +221,7 @@ public class OnnxruntimeModule extends ReactContextBaseJavaModule {
+       Log.d("Duration", "inference: " + duration);
+ 
+       startTime = System.currentTimeMillis();
+-      WritableMap resultMap = TensorHelper.createOutputTensor(result);
++      WritableMap resultMap = TensorHelper.createOutputTensor(blobModule, result);
+       duration = System.currentTimeMillis() - startTime;
+       Log.d("Duration", "createOutputTensor: " + duration);
+ 
 diff --git a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java b/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
-index 500141a..49b3abd 100644
+index 500141a..20c680f 100644
 --- a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
 +++ b/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
-@@ -164,7 +164,11 @@ public class TensorHelper {
+@@ -29,6 +29,8 @@ import java.util.Objects;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
+ 
++import com.facebook.react.modules.blob.BlobModule;
++
+ public class TensorHelper {
+   /**
+    * Supported tensor data type
+@@ -80,7 +82,7 @@ public class TensorHelper {
+    * It creates an output map from an output tensor.
+    * a data array is encoded as base64 string.
+    */
+-  public static WritableMap createOutputTensor(OrtSession.Result result) throws Exception {
++  public static WritableMap createOutputTensor(BlobModule blobModule, OrtSession.Result result) throws Exception {
+     WritableMap outputTensorMap = Arguments.createMap();
+ 
+     Iterator<Map.Entry<String, OnnxValue>> iterator = result.iterator();
+@@ -115,8 +117,12 @@ public class TensorHelper {
+         }
+         outputTensor.putArray("data", dataArray);
+       } else {
+-        String data = createOutputTensor(onnxTensor);
+-        outputTensor.putString("data", data);
++        // Blob
++        byte[] bufferArray = createOutputTensor(onnxTensor);
++        String blobId = blobModule.store(bufferArray);
++        int size = bufferArray.length;
++        outputTensor.putString("data", blobId);
++        outputTensor.putInt("size", size);
+       }
+ 
+       outputTensorMap.putMap(outputName, outputTensor);
+@@ -164,7 +170,11 @@ public class TensorHelper {
        tensor = OnnxTensor.createTensor(ortEnvironment, buffer, dims, OnnxJavaType.UINT8);
        break;
      }
@@ -29,3 +93,56 @@ index 500141a..49b3abd 100644
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16:
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT16:
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT32:
+@@ -177,7 +187,7 @@ public class TensorHelper {
+     return tensor;
+   }
+ 
+-  private static String createOutputTensor(OnnxTensor onnxTensor) throws Exception {
++  private static byte[] createOutputTensor(OnnxTensor onnxTensor) throws Exception {
+     TensorInfo tensorInfo = onnxTensor.getInfo();
+     ByteBuffer buffer = null;
+ 
+@@ -224,8 +234,7 @@ public class TensorHelper {
+       throw new IllegalStateException("Unexpected type: " + tensorInfo.onnxType.toString());
+     }
+ 
+-    String data = Base64.encodeToString(buffer.array(), Base64.DEFAULT);
+-    return data;
++    return buffer.array();
+   }
+ 
+   private static final Map<String, TensorInfo.OnnxTensorType> JsTensorTypeToOnnxTensorTypeMap =
+diff --git a/node_modules/onnxruntime-react-native/lib/backend.ts b/node_modules/onnxruntime-react-native/lib/backend.ts
+index 4ebc364..7aee5a0 100644
+--- a/node_modules/onnxruntime-react-native/lib/backend.ts
++++ b/node_modules/onnxruntime-react-native/lib/backend.ts
+@@ -4,6 +4,7 @@
+ import {Buffer} from 'buffer';
+ import {Backend, InferenceSession, SessionHandler, Tensor,} from 'onnxruntime-common';
+ import {Platform} from 'react-native';
++import {getArrayBufferForBlob} from 'react-native-blob-jsi-helper';
+ 
+ import {binding, Binding} from './binding';
+ 
+@@ -98,7 +99,20 @@ class OnnxruntimeSessionHandler implements SessionHandler {
+       }
+     }
+     const input = this.encodeFeedsType(feeds);
+-    const results: Binding.ReturnType = await this.#inferenceSession.run(this.#key, input, outputNames, options);
++    let results: Binding.ReturnType = await this.#inferenceSession.run(this.#key, input, outputNames, options);
++    results = Object.entries(results).reduce((acc, [name, result]) => {
++      acc[name] = {
++        ...result,
++        data: getArrayBufferForBlob({
++          _data: {
++            blobId: result.data,
++            offset: 0,
++            size: result.size,
++          }
++        }),
++      };
++      return acc;
++    }, {})
+     const output = this.decodeReturnType(results);
+     return output;
+   }
