@@ -36,7 +36,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await imageToCanvas(input, 0.5);
+      inferImg.current = await imageToCanvas(input, 512);
       const predicts = await runPipe('object-detection', createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}

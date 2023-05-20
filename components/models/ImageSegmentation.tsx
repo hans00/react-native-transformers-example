@@ -39,7 +39,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await imageToCanvas(input, 0.25);
+      inferImg.current = await imageToCanvas(input, 512);
       const predicts = await runPipe('image-segmentation', createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}

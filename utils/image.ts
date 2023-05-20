@@ -1,16 +1,17 @@
 import { RawImage } from '@xenova/transformers/src/utils/image';
 
-export async function imageToCanvas(uri: string, scale: number = 1): HTMLCanvasElement {
+export async function imageToCanvas(uri: string, sizeLimit: number = 0): HTMLCanvasElement {
   return await new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => {
       const canvas = document.createElement('canvas');
-      canvas.width = image.width * scale;
-      canvas.height = image.height * scale;
+      const ratio = Math.min(sizeLimit / image.width, sizeLimit / image.height, 1);
+      canvas.width = image.width * ratio;
+      canvas.height = image.height * ratio;
       canvas.getContext('2d').drawImage(
         image,
         0, 0, image.width, image.height,
-        0, 0, image.width * scale, image.height * scale
+        0, 0, image.width * ratio, image.height * ratio
       );
       resolve(canvas);
     }
