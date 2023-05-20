@@ -13,7 +13,7 @@ export async function imageToCanvas(uri: string, sizeLimit: number = 0): HTMLCan
       canvas.getContext('2d').drawImage(
         image,
         0, 0, image.width, image.height,
-        0, 0, newHeight, newWidth
+        0, 0, newWidth, newHeight
       );
       resolve(canvas);
     }
