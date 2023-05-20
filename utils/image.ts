@@ -6,12 +6,14 @@ export async function imageToCanvas(uri: string, sizeLimit: number = 0): HTMLCan
     image.onload = () => {
       const canvas = document.createElement('canvas');
       const ratio = Math.min(sizeLimit / image.width, sizeLimit / image.height, 1);
-      canvas.width = image.width * ratio;
-      canvas.height = image.height * ratio;
+      const newWidth = Math.floor(image.width * ratio);
+      const newHeight = Math.floor(image.height * ratio);
+      canvas.width = newWidth;
+      canvas.height = newHeight;
       canvas.getContext('2d').drawImage(
         image,
         0, 0, image.width, image.height,
-        0, 0, image.width * ratio, image.height * ratio
+        0, 0, newHeight, newWidth
       );
       resolve(canvas);
     }
