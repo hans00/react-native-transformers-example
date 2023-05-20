@@ -28,7 +28,7 @@ interface Segment {
   mask: RawImage;
 }
 
-const randomRGB = () => Math.floor(Math.random() * 256);
+const randomNum = () => Math.floor(Math.random() * 255);
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
@@ -75,15 +75,15 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         const scaledMask = await mask.resize(canvasWidth, targetHeight);
         // mask data to RGBA
         const dataRGBA = new Uint8ClampedArray(canvasWidth * targetHeight * 4);
-        const red = randomRGB();
-        const green = randomRGB();
-        const blue = randomRGB();
+        const red = randomNum();
+        const green = randomNum();
+        const blue = randomNum();
         for (let i = 0; i < canvasWidth * targetHeight; i++) {
           const j = i * 4;
           dataRGBA[j] = red;
           dataRGBA[j + 1] = green;
           dataRGBA[j + 2] = blue;
-          dataRGBA[j + 3] = scaledMask.data[i] / 2;
+          dataRGBA[j + 3] = scaledMask.data[i] * 0.6;
         }
         ctx.putImageData(new ImageData(dataRGBA, canvasWidth, targetHeight), 0, 0);
         ctx.font = '20px serif';
