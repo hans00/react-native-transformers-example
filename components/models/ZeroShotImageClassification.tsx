@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { StyleSheet, Image } from 'react-native';
 import TextField from '../form/TextField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Progress from '../Progress';
 
-export const title = 'Zero Shot Classification';
+export const title = 'Zero Shot Image Classification';
 
 export { default as Settings } from './common/Empty';
 
@@ -44,11 +46,10 @@ interface Label {
   score: number;
 }
 
-const sampleText = 'I have a problem with my iphone that needs to be resolved asap!';
-const sampleClass = 'urgent, not urgent, phone, tablet, microwave';
+const sampleClass = 'phone, tablet, microwave, controller, remoter, pen, cutter';
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
-  const [input, setInput] = useState<string>(sampleText);
+  const [input, setInput] = useState<string|null>(null);
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -57,7 +58,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(true);
     try {
       const { labels, scores } = await runPipe(
-        'zero-shot-classification',
+        'zero-shot-image-classification',
         input,
         classes.split(/\s*,+\s*/g).filter(x => x)
       );
@@ -70,6 +71,16 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(false);
   }, [input, classes]);
 
+  const takePhoto = useCallback(async () => {
+    const { assets: [ { uri } ] } = await launchCamera();
+    setInput(uri);
+  }, []);
+
+  const selectPhoto = useCallback(async () => {
+    const { assets: [ { uri } ] } = await launchImageLibrary();
+    setInput(uri);
+  }, []);
+
   return (
     <>
       <TextField
@@ -77,14 +88,22 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         value={classes}
         onChange={setClasses}
       />
-      <TextField
-        title="Text"
-        value={input}
-        onChange={setInput}
-        multiline
+      <Button
+        title="Take Photo"
+        onPress={takePhoto}
+        disabled={isWIP}
       />
       <Button
-        title="Predict"
+        title="Select Photo"
+        onPress={selectPhoto}
+        disabled={isWIP}
+      />
+      <Image
+        source={{ uri: input }}
+        style={styles.image}
+      />
+      <Button
+        title="Inference"
         onPress={call}
         disabled={isWIP}
       />
@@ -94,3 +113,10 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 300,
+  },
+});

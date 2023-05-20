@@ -8,23 +8,10 @@ import * as QuestionAnswering from './QuestionAnswering';
 import * as Summarization from './Summarization';
 import * as ASR from './ASR';
 import * as ImageToText from './ImageToText';
-
-// text-classification,
-// token-classification,
-// question-answering,
-// fill-mask,
-// summarization,
-// translation,
-// text2text-generation,
-// text-generation,
-// zero-shot-classification,
-// automatic-speech-recognition,
-// image-to-text,
-// image-classification,
-// image-segmentation,
-// zero-shot-image-classification,
-// object-detection,
-// feature-extraction
+import * as ImageClassification from './ImageClassification';
+import * as ZeroShotImageClassification from './ZeroShotImageClassification';
+import * as ImageSegmentation from './ImageSegmentation';
+import * as ObjectDetection from './ObjectDetection';
 
 export default {
   Translation,
@@ -37,4 +24,8 @@ export default {
   Summarization,
   ASR,
   ImageToText,
+  ImageClassification,
+  ZeroShotImageClassification,
+  ImageSegmentation,
+  ObjectDetection,
 }
