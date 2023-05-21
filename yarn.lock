@@ -2059,12 +2059,11 @@
 
 "@xenova/transformers@https://github.com/hans00/transformers.js":
   version "2.0.0"
-  resolved "https://github.com/hans00/transformers.js#362a0c758e8732788fc0457eaa0b2558e28e62c2"
+  resolved "https://github.com/hans00/transformers.js#ac854254b98542f43cc0eb2ea729b74494bae79d"
   dependencies:
     image-decode "^1.2.2"
     image-encode "^1.3.1"
     onnxruntime-web "^1.14.0"
-    resize-image-data "^0.3.1"
     sharp "^0.32.0"
   optionalDependencies:
     onnxruntime-node "^1.14.0"

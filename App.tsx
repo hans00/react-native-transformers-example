@@ -22,6 +22,7 @@ import Section from './components/form/Section';
 import Progress from './components/Progress';
 import Models from './components/models';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
+import * as logger from './utils/logger';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -43,7 +44,6 @@ function App(): JSX.Element {
   }, [task]);
 
   const onProgress  = useCallback((event: any) => {
-    console.log(event);
     if (event?.file) {
       const { file, status, progress } = event;
       setLoading(true);
@@ -62,11 +62,11 @@ function App(): JSX.Element {
     let pipe;
     try {
       pipe = await pipeline(useTask, null, { progress_callback: onProgress });
-      const startTime = Date.now();
+      logger.time('INFER');
       const result = await pipe._call(...args);
-      console.log('Time:', Date.now() - startTime);
+      logger.timeEnd('INFER');
       await pipe.dispose();
-      console.log('Result:', result);
+      logger.log('Result:', result);
       return result;
     } catch (e) {
       console.error(e);
@@ -87,8 +87,8 @@ function App(): JSX.Element {
       />
       <GCanvasView
         style={{
-          width: 1000, // 1000 should enough for offscreen canvas usage
-          height: 1000, // or Dimensions.get('window').height * 2 like https://github.com/flyskywhy/react-native-babylonjs/commit/d5df5d2
+          width: 3840, // 1000 should enough for offscreen canvas usage
+          height: 2160, // or Dimensions.get('window').height * 2 like https://github.com/flyskywhy/react-native-babylonjs/commit/d5df5d2
           position: 'absolute',
           left: 1000, // 1000 should enough to not display on screen means offscreen canvas :P
           top: 0,
