@@ -6,7 +6,7 @@ import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
 import Canvas from '../Canvas';
-import { imageToCanvas, createRawImage } from '../../utils/image';
+import { getImageData, createRawImage } from '../../utils/image';
 
 export const title = 'Object Detection';
 
@@ -36,7 +36,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await imageToCanvas(input, 512);
+      inferImg.current = await getImageData(input, canvasRef.current.width);
       const predicts = await runPipe('object-detection', createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}
@@ -58,14 +58,8 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     if (ctx && inferImg.current && results) {
       const width = inferImg.current.width;
       const height = inferImg.current.height;
-      const canvasWidth = canvasRef.current.width;
-      const ratio = width / canvasWidth;
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-      ctx.drawImage(
-        inferImg.current,
-        0, 0, width, height,
-        0, 0, canvasWidth, height / ratio,
-      );
+      ctx.putImageData(inferImg.current, 0, 0);
       ctx.fillStyle = '#FFFFFF'; // Avoid weired bug
       results.boxes.forEach((box, i) => {
         const [xmin, ymin, xmax, ymax] = box;
@@ -75,18 +69,18 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         ctx.lineWidth = 2;
         ctx.strokeStyle = 'red';
         ctx.rect(
-          xmin / ratio,
-          ymin / ratio,
-          (xmax - xmin) / ratio,
-          (ymax - ymin) / ratio,
+          xmin,
+          ymin,
+          (xmax - xmin),
+          (ymax - ymin),
         );
         ctx.stroke();
         ctx.font = '16px Arial';
         ctx.fillStyle = 'red';
         ctx.fillText(
           `${label} ${score.toFixed(2)}`,
-          xmin / ratio,
-          ymin / ratio - 5,
+          xmin,
+          ymin - 5,
         );
       });
     }

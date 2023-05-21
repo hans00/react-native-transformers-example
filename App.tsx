@@ -61,7 +61,9 @@ function App(): JSX.Element {
     if (!task || !useTask || !args?.length) return;
     let pipe;
     try {
+      logger.time('LOAD');
       pipe = await pipeline(useTask, null, { progress_callback: onProgress });
+      logger.timeEnd('LOAD');
       logger.time('INFER');
       const result = await pipe._call(...args);
       logger.timeEnd('INFER');
