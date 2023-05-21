@@ -6,6 +6,7 @@ on:
       - 'yarn.lock'
       - 'ios/**'
       - 'android/**'
+      - 'patches/**'
   pull_request:
     branches: [ main ]
     paths:
@@ -13,6 +14,7 @@ on:
       - 'yarn.lock'
       - 'ios/**'
       - 'android/**'
+      - 'patches/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
