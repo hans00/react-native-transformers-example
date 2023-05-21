@@ -28,7 +28,7 @@ interface Segment {
   mask: RawImage;
 }
 
-const randomNum = () => Math.floor(Math.random() * 255);
+const randomNum = () => Math.floor(Math.random() * 155 + 100);
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
