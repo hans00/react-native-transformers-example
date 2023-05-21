@@ -112,6 +112,52 @@ index 500141a..20c680f 100644
    }
  
    private static final Map<String, TensorInfo.OnnxTensorType> JsTensorTypeToOnnxTensorTypeMap =
+diff --git a/node_modules/onnxruntime-react-native/ios/TensorHelper.mm b/node_modules/onnxruntime-react-native/ios/TensorHelper.mm
+index 00c1c79..ed6c81c 100644
+--- a/node_modules/onnxruntime-react-native/ios/TensorHelper.mm
++++ b/node_modules/onnxruntime-react-native/ios/TensorHelper.mm
+@@ -2,6 +2,8 @@
+ // Licensed under the MIT License.
+ 
+ #import "TensorHelper.h"
++#import <React/RCTBlobManager.h>
++#import <React/RCTBridge+Private.h>
+ #import <Foundation/Foundation.h>
+ 
+ @implementation TensorHelper
+@@ -109,8 +111,11 @@ + (NSDictionary *)createOutputTensor:(const std::vector<const char *> &)outputNa
+       }
+       outputTensor[@"data"] = buffer;
+     } else {
+-      NSString *data = [self createOutputTensor:value];
+-      outputTensor[@"data"] = data;
++      NSData *buffer = [self createOutputTensor:value];
++      RCTBlobManager* blobManager = [[RCTBridge currentBridge] moduleForClass:RCTBlobManager.class];
++      NSString* blobId = [blobManager store:buffer];
++      outputTensor[@"data"] = blobId;
++      outputTensor[@"size"] = [NSNumber numberWithUnsignedInteger:buffer.length];
+     }
+ 
+     outputTensorMap[[NSString stringWithUTF8String:outputName]] = outputTensor;
+@@ -170,15 +175,15 @@ + (NSDictionary *)createOutputTensor:(const std::vector<const char *> &)outputNa
+   }
+ }
+ 
+-template <typename T> static NSString *createOutputTensorT(const Ort::Value &tensor) {
++template <typename T> static NSData *createOutputTensorT(const Ort::Value &tensor) {
+   const auto data = tensor.GetTensorData<T>();
+   NSData *buffer = [NSData dataWithBytesNoCopy:(void *)data
+                                         length:tensor.GetTensorTypeAndShapeInfo().GetElementCount() * sizeof(T)
+                                   freeWhenDone:false];
+-  return [buffer base64EncodedStringWithOptions:0];
++  return buffer;
+ }
+ 
+-+ (NSString *)createOutputTensor:(const Ort::Value &)tensor {
+++ (NSData *)createOutputTensor:(const Ort::Value &)tensor {
+   ONNXTensorElementDataType tensorType = tensor.GetTensorTypeAndShapeInfo().GetElementType();
+ 
+   switch (tensorType) {
 diff --git a/node_modules/onnxruntime-react-native/lib/backend.ts b/node_modules/onnxruntime-react-native/lib/backend.ts
 index 4ebc364..7aee5a0 100644
 --- a/node_modules/onnxruntime-react-native/lib/backend.ts
