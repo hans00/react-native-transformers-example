@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
@@ -23,6 +24,7 @@ interface LabelScore {
 }
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
+  const [image, setImage] = useState<string|null>(null);
   const [results, setResults] = useState<LabelScore[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
 
@@ -30,6 +32,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(true);
     try {
       const predicts = await runPipe('image-classification', input);
+      setImage(input);
       setResults(predicts);
     } catch {}
     setWIP(false);
@@ -57,9 +60,22 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         onPress={selectPhoto}
         disabled={isWIP}
       />
+      {!isWIP && (
+        <Image
+          style={styles.image}
+          source={{ uri: image }}
+        />
+      )}
       {results.map(({ label, score }) => (
         <Progress key={label} title={label} value={score} />
       ))}
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 300,
+  },
+});
