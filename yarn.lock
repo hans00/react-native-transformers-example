@@ -7801,6 +7801,11 @@ union-value@^1.0.0:
     is-extendable "^0.1.1"
     set-value "^2.0.1"
 
+uniqolor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/uniqolor/-/uniqolor-1.1.0.tgz#7519f81133cd54a1f4a59c33c81dbe04a3ad155d"
+  integrity sha512-j2XyokF24fsj+L5u6fbu4rM3RQc6VWJuAngYM2k0ZdG3yiVxt0smLkps2GmQIYqK8VkELGdM9vFU/HfOkK/zoQ==
+
 universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"

@@ -3,6 +3,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet } from 'react-native';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import { RawImage } from '@xenova/transformers/src/utils/image';
+import uniqolor from 'uniqolor';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
@@ -27,8 +28,6 @@ interface Segment {
   score: number;
   mask: RawImage;
 }
-
-const randomNum = () => Math.floor(Math.random() * 155 + 100);
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
@@ -67,9 +66,11 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
       results.reduce((p, { label, mask, score }, index) => p.then(async () => {
         // mask data to RGBA
         const dataRGBA = new Uint8ClampedArray(width * height * 4);
-        const red = randomNum();
-        const green = randomNum();
-        const blue = randomNum();
+        const color = uniqolor(label, { format: 'rgb', lightness: 50 }).color;
+        const parsedRGB = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        const red = parsedRGB ? Number(parsedRGB[1]) : 0;
+        const green = parsedRGB ? Number(parsedRGB[2]) : 0;
+        const blue = parsedRGB ? Number(parsedRGB[3]) : 0;
         for (let i = 0; i < dataRGBA.length; i += 4) {
           const maskIndex = Math.floor(i / 4);
           dataRGBA[i] = red;
@@ -79,7 +80,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         }
         ctx.putImageData(new ImageData(dataRGBA, width, height), 0, 0);
         ctx.font = '20px serif';
-        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, 1)`;
+        ctx.fillStyle = color;
         ctx.fillText(
           `${label} (${score.toFixed(2)})`,
           0,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet } from 'react-native';
+import uniqolor from 'uniqolor';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
@@ -65,9 +66,10 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         const [xmin, ymin, xmax, ymax] = box;
         const label = results.labels[i];
         const score = results.scores[i];
+        const color = uniqolor(label, { lightness: 50 }).color;
         ctx.beginPath();
         ctx.lineWidth = 2;
-        ctx.strokeStyle = 'red';
+        ctx.strokeStyle = color;
         ctx.rect(
           xmin,
           ymin,
@@ -76,11 +78,11 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         );
         ctx.stroke();
         ctx.font = '16px Arial';
-        ctx.fillStyle = 'red';
+        ctx.fillStyle = color;
         ctx.fillText(
           `${label} ${score.toFixed(2)}`,
-          xmin,
-          ymin - 5,
+          ymin > 10 ? xmin : xmin + 4,
+          ymin > 10 ? ymin - 5 : ymin + 16,
         );
       });
     }
