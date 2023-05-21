@@ -72,6 +72,7 @@ PODS:
     - FlipperKit/Core
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
+  - GCanvas (1.1.1)
   - glog (0.3.5)
   - hermes-engine (0.71.8):
     - hermes-engine/Pre-built (= 0.71.8)
@@ -333,6 +334,14 @@ PODS:
   - React-jsinspector (0.71.8)
   - React-logger (0.71.8):
     - glog
+  - react-native-blob-jsi-helper (0.3.0):
+    - React
+    - React-Core
+  - react-native-gcanvas (6.0.3):
+    - GCanvas
+    - React
+  - react-native-image-picker (5.3.1):
+    - React-Core
   - react-native-quick-base64 (2.0.6):
     - React-Core
   - React-perflogger (0.71.8)
@@ -454,6 +463,7 @@ DEPENDENCIES:
   - FlipperKit/FlipperKitReactPlugin (= 0.125.0)
   - FlipperKit/FlipperKitUserDefaultsPlugin (= 0.125.0)
   - FlipperKit/SKIOSNetworkPlugin (= 0.125.0)
+  - "GCanvas (from `../node_modules/@flyskywhy/react-native-gcanvas/GCanvas.podspec`)"
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
@@ -475,6 +485,9 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-blob-jsi-helper (from `../node_modules/react-native-blob-jsi-helper`)
+  - "react-native-gcanvas (from `../node_modules/@flyskywhy/react-native-gcanvas`)"
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -521,6 +534,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
     :path: "../node_modules/react-native/React/FBReactNativeSpec"
+  GCanvas:
+    :path: "../node_modules/@flyskywhy/react-native-gcanvas/GCanvas.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   hermes-engine:
@@ -555,6 +570,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-blob-jsi-helper:
+    :path: "../node_modules/react-native-blob-jsi-helper"
+  react-native-gcanvas:
+    :path: "../node_modules/@flyskywhy/react-native-gcanvas"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-quick-base64:
     :path: "../node_modules/react-native-quick-base64"
   React-perflogger:
@@ -606,6 +627,7 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: cbdee19bdd4e7f05472a66ce290f1b729ba3cb86
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
+  GCanvas: 48279b84f74a24c8c41fedc8ca19885ef3f4a8d9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
@@ -626,6 +648,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 747911ab5921641b4ed7e4900065896597142125
   React-jsinspector: c712f9e3bb9ba4122d6b82b4f906448b8a281580
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
+  react-native-blob-jsi-helper: 0f650a3c8af9b44d379d38b50733b75e9eafee23
+  react-native-gcanvas: f333990fb1593272cd66c70275099cdac9e33821
+  react-native-image-picker: ec9b713e248760bfa0f879f0715391de4651a7cb
   react-native-quick-base64: 62290829c619fbabca4c41cfec75ae759d08fc1c
   React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
   React-RCTActionSheet: 0151f83ef92d2a7139bba7dfdbc8066632a6d47b
@@ -646,6 +671,6 @@ SPEC CHECKSUMS:
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 2cdaece729e0c5e4cf9312049b9aea6b6415c818
+PODFILE CHECKSUM: b10522d68aadff0af5d00cb3edc5a2b89244d56c
 
 COCOAPODS: 1.11.3

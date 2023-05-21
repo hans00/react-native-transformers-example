@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet, Image } from 'react-native';
 import TextField from '../form/TextField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Progress from '../Progress';
+import { getImageData, createRawImage } from '../../utils/image';
 
 export const title = 'Zero Shot Image Classification';
 
@@ -53,32 +54,31 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
+  const inferImage = useRef<any>(null);
 
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const { labels, scores } = await runPipe(
+      const predicts = await runPipe(
         'zero-shot-image-classification',
-        input,
+        createRawImage(inferImage.current),
         classes.split(/\s*,+\s*/g).filter(x => x)
       );
-      const predicts = labels.map((label, index) => ({
-        label,
-        score: scores[index],
-      }));
       setResult(predicts);
     } catch {}
     setWIP(false);
   }, [input, classes]);
 
   const takePhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchCamera();
-    setInput(uri);
+    const { assets: [ file ] } = await launchCamera();
+    inferImage.current = await getImageData(file.uri, 512);
+    setInput(file.uri);
   }, []);
 
   const selectPhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchImageLibrary();
-    setInput(uri);
+    const { assets: [ file ] } = await launchImageLibrary();
+    inferImage.current = await getImageData(file.uri, 512);
+    setInput(file.uri);
   }, []);
 
   return (

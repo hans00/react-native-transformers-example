@@ -3,12 +3,13 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet } from 'react-native';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import { RawImage } from '@xenova/transformers/src/utils/image';
+import uniqolor from 'uniqolor';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
 import Canvas from '../Canvas';
-import { imageToCanvas, createRawImage } from '../../utils/image';
+import { getImageData, createRawImage } from '../../utils/image';
 
 export const title = 'Image Segmentation';
 
@@ -28,8 +29,6 @@ interface Segment {
   mask: RawImage;
 }
 
-const randomNum = () => Math.floor(Math.random() * 255);
-
 export function Interact({ runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -39,7 +38,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await imageToCanvas(input, 512);
+      inferImg.current = await getImageData(input, canvasRef.current.width);
       const predicts = await runPipe('image-segmentation', createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}
@@ -62,36 +61,30 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     if (ctx && inferImg.current) {
       const width = inferImg.current.width;
       const height = inferImg.current.height;
-      const canvasWidth = canvasRef.current.width;
-      const ratio = width / canvasWidth;
-      const targetHeight = Math.floor(height / ratio);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(
-        inferImg.current,
-        0, 0, width, height,
-        0, 0, canvasWidth, targetHeight,
-      );
+      ctx.putImageData(inferImg.current, 0, 0);
       results.reduce((p, { label, mask, score }, index) => p.then(async () => {
-        const scaledMask = await mask.resize(canvasWidth, targetHeight);
         // mask data to RGBA
-        const dataRGBA = new Uint8ClampedArray(canvasWidth * targetHeight * 4);
-        const red = randomNum();
-        const green = randomNum();
-        const blue = randomNum();
-        for (let i = 0; i < canvasWidth * targetHeight; i++) {
-          const j = i * 4;
-          dataRGBA[j] = red;
-          dataRGBA[j + 1] = green;
-          dataRGBA[j + 2] = blue;
-          dataRGBA[j + 3] = scaledMask.data[i] * 0.6;
+        const dataRGBA = new Uint8ClampedArray(width * height * 4);
+        const color = uniqolor(label, { format: 'rgb', lightness: 50 }).color;
+        const parsedRGB = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        const red = parsedRGB ? Number(parsedRGB[1]) : 0;
+        const green = parsedRGB ? Number(parsedRGB[2]) : 0;
+        const blue = parsedRGB ? Number(parsedRGB[3]) : 0;
+        for (let i = 0; i < dataRGBA.length; i += 4) {
+          const maskIndex = Math.floor(i / 4);
+          dataRGBA[i] = red;
+          dataRGBA[i + 1] = green;
+          dataRGBA[i + 2] = blue;
+          dataRGBA[i + 3] = mask.data[maskIndex] * 0.6;
         }
-        ctx.putImageData(new ImageData(dataRGBA, canvasWidth, targetHeight), 0, 0);
+        ctx.putImageData(new ImageData(dataRGBA, width, height), 0, 0);
         ctx.font = '20px serif';
-        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, 1)`;
+        ctx.fillStyle = color;
         ctx.fillText(
           `${label} (${score.toFixed(2)})`,
           0,
-          targetHeight + 20 * (index + 1),
+          height + 20 * (index + 1),
         );
       }), Promise.resolve());
     }

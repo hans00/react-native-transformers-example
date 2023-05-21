@@ -33,7 +33,9 @@
     "resize-image-data": "^0.3.1",
     "stream-browserify": "^3.0.0",
     "text-encoding-polyfill": "^0.6.7",
-    "util": "^0.12.5"
+    "uniqolor": "^1.1.0",
+    "util": "^0.12.5",
+    "xregexp": "^5.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
@@ -59,5 +61,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "resolutions": {
+    "jpeg-js": "^0.4.4",
+    "node-fetch": "^2.6.7",
+    "xml2js": "^0.5.0"
   }
 }
