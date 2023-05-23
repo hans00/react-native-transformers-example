@@ -20,6 +20,8 @@
 
 ## ONNX Runtime patch work for LM models
 
+> Current has some changes not publish.
+
 - [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556)
 - [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116)
 
