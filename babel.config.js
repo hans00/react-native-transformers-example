@@ -11,7 +11,6 @@ module.exports = {
         'zlib': 'browserify-zlib',
         'fs': 'react-native-fs',
         'path': 'path-browserify',
-        'onnxruntime-node': 'onnxruntime-react-native',
       },
     }],
   ],
