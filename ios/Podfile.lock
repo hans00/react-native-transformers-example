@@ -79,7 +79,7 @@ PODS:
   - hermes-engine/Pre-built (0.71.8)
   - libevent (2.1.12)
   - onnxruntime-c (1.14.0)
-  - onnxruntime-react-native (1.14.0):
+  - onnxruntime-react-native (1.16.0-test2):
     - onnxruntime-c
     - React-Core
   - OpenSSL-Universal (1.1.1100)
@@ -464,7 +464,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - libevent (~> 2.1.12)
-  - onnxruntime-react-native (from `../node_modules/onnxruntime-react-native`)
+  - "onnxruntime-react-native (from `../node_modules/@fugood/onnxruntime-react-native`)"
   - OpenSSL-Universal (= 1.1.1100)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
@@ -515,7 +515,6 @@ SPEC REPOS:
     - Flipper-RSocket
     - FlipperKit
     - fmt
-    - GCanvas
     - libevent
     - onnxruntime-c
     - OpenSSL-Universal
@@ -538,7 +537,7 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
   onnxruntime-react-native:
-    :path: "../node_modules/onnxruntime-react-native"
+    :path: "../node_modules/@fugood/onnxruntime-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTRequired:
@@ -627,7 +626,7 @@ SPEC CHECKSUMS:
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   onnxruntime-c: 1f5923e555122d12239a1173229d6c5e8a0afd3e
-  onnxruntime-react-native: 8cef9ae43ece425e187415e28a2e02aee3bc80af
+  onnxruntime-react-native: 9a3212094baed160eaf16fbca91703f7419c143c
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 8af6a32dfc2b65ec82193c2dee6e1011ff22ac2a
@@ -665,6 +664,6 @@ SPEC CHECKSUMS:
   Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 6ffd45449d1e1316675abfb877476971a9009f56
+PODFILE CHECKSUM: b10522d68aadff0af5d00cb3edc5a2b89244d56c
 
 COCOAPODS: 1.11.3
