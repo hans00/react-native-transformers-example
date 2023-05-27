@@ -22,8 +22,8 @@ export default function NumberField(props: Props): JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 
-  const handleChange = useCallback(() => {
-    const num = Number(value)
+  const handleChange = useCallback((val) => {
+    const num = Number(val)
     if (!Number.isNaN(num) && (!isInteger || Number.isInteger(num))) {
       onChange?.(num);
     } else {

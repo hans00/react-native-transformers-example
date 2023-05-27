@@ -29,8 +29,8 @@ export default function TextField(props: Props): JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 
-  const handleChange = useCallback(() => {
-    onChange?.(value);
+  const handleChange = useCallback((val) => {
+    onChange?.(val);
   }, [onChange]);
 
   return (
