@@ -21,7 +21,7 @@
     "events": "^3.3.0",
     "image-decode": "^1.2.2",
     "image-encode": "^1.3.1",
-    "@fugood/onnxruntime-react-native": "~1.16.0-test3",
+    "@fugood/onnxruntime-react-native": "~1.16.0-test5",
     "path-browserify": "^1.0.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
