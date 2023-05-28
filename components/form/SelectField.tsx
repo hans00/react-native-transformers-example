@@ -10,13 +10,15 @@ import { useColor } from '../../utils/style';
 interface Props {
   title?: string;
   options: string[];
+  optionLabels?: string[];
   placeholder?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
+  width: number|string;
 }
 
 export default function SelectField(props: Props): JSX.Element {
-  const { title, options, onChange, value, placeholder } = props;
+  const { title, options, onChange, value, placeholder, optionLabels, width } = props;
   const ref = useRef(null);
 
   const color = useColor('foreground');
@@ -29,13 +31,15 @@ export default function SelectField(props: Props): JSX.Element {
 
   return (
     <View>
-      <Text style={[styles.title, textColor]}>{title}</Text>
+      {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <SelectDropdown
         ref={ref}
         data={options}
         onSelect={onChange}
-        buttonTextAfterSelection={(selectedItem) => selectedItem}
-        rowTextForSelection={(item) => item}
+        defaultButtonText={placeholder}
+        buttonTextAfterSelection={(item, i) => optionLabels?.[i] ?? item}
+        rowTextForSelection={(item, i) => optionLabels?.[i] ?? item}
+        buttonStyle={[styles.button, width && { width }]}
       />
     </View>
   )
@@ -45,5 +49,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  button: {
+    borderRadius: 8,
+    padding: 10,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'gray',
   },
 });

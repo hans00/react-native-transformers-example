@@ -11,6 +11,7 @@ module.exports = {
         'zlib': 'browserify-zlib',
         'fs': 'react-native-fs',
         'path': 'path-browserify',
+        'av': require.resolve('./aurora.js'),
       },
     }],
   ],

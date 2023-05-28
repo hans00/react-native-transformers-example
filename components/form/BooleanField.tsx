@@ -25,7 +25,7 @@ export default function BooleanField(props: Props): JSX.Element {
 
   return (
     <View>
-      <Text style={[styles.title, textColor]}>{title}</Text>
+      {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <Pressable
         onPress={handlePress}
         style={({ pressed }) => [

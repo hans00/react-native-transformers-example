@@ -18,6 +18,7 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import { pipeline } from '@xenova/transformers';
 import { useColor } from './utils/style';
+import InlineSection from './components/form/InlineSection';
 import Section from './components/form/Section';
 import Progress from './components/Progress';
 import Models from './components/models';
@@ -106,7 +107,7 @@ function App(): JSX.Element {
         style={backgroundStyle}>
         <View style={styles.container}>
           <Text style={[styles.title, textColor]}># transformers.js</Text>
-          <Section title="Task">
+          <InlineSection title="Task">
             <SelectDropdown
               data={Object.keys(Models)}
               onSelect={(selected) => {
@@ -115,22 +116,22 @@ function App(): JSX.Element {
               buttonTextAfterSelection={(item) => Models[item].title}
               rowTextForSelection={(item) => Models[item].title}
             />
-          </Section>
-          <Section title="Settings">
+          </InlineSection>
+          <InlineSection title="Settings">
             {SettingsComponent ? (
               <SettingsComponent onChange={setSettings} />
             ) : (
               <Text style={textColor}>Select task first</Text>
             )}
-          </Section>
-          <Section title="Parameters">
+          </InlineSection>
+          <InlineSection title="Parameters">
             {ParametersComponent ? (
               <ParametersComponent onChange={setParams} />
             ) : (
               <Text style={textColor}>N/A</Text>
             )}
-          </Section>
-          <Section title="Interact">
+          </InlineSection>
+          <InlineSection title="Interact">
             <View style={styles.flex}>
               {InteractComponent ? (
                 <InteractComponent settings={settings} params={params} runPipe={run} />
@@ -138,14 +139,12 @@ function App(): JSX.Element {
                 <Text style={textColor}>N/A</Text>
               )}
             </View>
-          </Section>
+          </InlineSection>
           {isLoading && (
             <Section title="Progress">
-              <View style={styles.container}>
-                {Object.entries(download).map(([key, { progress, status }]) => (
-                  <Progress key={key} title={key} value={progress} status={status} />
-                ))}
-              </View>
+              {Object.entries(download).map(([key, { progress, status }]) => (
+                <Progress key={key} title={key} value={progress} status={status} />
+              ))}
             </Section>
           )}
         </View>
@@ -159,11 +158,6 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    paddingBottom: 80,
   },
   flex: {
     flex: 1,

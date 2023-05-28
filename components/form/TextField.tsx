@@ -35,7 +35,7 @@ export default function TextField(props: Props): JSX.Element {
 
   return (
     <View>
-      <Text style={[styles.title, textColor]}>{title}</Text>
+      {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <TextInput
         style={[
           styles.input,
