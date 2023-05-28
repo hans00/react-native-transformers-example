@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -17,6 +17,13 @@ interface Props {
   width: number|string;
 }
 
+function DropdownIcon(): JSX.Element {
+  const color = useColor('background');
+  const iconColorStyle = { color };
+
+  return <Text style={iconColorStyle}>▼</Text>;
+}
+
 export default function SelectField(props: Props): JSX.Element {
   const { title, options, onChange, value, placeholder, optionLabels, width } = props;
   const ref = useRef(null);
@@ -30,7 +37,7 @@ export default function SelectField(props: Props): JSX.Element {
   }, [options, value]);
 
   return (
-    <View>
+    <View style={styles.container}>
       {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <SelectDropdown
         ref={ref}
@@ -40,15 +47,22 @@ export default function SelectField(props: Props): JSX.Element {
         buttonTextAfterSelection={(item, i) => optionLabels?.[i] ?? item}
         rowTextForSelection={(item, i) => optionLabels?.[i] ?? item}
         buttonStyle={[styles.button, width && { width }]}
+        dropdownStyle={styles.dropdown}
+        selectedRowStyle={styles.selectedRow}
+        renderDropdownIcon={DropdownIcon}
       />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 4,
+  },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 4,
   },
   button: {
     borderRadius: 8,
@@ -56,5 +70,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'gray',
+  },
+  dropdown: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 8,
+  },
+  selectedRow: {
+    backgroundColor: '#ddd',
   },
 });

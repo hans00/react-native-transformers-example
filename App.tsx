@@ -15,15 +15,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import { pipeline } from '@xenova/transformers';
 import { useColor } from './utils/style';
 import InlineSection from './components/form/InlineSection';
 import Section from './components/form/Section';
+import SelectField from './components/form/SelectField';
 import Progress from './components/Progress';
 import Models from './components/models';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import * as logger from './utils/logger';
+
+const tasks = Object.keys(Models);
+const taskDisplayNames = tasks.map((task) => Models[task].title);
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -108,13 +111,12 @@ function App(): JSX.Element {
         <View style={styles.container}>
           <Text style={[styles.title, textColor]}># transformers.js</Text>
           <InlineSection title="Task">
-            <SelectDropdown
-              data={Object.keys(Models)}
-              onSelect={(selected) => {
-                setTask(selected);
-              }}
-              buttonTextAfterSelection={(item) => Models[item].title}
-              rowTextForSelection={(item) => Models[item].title}
+            <SelectField
+              options={Object.keys(Models)}
+              value={task}
+              onChange={setTask}
+              optionLabels={taskDisplayNames}
+              placeholder="Select a task"
             />
           </InlineSection>
           <InlineSection title="Settings">
@@ -131,15 +133,13 @@ function App(): JSX.Element {
               <Text style={textColor}>N/A</Text>
             )}
           </InlineSection>
-          <InlineSection title="Interact">
-            <View style={styles.flex}>
-              {InteractComponent ? (
-                <InteractComponent settings={settings} params={params} runPipe={run} />
-              ) : (
-                <Text style={textColor}>N/A</Text>
-              )}
-            </View>
-          </InlineSection>
+          <Section title="Interact">
+            {InteractComponent ? (
+              <InteractComponent settings={settings} params={params} runPipe={run} />
+            ) : (
+              <Text style={textColor}>N/A</Text>
+            )}
+          </Section>
           {isLoading && (
             <Section title="Progress">
               {Object.entries(download).map(([key, { progress, status }]) => (
@@ -159,8 +159,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  flex: {
+  container: {
     flex: 1,
+    paddingTop: 20,
+    paddingBottom: 80,
   },
 });
 

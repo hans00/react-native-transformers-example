@@ -60,14 +60,14 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
         onPress={selectPhoto}
         disabled={isWIP}
       />
-      {!isWIP && (
+      {!isWIP && image && (
         <Image
           style={styles.image}
           source={{ uri: image }}
         />
       )}
       {results.map(({ label, score }) => (
-        <Progress key={label} title={label} value={score} />
+        <Progress key={label} title={`${label} (${(score * 100).toFixed()}%)`} value={score} />
       ))}
     </>
   )
