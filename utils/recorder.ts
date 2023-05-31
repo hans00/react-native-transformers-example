@@ -1,5 +1,6 @@
 import AudioStream from '@fugood/react-native-audio-pcm-stream';
 import { Buffer } from 'buffer';
+import { AudioData, toFloatArray } from './audio';
 
 const decodeS16LE = (buffer) =>
   Array.from(
@@ -30,16 +31,18 @@ export default class AudioRecorder {
       channels: this.channels,
     });
     this.listener = AudioStream.on('data', (data) => {
-      const sample = decodeS16LE(Buffer.from(data, 'base64'))
-        .map(v => v / 32768)
-      this.samples = this.samples.concat(sample);
+      this.samples = this.samples.concat(decodeS16LE(Buffer.from(data, 'base64')));
     });
     await AudioStream.start();
   }
 
-  async stop() {
+  async stop(): AudioData {
     await AudioStream.stop();
     this.listener?.remove();
-    return this.samples;
+    return {
+      data: toFloatArray(this.samples),
+      sampleRate: this.sampleRate,
+      channels: this.channels,
+    };
   }
 }

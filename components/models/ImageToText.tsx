@@ -1,6 +1,6 @@
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { Image, StyleSheet, Text } from 'react-native';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
@@ -22,6 +22,7 @@ interface InteractProps {
 }
 
 export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+  const [image, setImage] = useState<string|null>(null);
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);
 
@@ -29,6 +30,7 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
     setWIP(true);
     try {
       const [{ generated_text: text }] = await runPipe('image-to-text', input, params);
+      setImage(input);
       setOutput(text);
     } catch {}
     setWIP(false);
@@ -56,6 +58,12 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
         onPress={selectPhoto}
         disabled={isWIP}
       />
+      {!isWIP && image && (
+        <Image
+          style={styles.image}
+          source={{ uri: image }}
+        />
+      )}
       <TextField
         title="Output"
         value={output}
@@ -65,3 +73,10 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: 300,
+  },
+});

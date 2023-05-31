@@ -11,7 +11,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export default function Section({children, title}: SectionProps): JSX.Element {
+export default function InlineSection({children, title}: SectionProps): JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 
@@ -40,5 +40,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
   },
 });

@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { View, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import SoundPlayer from 'react-native-sound-player';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Recorder from '../../utils/recorder';
+import InlineSection from '../form/InlineSection';
+import Section from '../form/Section';
 import { useColor } from '../../utils/style';
+import { decodeBuffer, toSingleChannel, downsample } from '../../utils/audio';
+import { getFile } from '../../utils/fs-cache';
+import * as logger from '../../utils/logger';
 
 export const title = 'Speech Recognition';
 
@@ -20,16 +26,26 @@ interface InteractProps {
   runPipe: (args: any) => Promise<any>;
 }
 
+const examples = {
+  'Example 1': 'https://xenova.github.io/transformers.js/audio/jfk.wav',
+  'Example 2': 'https://xenova.github.io/transformers.js/audio/ted.wav',
+  'Example 3': 'https://xenova.github.io/transformers.js/audio/ted_60.wav',
+}
+
 export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
   const recorder = useRef<Nullable<Recorder>>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
+  const [example, setExample] = useState<string>(Object.values(examples)[0]);
 
-  const call = useCallback(async (input) => {
+  const call = useCallback(async (audio) => {
     setWIP(true);
     try {
-      const { text } = await runPipe('automatic-speech-recognition', new Float32Array(input), params);
+      logger.time('TRANSFORM');
+      audio = downsample(toSingleChannel(audio), 16000);
+      logger.timeEnd('TRANSFORM');
+      const { text } = await runPipe('automatic-speech-recognition', audio.data, params);
       setOutput(text);
     } catch {}
     setWIP(false);
@@ -66,24 +82,59 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
     recorder.current?.stop();
   }, []);
 
+  const runExample = useCallback(async () => {
+    if (!example) return;
+    const buf = await getFile(example);
+    logger.time('DECODE');
+    const audio = await decodeBuffer(buf);
+    logger.timeEnd('DECODE');
+    call(audio);
+  }, [call, example]);
+
+  const playExample = useCallback(async () => {
+    if (!example) return;
+    SoundPlayer.playUrl(example);
+  }, [example]);
+
   return (
     <>
-      <Button
-        title="Start Record"
-        onPress={startRecord}
-        disabled={isRecording || isWIP}
-      />
-      <Button
-        title="Stop & Inference"
-        onPress={stopRecord}
-        disabled={!isRecording || isWIP}
-      />
-      <TextField
-        title="Output"
-        value={output}
-        editable={false}
-        multiline
-      />
+      <InlineSection title="Run on example">
+        <SelectField
+          value={example}
+          options={Object.values(examples)}
+          optionLabels={Object.keys(examples)}
+          onChange={setExample}
+          width={150}
+        />
+        <Button
+          title="Run"
+          onPress={runExample}
+          disabled={isWIP}
+        />
+        <Button
+          title="Play"
+          onPress={playExample}
+        />
+      </InlineSection>
+      <InlineSection title="Record">
+        <Button
+          title="Start Record"
+          onPress={startRecord}
+          disabled={isRecording || isWIP}
+        />
+        <Button
+          title="Stop & Inference"
+          onPress={stopRecord}
+          disabled={!isRecording || isWIP}
+        />
+      </InlineSection>
+      <Section title="Output">
+        <TextField
+          value={output}
+          editable={false}
+          multiline
+        />
+      </Section>
     </>
   )
 }

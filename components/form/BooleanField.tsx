@@ -24,8 +24,8 @@ export default function BooleanField(props: Props): JSX.Element {
   }, [onChange, value]);
 
   return (
-    <View>
-      <Text style={[styles.title, textColor]}>{title}</Text>
+    <View style={styles.container}>
+      {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <Pressable
         onPress={handlePress}
         style={({ pressed }) => [
@@ -46,9 +46,13 @@ export default function BooleanField(props: Props): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 4,
+  },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 4,
   },
   button: {
     borderRadius: 8,

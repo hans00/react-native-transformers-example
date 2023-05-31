@@ -32,8 +32,8 @@ export default function NumberField(props: Props): JSX.Element {
   }, [onChange])
 
   return (
-    <View>
-      <Text style={[styles.title, textColor]}>{title}</Text>
+    <View style={styles.container}>
+      {title && <Text style={[styles.title, textColor]}>{title}</Text>}
       <TextInput
         style={[styles.input, textColor]}
         onChangeText={handleChange}
@@ -47,14 +47,19 @@ export default function NumberField(props: Props): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 4,
+  },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 4,
   },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
     padding: 10,
+    borderRadius: 8,
   },
 });

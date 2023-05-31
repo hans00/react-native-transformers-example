@@ -15,14 +15,18 @@ import {
   Text,
   View,
 } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import { pipeline } from '@xenova/transformers';
 import { useColor } from './utils/style';
+import InlineSection from './components/form/InlineSection';
 import Section from './components/form/Section';
+import SelectField from './components/form/SelectField';
 import Progress from './components/Progress';
 import Models from './components/models';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import * as logger from './utils/logger';
+
+const tasks = Object.keys(Models);
+const taskDisplayNames = tasks.map((task) => Models[task].title);
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -106,46 +110,41 @@ function App(): JSX.Element {
         style={backgroundStyle}>
         <View style={styles.container}>
           <Text style={[styles.title, textColor]}># transformers.js</Text>
-          <Section title="Task">
-            <SelectDropdown
-              data={Object.keys(Models)}
-              onSelect={(selected) => {
-                setTask(selected);
-              }}
-              buttonTextAfterSelection={(item) => Models[item].title}
-              rowTextForSelection={(item) => Models[item].title}
+          <InlineSection title="Task">
+            <SelectField
+              options={Object.keys(Models)}
+              value={task}
+              onChange={setTask}
+              optionLabels={taskDisplayNames}
+              placeholder="Select a task"
             />
-          </Section>
-          <Section title="Settings">
+          </InlineSection>
+          <InlineSection title="Settings">
             {SettingsComponent ? (
               <SettingsComponent onChange={setSettings} />
             ) : (
               <Text style={textColor}>Select task first</Text>
             )}
-          </Section>
-          <Section title="Parameters">
+          </InlineSection>
+          <InlineSection title="Parameters">
             {ParametersComponent ? (
               <ParametersComponent onChange={setParams} />
             ) : (
               <Text style={textColor}>N/A</Text>
             )}
-          </Section>
+          </InlineSection>
           <Section title="Interact">
-            <View style={styles.flex}>
-              {InteractComponent ? (
-                <InteractComponent settings={settings} params={params} runPipe={run} />
-              ) : (
-                <Text style={textColor}>N/A</Text>
-              )}
-            </View>
+            {InteractComponent ? (
+              <InteractComponent settings={settings} params={params} runPipe={run} />
+            ) : (
+              <Text style={textColor}>N/A</Text>
+            )}
           </Section>
           {isLoading && (
             <Section title="Progress">
-              <View style={styles.container}>
-                {Object.entries(download).map(([key, { progress, status }]) => (
-                  <Progress key={key} title={key} value={progress} status={status} />
-                ))}
-              </View>
+              {Object.entries(download).map(([key, { progress, status }]) => (
+                <Progress key={key} title={key} value={progress} status={status} />
+              ))}
             </Section>
           )}
         </View>
@@ -164,9 +163,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
     paddingBottom: 80,
-  },
-  flex: {
-    flex: 1,
   },
 });
 

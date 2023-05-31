@@ -37,13 +37,15 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     padding: 10,
-    margin: 10,
+    marginVertical: 4,
   },
   text: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'black',
     textAlign: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
   disabled: {
     opacity: 0.5,
