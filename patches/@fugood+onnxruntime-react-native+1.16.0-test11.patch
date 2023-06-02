@@ -1,8 +1,8 @@
 diff --git a/node_modules/@fugood/onnxruntime-react-native/android/build.gradle b/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
-index ebddddc..b8b96df 100644
+index 60aea2d..fe151ad 100644
 --- a/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
 +++ b/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
-@@ -225,7 +225,10 @@ dependencies {
+@@ -231,7 +231,10 @@ dependencies {
  
    // Mobile build:
    // implementation "com.microsoft.onnxruntime:onnxruntime-mobile:latest.integration@aar"
@@ -14,8 +14,21 @@ index ebddddc..b8b96df 100644
  
    // By default it will just include onnxruntime full aar package
    if (ortExtensionsEnabled) {
+diff --git a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
+index 6ef550c..f575090 100644
+--- a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
++++ b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/OnnxruntimeModule.java
+@@ -189,6 +189,8 @@ public class OnnxruntimeModule extends ReactContextBaseJavaModule implements Lif
+     OrtSession ortSession;
+     SessionOptions sessionOptions = parseSessionOptions(options);
+ 
++    sessionOptions.addNnapi(); // enabling nnapi
++
+     // optional call for registering custom ops when ort extensions enabled
+     OnnxruntimeExtensions ortExt = new OnnxruntimeExtensions();
+     ortExt.registerOrtExtensionsIfEnabled(sessionOptions);
 diff --git a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
-index d4d1902..d2b0ba3 100644
+index c39a382..189bd3a 100644
 --- a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
 +++ b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
 @@ -173,7 +173,11 @@ public class TensorHelper {
@@ -31,3 +44,25 @@ index d4d1902..d2b0ba3 100644
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16:
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT16:
      case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT32:
+diff --git a/node_modules/@fugood/onnxruntime-react-native/ios/OnnxruntimeModule.mm b/node_modules/@fugood/onnxruntime-react-native/ios/OnnxruntimeModule.mm
+index 36150e3..b50c370 100644
+--- a/node_modules/@fugood/onnxruntime-react-native/ios/OnnxruntimeModule.mm
++++ b/node_modules/@fugood/onnxruntime-react-native/ios/OnnxruntimeModule.mm
+@@ -22,6 +22,7 @@
+ #else
+ #include "onnxruntime/onnxruntime_cxx_api.h"
+ #endif
++#include "onnxruntime/coreml_provider_factory.h"
+ 
+ @implementation OnnxruntimeModule
+ 
+@@ -189,6 +190,9 @@ - (NSDictionary *)loadModelImpl:(NSString *)modelPath modelData:(NSData *)modelD
+   sessionInfo = new SessionInfo();
+   Ort::SessionOptions sessionOptions = [self parseSessionOptions:options];
+ 
++  uint32_t coreml_flags = 0;
++  Ort::ThrowOnError(OrtSessionOptionsAppendExecutionProvider_CoreML(sessionOptions, coreml_flags));
++
+ #ifdef ORT_ENABLE_EXTENSIONS
+   Ort::ThrowOnError(RegisterCustomOps(sessionOptions, OrtGetApiBase()));
+ #endif
