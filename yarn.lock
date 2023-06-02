@@ -1196,10 +1196,10 @@
   resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-common/-/onnxruntime-common-1.16.0-test2.tgz#2f38f0af077a1da67e60f7f4d93dedfcd96f25c4"
   integrity sha512-Re0pZ8SP+xf3r440+wBolNUKgYlWb5/j73uyzOvs6I1I7TmmcGmBLwa+6AN7dJj2hfnIhNnwzbiU5HLqaMzWbg==
 
-"@fugood/onnxruntime-react-native@~1.16.0-test8":
-  version "1.16.0-test8"
-  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-react-native/-/onnxruntime-react-native-1.16.0-test8.tgz#7f9bb91bb81dd8ddaede46d11c24b7a18248f148"
-  integrity sha512-+mAIPu50av98T9+D0ru2F+jxy07zqJorRotzxPKcbd62MvfJSy2E+uyhnuSHY7V7j7LDJUC6zqP3+l/lUtXF5w==
+"@fugood/onnxruntime-react-native@~1.16.0-test11":
+  version "1.16.0-test11"
+  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-react-native/-/onnxruntime-react-native-1.16.0-test11.tgz#4b6c961ba67d1e34aa036ff9df2b09b0a7e9259f"
+  integrity sha512-+bG9m3pnsoK2yF/3iTl+BMeumeiIz9VtomUhk4x7RUVK78QU51Nf+D5EtvawdmuJBE3U9lUizNsBuBq4xkGRxA==
   dependencies:
     "@expo/config-plugins" "^4.1.5"
     "@fugood/onnxruntime-common" "~1.16.0-test2"

@@ -79,7 +79,7 @@ PODS:
   - hermes-engine/Pre-built (0.71.8)
   - libevent (2.1.12)
   - onnxruntime-c (1.15.0)
-  - onnxruntime-react-native (1.16.0-test8):
+  - onnxruntime-react-native (1.16.0-test11):
     - onnxruntime-c
     - React-Core
   - OpenSSL-Universal (1.1.1100)
@@ -631,7 +631,7 @@ SPEC CHECKSUMS:
   hermes-engine: 47986d26692ae75ee7a17ab049caee8864f855de
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   onnxruntime-c: e87399683ec19e3b812e13c6692882609a802b86
-  onnxruntime-react-native: a555e2ad6ebfad8802b372ac0664ab11b8222190
+  onnxruntime-react-native: b4ee828a48054a9ad6a06f5d7c3457317997a565
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
   RCTRequired: 8af6a32dfc2b65ec82193c2dee6e1011ff22ac2a
