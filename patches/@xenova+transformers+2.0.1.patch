@@ -1,8 +1,8 @@
 diff --git a/node_modules/@xenova/transformers/src/backends/onnx.js b/node_modules/@xenova/transformers/src/backends/onnx.js
-index 92cbfb2..b0fded6 100644
+index 92cbfb2..8e05e5c 100644
 --- a/node_modules/@xenova/transformers/src/backends/onnx.js
 +++ b/node_modules/@xenova/transformers/src/backends/onnx.js
-@@ -17,7 +17,7 @@
+@@ -17,16 +17,31 @@
   */
  
  // NOTE: Import order matters here. We need to import `onnxruntime-node` before `onnxruntime-web`.
@@ -11,7 +11,8 @@ index 92cbfb2..b0fded6 100644
  
  export const executionProviders = [
      // 'webgpu',
-@@ -25,8 +25,17 @@ export const executionProviders = [
+-    'wasm'
++    'wasm',
  ];
  
  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
@@ -22,9 +23,15 @@ index 92cbfb2..b0fded6 100644
 +
 +    import('react-native').then(({ Platform }) => {
 +        if (Platform.OS === 'ios') {
-+            executionProviders.unshift('coreml');
++            executionProviders.unshift('coreml', 'xnnpack');
 +        } else if (Platform.OS === 'android') {
-+            executionProviders.unshift('nnapi');
++            executionProviders.unshift(
++                {
++                    name: 'nnapi',
++                    useFP16: true,
++                },
++                'xnnpack',
++            );
 +        }
 +    });
  
