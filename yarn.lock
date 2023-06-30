@@ -1191,18 +1191,18 @@
   dependencies:
     "@flyskywhy/react-native-browser-polyfill" "^2.0.1"
 
-"@fugood/onnxruntime-common@~1.16.0-test3":
-  version "1.16.0-test3"
-  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-common/-/onnxruntime-common-1.16.0-test3.tgz#d872976db129ca5617c94d66dce5827ee8955bda"
-  integrity sha512-TZoFr5cOvw6R5FFWZgp3bN6IVq0VagvmlI2HQQEGrHXK4xa9BhacCE0KibBodcsbEdPwbdGaCBs4onJUu4ymuA==
+"@fugood/onnxruntime-common@~1.16.0-test4":
+  version "1.16.0-test4"
+  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-common/-/onnxruntime-common-1.16.0-test4.tgz#ab8069dd89c71a20ee4aec1d262ca4268409f5e2"
+  integrity sha512-en+Tdg+KODeJiRgPDt1z7ysWxJcwQ9mYWPxrWXH3bw8g+ix546NmdS/yd3fp5TUEvpbJRaBpFE16uAbalVb9pw==
 
-"@fugood/onnxruntime-react-native@~1.16.0-test15":
-  version "1.16.0-test15"
-  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-react-native/-/onnxruntime-react-native-1.16.0-test15.tgz#bc2fbcc4d2f3787b59ff9bdb70e28b78809014b8"
-  integrity sha512-N8VglCCZsQ2F0+j++pnPS7BIr2Z0vOXEFjeDy+RJgvjQ+D4FjjIP1U95yWPjmHYei+MbUl6CVNp99i+tEgM6FQ==
+"@fugood/onnxruntime-react-native@~1.16.0-test16":
+  version "1.16.0-test16"
+  resolved "https://registry.yarnpkg.com/@fugood/onnxruntime-react-native/-/onnxruntime-react-native-1.16.0-test16.tgz#e67bd68e9d93b788ae2a754d0ba198ad1c81a9a7"
+  integrity sha512-M2kK+Yk/8o5kUkuR5btnixtWAGx+WVi5XFihGpz9mTeq3JkW++4MwUB1AaWZjhA88+Z3mc/FgqYql/kK/B4bgg==
   dependencies:
     "@expo/config-plugins" "^4.1.5"
-    "@fugood/onnxruntime-common" "~1.16.0-test3"
+    "@fugood/onnxruntime-common" "~1.16.0-test4"
     buffer "^6.0.3"
 
 "@fugood/react-native-audio-pcm-stream@^1.1.4":
