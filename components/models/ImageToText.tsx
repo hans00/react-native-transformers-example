@@ -1,4 +1,3 @@
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
 import SelectField from '../form/SelectField';
@@ -8,6 +7,7 @@ import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Recorder from '../../utils/recorder';
 import { useColor } from '../../utils/style';
+import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image to Text';
 
@@ -36,15 +36,7 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
     setWIP(false);
   }, [params]);
 
-  const takePhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchCamera();
-    call(uri);
-  }, []);
-
-  const selectPhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchImageLibrary();
-    call(uri);
-  }, []);
+  const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
   return (
     <>
