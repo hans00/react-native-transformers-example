@@ -15,7 +15,7 @@
     "@flyskywhy/react-native-browser-polyfill": "^2.0.1",
     "@flyskywhy/react-native-gcanvas": "^6.0.3",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
-    "@xenova/transformers": "https://github.com/hans00/transformers.js",
+    "@xenova/transformers": "https://github.com/hans00/transformers.js#merge",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "events": "^3.3.0",
