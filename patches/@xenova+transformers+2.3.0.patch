@@ -1,21 +1,20 @@
 diff --git a/node_modules/@xenova/transformers/src/backends/onnx.js b/node_modules/@xenova/transformers/src/backends/onnx.js
-index 92cbfb2..8e05e5c 100644
+index b8d9b8d..8d1013c 100644
 --- a/node_modules/@xenova/transformers/src/backends/onnx.js
 +++ b/node_modules/@xenova/transformers/src/backends/onnx.js
-@@ -17,16 +17,31 @@
+@@ -16,7 +16,7 @@
+  * @module backends/onnx
   */
  
- // NOTE: Import order matters here. We need to import `onnxruntime-node` before `onnxruntime-web`.
--export * as ONNX from 'onnxruntime-common';
-+export * as ONNX from '@fugood/onnxruntime-common';
+-import * as ONNX_COMMON from 'onnxruntime-common';
++import * as ONNX_COMMON from '@fugood/onnxruntime-common';
  
- export const executionProviders = [
-     // 'webgpu',
--    'wasm'
-+    'wasm',
- ];
+ /** @type {module} The ONNX runtime module. */
+ export const ONNX = ONNX_COMMON?.default ?? ONNX_COMMON;
+@@ -28,8 +28,23 @@ export const executionProviders = [
  
  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+     // Running in a react native environment.
 -    import('onnxruntime-react-native');
 +    import('@fugood/onnxruntime-react-native');
      executionProviders.unshift('cpu');

@@ -6156,7 +6156,7 @@ onnxruntime-node@1.14.0:
   dependencies:
     onnxruntime-common "~1.14.0"
 
-onnxruntime-react-native@1.14.0, onnxruntime-react-native@^1.14.0:
+onnxruntime-react-native@1.14.0:
   version "1.14.0"
   resolved "https://registry.yarnpkg.com/onnxruntime-react-native/-/onnxruntime-react-native-1.14.0.tgz#8ef35c02a90414338e6fc392f4cf5a8498fdaa90"
   integrity sha512-hF0ZhJyOnUyV0rPWCAFmzPs/WHbv1msAJmYadRCQp3A4GcCgDHpHnopInskPnUPZU4NnH30lxcw3BhxtXGL17A==
