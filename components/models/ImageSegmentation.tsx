@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet } from 'react-native';
 import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import { RawImage } from '@xenova/transformers/src/utils/image';
@@ -10,6 +9,7 @@ import Button from '../form/Button';
 import Progress from '../Progress';
 import Canvas from '../Canvas';
 import { getImageData, createRawImage } from '../../utils/image';
+import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image Segmentation';
 
@@ -43,16 +43,6 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, []);
-
-  const takePhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchCamera();
-    call(uri);
-  }, []);
-
-  const selectPhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchImageLibrary();
-    call(uri);
   }, []);
 
   useEffect(() => {
@@ -89,6 +79,8 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
       }), Promise.resolve());
     }
   }, [results]);
+
+  const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
   return (
     <>

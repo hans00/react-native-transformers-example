@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
+import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image Classification';
 
@@ -38,15 +38,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(false);
   }, []);
 
-  const takePhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchCamera();
-    call(uri);
-  }, []);
-
-  const selectPhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchImageLibrary();
-    call(uri);
-  }, []);
+  const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
   return (
     <>

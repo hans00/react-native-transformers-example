@@ -5,7 +5,7 @@ const cleanData = (data: any) => {
     return `RawImage(${data.width}x${data.height}, data: ${data.data.length})`;
   } else if (Array.isArray(data)) {
     return data.map(cleanData);
-  } else if (typeof data === 'object') {
+  } else if (data && typeof data === 'object') {
     return Object.fromEntries(
       Object.entries(data).map(([key, value]) => [key, cleanData(value)])
     );

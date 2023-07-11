@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { StyleSheet } from 'react-native';
 import uniqolor from 'uniqolor';
 import SelectField from '../form/SelectField';
@@ -8,6 +7,7 @@ import Button from '../form/Button';
 import Progress from '../Progress';
 import Canvas from '../Canvas';
 import { getImageData, createRawImage } from '../../utils/image';
+import { usePhoto } from '../../utils/photo';
 
 export const title = 'Object Detection';
 
@@ -44,15 +44,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(false);
   }, []);
 
-  const takePhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchCamera();
-    call(uri);
-  }, []);
-
-  const selectPhoto = useCallback(async () => {
-    const { assets: [ { uri } ] } = await launchImageLibrary();
-    call(uri);
-  }, []);
+  const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
