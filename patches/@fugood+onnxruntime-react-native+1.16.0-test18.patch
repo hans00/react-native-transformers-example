@@ -1,0 +1,33 @@
+diff --git a/node_modules/@fugood/onnxruntime-react-native/android/build.gradle b/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
+index 60aea2d..fe151ad 100644
+--- a/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
++++ b/node_modules/@fugood/onnxruntime-react-native/android/build.gradle
+@@ -231,7 +231,10 @@ dependencies {
+ 
+   // Mobile build:
+   // implementation "com.microsoft.onnxruntime:onnxruntime-mobile:latest.integration@aar"
+-  implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
++
++  // implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
++  // Use local AAR file
++  implementation project(":onnxruntime-patched")
+ 
+   // By default it will just include onnxruntime full aar package
+   if (ortExtensionsEnabled) {
+diff --git a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
+index c39a382..189bd3a 100644
+--- a/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
++++ b/node_modules/@fugood/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
+@@ -173,7 +173,11 @@ public class TensorHelper {
+       tensor = OnnxTensor.createTensor(ortEnvironment, buffer, dims, OnnxJavaType.UINT8);
+       break;
+     }
+-    case ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL:
++    case ONNX_TENSOR_ELEMENT_DATA_TYPE_BOOL: {
++      ByteBuffer buffer = values;
++      tensor = OnnxTensor.createTensor(ortEnvironment, buffer, dims, OnnxJavaType.BOOL);
++      break;
++    }
+     case ONNX_TENSOR_ELEMENT_DATA_TYPE_FLOAT16:
+     case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT16:
+     case ONNX_TENSOR_ELEMENT_DATA_TYPE_UINT32:

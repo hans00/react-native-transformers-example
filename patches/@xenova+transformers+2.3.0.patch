@@ -1,0 +1,38 @@
+diff --git a/node_modules/@xenova/transformers/src/backends/onnx.js b/node_modules/@xenova/transformers/src/backends/onnx.js
+index b8d9b8d..8d1013c 100644
+--- a/node_modules/@xenova/transformers/src/backends/onnx.js
++++ b/node_modules/@xenova/transformers/src/backends/onnx.js
+@@ -16,7 +16,7 @@
+  * @module backends/onnx
+  */
+ 
+-import * as ONNX_COMMON from 'onnxruntime-common';
++import * as ONNX_COMMON from '@fugood/onnxruntime-common';
+ 
+ /** @type {module} The ONNX runtime module. */
+ export const ONNX = ONNX_COMMON?.default ?? ONNX_COMMON;
+@@ -28,8 +28,23 @@ export const executionProviders = [
+ 
+ if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+     // Running in a react native environment.
+-    import('onnxruntime-react-native');
++    import('@fugood/onnxruntime-react-native');
+     executionProviders.unshift('cpu');
++    executionProviders.splice(executionProviders.indexOf('wasm'), 1);
++
++    import('react-native').then(({ Platform }) => {
++        if (Platform.OS === 'ios') {
++            executionProviders.unshift('coreml', 'xnnpack');
++        } else if (Platform.OS === 'android') {
++            executionProviders.unshift(
++                {
++                    name: 'nnapi',
++                    useFP16: true,
++                },
++                'xnnpack',
++            );
++        }
++    });
+ 
+ } else if (typeof process !== 'undefined' && process?.release?.name === 'node') {
+     // Running in a node-like environment.
