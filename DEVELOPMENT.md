@@ -23,7 +23,7 @@
 > Current has some changes not publish.
 
 - [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556)
-- [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116)
+- [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116) (It included in v1.15)
 
 ```diff
 diff --git a/java/src/main/java/ai/onnxruntime/OnnxTensor.java b/java/src/main/java/ai/onnxruntime/OnnxTensor.java
