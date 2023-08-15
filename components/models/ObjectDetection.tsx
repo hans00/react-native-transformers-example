@@ -22,14 +22,13 @@ interface InteractProps {
 }
 
 interface Result {
-  boxes: number[][];
-  classes: number[];
-  labels: string[];
-  scores: number[];
+  boxe: { ymin: number, ymax: number, xmin: number, xmax: number };
+  label: string;
+  score: number;
 }
 
 export function Interact({ runPipe }: InteractProps): JSX.Element {
-  const [results, setResults] = useState<Result>(null);
+  const [results, setResults] = useState<Result[]>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement|null>(null);
   const inferImg = useRef<any>(null);
@@ -54,10 +53,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       ctx.putImageData(inferImg.current, 0, 0);
       ctx.fillStyle = '#FFFFFF'; // Avoid weired bug
-      results.boxes.forEach((box, i) => {
-        const [xmin, ymin, xmax, ymax] = box;
-        const label = results.labels[i];
-        const score = results.scores[i];
+      results.forEach(({ box: { xmin, ymin, xmax, ymax}, label, score }, i) => {
         const color = uniqolor(label, { lightness: 50 }).color;
         ctx.beginPath();
         ctx.lineWidth = 2;
