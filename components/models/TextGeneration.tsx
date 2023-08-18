@@ -19,6 +19,7 @@ export function Parameters(props: Props): JSX.Element {
   const { onChange } = props;
   const [params, setParams] = useState<object>({
     topk: 5,
+    max_new_tokens: 50,
   });
 
   useEffect(() => {
@@ -31,6 +32,11 @@ export function Parameters(props: Props): JSX.Element {
         title="No. samples"
         value={params.topk}
         onChange={(value) => setParams({ ...params, topk: value })}
+      />
+      <NumberField
+        title="Max length"
+        value={params.max_new_tokens}
+        onChange={(value) => setParams({ ...params, max_new_tokens: value })}
       />
     </>
   )
