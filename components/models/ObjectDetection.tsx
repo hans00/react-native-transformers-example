@@ -11,7 +11,7 @@ import { usePhoto } from '../../utils/photo';
 
 export const title = 'Object Detection';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
@@ -27,7 +27,7 @@ interface Result {
   score: number;
 }
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Result[]>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement|null>(null);
@@ -36,12 +36,12 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await getImageData(input, canvasRef.current.width);
+      inferImg.current = await getImageData(input, model, canvasRef.current.width);
       const predicts = await runPipe('object-detection', createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, []);
+  }, [model]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 

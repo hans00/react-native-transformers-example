@@ -9,7 +9,7 @@ import { usePhoto } from '../../utils/photo';
 
 export const title = 'Zero Shot Image Classification';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 interface Props {
   onChange: (settings: object) => void;
@@ -49,7 +49,7 @@ interface Label {
 
 const sampleClass = 'phone, tablet, microwave, controller, remoter, pen, cutter';
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string|null>(null);
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
@@ -61,13 +61,14 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     try {
       const predicts = await runPipe(
         'zero-shot-image-classification',
+        model,
         createRawImage(inferImage.current),
         classes.split(/\s*,+\s*/g).filter(x => x)
       );
       setResult(predicts);
     } catch {}
     setWIP(false);
-  }, [input, classes]);
+  }, [model, input, classes]);
 
   const { selectPhoto, takePhoto } = usePhoto(async (uri) => {
     inferImage.current = await getImageData(uri, 512);

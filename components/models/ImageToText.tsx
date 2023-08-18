@@ -11,7 +11,7 @@ import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image to Text';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
@@ -21,7 +21,7 @@ interface InteractProps {
   runPipe: (args: any) => Promise<any>;
 }
 
-export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [image, setImage] = useState<string|null>(null);
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -29,12 +29,12 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      const [{ generated_text: text }] = await runPipe('image-to-text', input, params);
+      const [{ generated_text: text }] = await runPipe('image-to-text', model, input, params);
       setImage(input);
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [params]);
+  }, [model, params]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 

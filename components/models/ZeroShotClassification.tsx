@@ -6,7 +6,7 @@ import Progress from '../Progress';
 
 export const title = 'Zero Shot Classification';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 interface Props {
   onChange: (settings: object) => void;
@@ -47,7 +47,7 @@ interface Label {
 const sampleText = 'I have a problem with my iphone that needs to be resolved asap!';
 const sampleClass = 'urgent, not urgent, phone, tablet, microwave';
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
@@ -58,6 +58,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     try {
       const { labels, scores } = await runPipe(
         'zero-shot-classification',
+        model,
         input,
         classes.split(/\s*,+\s*/g).filter(x => x)
       );
@@ -68,7 +69,7 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
       setResult(predicts);
     } catch {}
     setWIP(false);
-  }, [input, classes]);
+  }, [model, input, classes]);
 
   return (
     <>

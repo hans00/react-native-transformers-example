@@ -13,7 +13,7 @@ import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image Segmentation';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
@@ -29,7 +29,7 @@ interface Segment {
   mask: RawImage;
 }
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
   const canvasRef = useRef<HTMLCanvasElement|null>(null);
@@ -39,11 +39,11 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
     setWIP(true);
     try {
       inferImg.current = await getImageData(input, canvasRef.current.width);
-      const predicts = await runPipe('image-segmentation', createRawImage(inferImg.current));
+      const predicts = await runPipe('image-segmentation', model, createRawImage(inferImg.current));
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, []);
+  }, [model]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

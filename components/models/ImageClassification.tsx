@@ -8,7 +8,7 @@ import { usePhoto } from '../../utils/photo';
 
 export const title = 'Image Classification';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
@@ -23,7 +23,7 @@ interface LabelScore {
   score: number;
 }
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [image, setImage] = useState<string|null>(null);
   const [results, setResults] = useState<LabelScore[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -31,12 +31,12 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      const predicts = await runPipe('image-classification', input);
+      const predicts = await runPipe('image-classification', model, input);
       setImage(input);
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, []);
+  }, [model]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 

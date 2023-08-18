@@ -6,7 +6,7 @@ import Progress from '../Progress';
 
 export const title = 'Token Classification';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
@@ -27,7 +27,7 @@ interface Token {
 
 const sampleText = 'Hugging Face is a technology company that was founded in 2016 by Clément Delangue, Julien Chaumond, and Thomas Wolf. The company is headquartered in New York City, and is focused on developing natural language processing software and tools.'
 
-export function Interact({ runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [tokens, setTokens] = useState<Token[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -35,11 +35,11 @@ export function Interact({ runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('token-classification', input);
+      const predicts = await runPipe('token-classification', model, input);
       setTokens(predicts);
     } catch {}
     setWIP(false);
-  }, [input]);
+  }, [model, input]);
 
   return (
     <>

@@ -9,7 +9,7 @@ import Recorder from '../../utils/recorder';
 
 export const title = 'Text Generation';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 interface Props {
   onChange: (settings: object) => void;
@@ -44,18 +44,18 @@ interface InteractProps {
 
 const sampleText = 'I enjoy walking with my cute dog,'
 
-export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [text, setText] = useState<string>(sampleText);
   const [isWIP, setWIP] = useState<boolean>(false);
 
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const [{ generated_text }] = await runPipe('text-generation', text, params);
+      const [{ generated_text }] = await runPipe('text-generation', model, text, params);
       setText(generated_text);
     } catch {}
     setWIP(false);
-  }, [text, params]);
+  }, [model, text, params]);
 
   return (
     <>

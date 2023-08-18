@@ -29,10 +29,6 @@ export default function TextField(props: Props): JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 
-  const handleChange = useCallback((val) => {
-    onChange?.(val);
-  }, [onChange]);
-
   return (
     <View style={styles.container}>
       {title && <Text style={[styles.title, textColor]}>{title}</Text>}
@@ -42,7 +38,7 @@ export default function TextField(props: Props): JSX.Element {
           textColor,
           multiline && styles.multiline,
         ]}
-        onChangeText={handleChange}
+        onChangeText={onChange}
         value={value ?? ''}
         placeholder={placeholder}
         editable={editable}

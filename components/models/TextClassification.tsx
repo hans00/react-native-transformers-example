@@ -6,7 +6,7 @@ import Progress from '../Progress';
 
 export const title = 'Text Classification';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
@@ -23,7 +23,7 @@ interface LabelScore {
 
 const sampleText = 'The Shawshank Redemption is a true masterpiece of cinema, a movie that deserves every bit of its status as one of the greatest films ever made. From its stellar performances to its unforgettable storytelling, everything about this film is a testament to the power of great filmmaking.'
 
-export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [labels, setLabels] = useState<LabelScore[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -31,11 +31,11 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('text-classification', input, params);
+      const predicts = await runPipe('text-classification', model, input, params);
       setLabels(predicts);
     } catch {}
     setWIP(false);
-  }, [input, params]);
+  }, [model, input, params]);
 
   return (
     <>

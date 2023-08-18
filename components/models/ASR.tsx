@@ -16,7 +16,7 @@ import * as logger from '../../utils/logger';
 
 export const title = 'Speech Recognition';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
@@ -32,7 +32,7 @@ const examples = {
   'Example 3': 'https://xenova.github.io/transformers.js/audio/ted_60.wav',
 }
 
-export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
   const recorder = useRef<Nullable<Recorder>>(null);
@@ -45,11 +45,11 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
       logger.time('TRANSFORM');
       audio = downsample(toSingleChannel(audio), 16000);
       logger.timeEnd('TRANSFORM');
-      const { text } = await runPipe('automatic-speech-recognition', audio.data, params);
+      const { text } = await runPipe('automatic-speech-recognition', model, audio.data, params);
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [params]);
+  }, [model, params]);
 
   const startRecord = useCallback(async () => {
     if (Platform.OS === 'android') {

@@ -5,7 +5,7 @@ import Button from '../form/Button';
 
 export const title = 'Masked language';
 
-export { default as Settings } from './common/Empty';
+export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
@@ -15,7 +15,7 @@ interface InteractProps {
   runPipe: (args: any) => Promise<any>;
 }
 
-export function Interact({ params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>('The goal of life is [MASK].');
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -23,11 +23,11 @@ export function Interact({ params, runPipe }: InteractProps): JSX.Element {
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('fill-mask', input, params);
+      const predicts = await runPipe('fill-mask', model, input, params);
       setOutput(predicts.map(({ sequence }) => sequence).join('\n'));
     } catch {}
     setWIP(false);
-  }, [input, params]);
+  }, [model, input, params]);
 
   return (
     <>
