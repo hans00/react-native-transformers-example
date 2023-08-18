@@ -35,7 +35,7 @@ function App(): JSX.Element {
   const textColor = { color };
 
   const [task, setTask] = useState<Nullable<string>>(null);
-  const [settings, setSettings] = useState<Nullable<object>>(null);
+  const [settings, setSettings] = useState<object>({});
   const [params, setParams] = useState<Nullable<object>>(null);
   const [download, setDownload] = useState<object>({});
   const [isLoading, setLoading] = useState<boolean>(false);
