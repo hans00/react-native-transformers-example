@@ -62,6 +62,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       <TextField
         title="Text"
         value={text}
+        onChange={setText}
         multiline
       />
       <Button
