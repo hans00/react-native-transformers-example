@@ -22,7 +22,6 @@ import Section from './components/form/Section';
 import SelectField from './components/form/SelectField';
 import Progress from './components/Progress';
 import Models from './components/models';
-import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
 import * as logger from './utils/logger';
 
 const tasks = Object.keys(Models);
@@ -75,7 +74,7 @@ function App(): JSX.Element {
       logger.log('Result:', result);
       return result;
     } catch (e) {
-      console.error(e);
+      console.error(e.stack);
       await pipe?.dispose();
       throw e;
     }
@@ -90,20 +89,6 @@ function App(): JSX.Element {
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundColor}
-      />
-      <GCanvasView
-        style={{
-          width: 3840, // 1000 should enough for offscreen canvas usage
-          height: 2160, // or Dimensions.get('window').height * 2 like https://github.com/flyskywhy/react-native-babylonjs/commit/d5df5d2
-          position: 'absolute',
-          left: 1000, // 1000 should enough to not display on screen means offscreen canvas :P
-          top: 0,
-          zIndex: -100, // -100 should enough to not bother onscreen canvas
-        }}
-        offscreenCanvas
-        onCanvasCreate={(canvas) => console.log('Off-screen canvas is ready')}
-        devicePixelRatio={1}
-        isGestureResponsible={false}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"

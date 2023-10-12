@@ -1,13 +1,23 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { StyleSheet } from 'react-native';
-import { GCanvasView } from '@flyskywhy/react-native-gcanvas';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import {
+  Skia,
+  Canvas,
+  Image,
+  useImage,
+  Group,
+  Mask,
+  Fill,
+  ColorType,
+  AlphaType,
+} from '@shopify/react-native-skia';
 import { RawImage } from '@xenova/transformers/src/utils/image';
 import uniqolor from 'uniqolor';
+import parseColor from 'color-parse';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
-import Canvas from '../Canvas';
 import { getImageData, createRawImage } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
 
@@ -32,53 +42,45 @@ interface Segment {
 export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [results, setResults] = useState<Segment[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
-  const canvasRef = useRef<HTMLCanvasElement|null>(null);
-  const inferImg = useRef<HTMLCanvasElement|null>(null);
+  const [input, setInput] = useState<string>('');
+  const img = useImage(input);
+  const [size, setSize] = useState({ width: 0, height: 0 });
 
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      inferImg.current = await getImageData(input, canvasRef.current.width);
-      const predicts = await runPipe('image-segmentation', model, createRawImage(inferImg.current));
+      setInput(input);
+      const data = await getImageData(input);
+      const predicts = await runPipe('image-segmentation', model, createRawImage(data));
       setResults(predicts);
     } catch {}
     setWIP(false);
   }, [model]);
 
+  const masks = useRef<Skia.Image[]>([]);
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (ctx && inferImg.current) {
-      const width = inferImg.current.width;
-      const height = inferImg.current.height;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.putImageData(inferImg.current, 0, 0);
-      results.reduce((p, { label, mask, score }, index) => p.then(async () => {
-        // mask data to RGBA
-        const dataRGBA = new Uint8ClampedArray(width * height * 4);
-        const color = uniqolor(label, { format: 'rgb', lightness: 50 }).color;
-        const parsedRGB = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-        const red = parsedRGB ? Number(parsedRGB[1]) : 0;
-        const green = parsedRGB ? Number(parsedRGB[2]) : 0;
-        const blue = parsedRGB ? Number(parsedRGB[3]) : 0;
-        for (let i = 0; i < dataRGBA.length; i += 4) {
-          const maskIndex = Math.floor(i / 4);
-          dataRGBA[i] = red;
-          dataRGBA[i + 1] = green;
-          dataRGBA[i + 2] = blue;
-          dataRGBA[i + 3] = mask.data[maskIndex] * 0.6;
-        }
-        ctx.putImageData(new ImageData(dataRGBA, width, height), 0, 0);
-        ctx.font = '20px serif';
-        ctx.fillStyle = color;
-        ctx.fillText(
-          `${label} (${score.toFixed(2)})`,
-          0,
-          height + 20 * (index + 1),
-        );
-      }), Promise.resolve());
+    if (results?.length) {
+      masks.current = results.map(({ mask }) => {
+        const data = Skia.Data.fromBytes(mask.data);
+        const image = Skia.Image.MakeImage({
+          width: mask.width,
+          height: mask.height,
+          colorType: ColorType.Gray_8,
+          alphaType: AlphaType.Unpremul,
+        }, data, mask.width);
+        data.dispose();
+        return image;
+      });
     }
+    return () => masks.current.forEach((mask) => mask.dispose());
   }, [results]);
+
+  const colors = useMemo(() => results?.map(({ label }) => {
+    const lightness = label.startsWith('LABEL_') ? 40 : 80;
+    const { color } = uniqolor(label, { lightness });
+    const { values } = parseColor(color);
+    return { text: color, mask: `rgba(${values.join(', ')}, 0.8)` };
+  }), [results]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
@@ -95,11 +97,56 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         disabled={isWIP}
       />
       <Canvas
-        ref={canvasRef}
-        isGestureResponsible={false}
-        width="100%"
-        height={640}
-      />
+        style={styles.canvas}
+        onLayout={(e) => setSize({
+          width: e.nativeEvent.layout.width,
+          height: e.nativeEvent.layout.height,
+        })}
+        onSize={(width, height) => setSize({ width, height })}
+      >
+        <Image
+          image={img}
+          fit="contain"
+          x={0}
+          y={0}
+          width={size.width}
+          height={size.height}
+        />
+        {results?.map((result, i) => (
+          <Group key={`mask-${i}`}>
+            <Mask
+              mode="luminance"
+              mask={(
+                <Image
+                  image={masks.current[i]}
+                  fit="contain"
+                  x={0}
+                  y={0}
+                  width={size.width}
+                  height={size.height}
+                />
+              )}
+            >
+              <Fill color={colors?.[i]?.mask} />
+            </Mask>
+          </Group>
+        ))}
+      </Canvas>
+      {results?.map(({ label, score }, i) => (
+        <Text
+          key={`text-${i}`}
+          style={{ fontSize: 14, color: colors?.[i]?.text }}
+        >
+          {`${label} (${score.toFixed(2)})`}
+        </Text>
+      ))}
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  canvas: {
+    width: '100%',
+    height: 512,
+  },
+});
