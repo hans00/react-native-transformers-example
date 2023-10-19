@@ -1,17 +1,3 @@
-diff --git a/node_modules/onnxruntime-react-native/android/build.gradle b/node_modules/onnxruntime-react-native/android/build.gradle
-index 4c8a318..65b58c1 100644
---- a/node_modules/onnxruntime-react-native/android/build.gradle
-+++ b/node_modules/onnxruntime-react-native/android/build.gradle
-@@ -135,5 +135,8 @@ dependencies {
- 
-   // Mobile build:
-   // implementation "com.microsoft.onnxruntime:onnxruntime-mobile:latest.integration@aar"
--  implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
-+  // implementation "com.microsoft.onnxruntime:onnxruntime-android:latest.integration@aar"
-+  // Use local AAR file
-+	implementation project(":onnxruntime-patched")
-+
- }
 diff --git a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java b/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java
 index 500141a..49b3abd 100644
 --- a/node_modules/onnxruntime-react-native/android/src/main/java/ai/onnxruntime/reactnative/TensorHelper.java

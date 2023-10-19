@@ -1232,10 +1232,36 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
+"@expo/config-plugins@^7.2.4":
+  version "7.2.5"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-7.2.5.tgz#b15f22878975fdc4ddcfa8cdc971937ddc4c0249"
+  integrity sha512-w+5ccu1IxBHgyQk9CPFKLZOk8yZQEyTjbJwOzESK1eR7QwosbcsLkN1c1WWUZYiCXwORu3UTwJYll4+X2xxJhQ==
+  dependencies:
+    "@expo/config-types" "^49.0.0-alpha.1"
+    "@expo/json-file" "~8.2.37"
+    "@expo/plist" "^0.0.20"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.5.3"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "0.6.0"
+
 "@expo/config-types@^45.0.0":
   version "45.0.0"
   resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-45.0.0.tgz#963c2fdce8fbcbd003758b92ed8a25375f437ef6"
   integrity sha512-/QGhhLWyaGautgEyU50UJr5YqKJix5t77ePTwreOVAhmZH+ff3nrrtYTTnccx+qF08ZNQmfAyYMCD3rQfzpiJA==
+
+"@expo/config-types@^49.0.0-alpha.1":
+  version "49.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-49.0.0.tgz#15ffef715285c06703f6fb7ec0cda853f645cc09"
+  integrity sha512-8eyREVi+K2acnMBe/rTIu1dOfyR2+AMnTLHlut+YpMV9OZPdeKV0Bs9BxAewGqBA2slslbQ9N39IS2CuTKpXkA==
 
 "@expo/json-file@8.2.36":
   version "8.2.36"
@@ -1246,12 +1272,30 @@
     json5 "^1.0.1"
     write-file-atomic "^2.3.0"
 
+"@expo/json-file@~8.2.37":
+  version "8.2.37"
+  resolved "https://registry.yarnpkg.com/@expo/json-file/-/json-file-8.2.37.tgz#9c02d3b42134907c69cc0a027b18671b69344049"
+  integrity sha512-YaH6rVg11JoTS2P6LsW7ybS2CULjf40AbnAHw2F1eDPuheprNjARZMnyHFPkKv7GuxCy+B9GPcbOKgc4cgA80Q==
+  dependencies:
+    "@babel/code-frame" "~7.10.4"
+    json5 "^2.2.2"
+    write-file-atomic "^2.3.0"
+
 "@expo/plist@0.0.18":
   version "0.0.18"
   resolved "https://registry.yarnpkg.com/@expo/plist/-/plist-0.0.18.tgz#9abcde78df703a88f6d9fa1a557ee2f045d178b0"
   integrity sha512-+48gRqUiz65R21CZ/IXa7RNBXgAI/uPSdvJqoN9x1hfL44DNbUoWHgHiEXTx7XelcATpDwNTz6sHLfy0iNqf+w==
   dependencies:
     "@xmldom/xmldom" "~0.7.0"
+    base64-js "^1.2.3"
+    xmlbuilder "^14.0.0"
+
+"@expo/plist@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@expo/plist/-/plist-0.0.20.tgz#a6b3124438031c02b762bad5a47b70584d3c0072"
+  integrity sha512-UXQ4LXCfTZ580LDHGJ5q62jSTwJFFJ1GqBu8duQMThiHKWbMJ+gajJh6rsB6EJ3aLUr9wcauxneL5LVRFxwBEA==
+  dependencies:
+    "@xmldom/xmldom" "~0.7.7"
     base64-js "^1.2.3"
     xmlbuilder "^14.0.0"
 
@@ -2176,7 +2220,7 @@
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.10.tgz#a1337ca426aa61cef9fe15b5b28e340a72f6fa99"
   integrity sha512-2WALfTl4xo2SkGCYRt6rDTFfk9R1czmBvUQy12gK2KuRKIpWEhcbbzy8EZXtz/jkRqHX8bFEc6FC1HjX4TUWYw==
 
-"@xmldom/xmldom@~0.7.0":
+"@xmldom/xmldom@~0.7.0", "@xmldom/xmldom@~0.7.7":
   version "0.7.13"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.13.tgz#ff34942667a4e19a9f4a0996a76814daac364cf3"
   integrity sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==
@@ -6459,10 +6503,10 @@ onnx-proto@^4.0.4:
   dependencies:
     protobufjs "^6.8.8"
 
-onnxruntime-common@~1.14.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.14.0.tgz#2bb5dac5261269779aa5fb6536ca379657de8bf6"
-  integrity sha512-3LJpegM2iMNRX2wUmtYfeX/ytfOzNwAWKSq1HbRrKc9+uqG/FsEA0bbKZl1btQeZaXhC26l44NWpNUeXPII7Ew==
+onnxruntime-common@1.16.1, onnxruntime-common@~1.14.0, onnxruntime-common@~1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.16.1.tgz#694cd68964d2b0e4e96af8413c34763461f43aae"
+  integrity sha512-dmKye7bL4/aKhF561h+o9yw1hCCcGfYRN1BoycXm+WUjWhAVlGkP6JdBcRk7MQ1qX/ASFk+8Ibl+yVgCTSP0Fg==
 
 onnxruntime-node@1.14.0:
   version "1.14.0"
@@ -6479,6 +6523,15 @@ onnxruntime-react-native@1.14.0:
     "@expo/config-plugins" "^4.1.5"
     buffer "^6.0.3"
     onnxruntime-common "~1.14.0"
+
+onnxruntime-react-native@1.16.1:
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/onnxruntime-react-native/-/onnxruntime-react-native-1.16.1.tgz#ff3de790241a6b9e94b47fa0d826b68ed13da2b0"
+  integrity sha512-EcCPCr7fdZ41AuxaixMC/lofJ7IFjmqccV3FM6cxn05g2PCmwV5pG/Z5uLW/MGUFqGj8uvePTgRZpLeZJNE8JA==
+  dependencies:
+    "@expo/config-plugins" "^7.2.4"
+    buffer "^6.0.3"
+    onnxruntime-common "~1.16.1"
 
 onnxruntime-web@1.14.0:
   version "1.14.0"
@@ -8591,7 +8644,7 @@ xcode@^3.0.1:
     simple-plist "^1.1.0"
     uuid "^7.0.3"
 
-xml2js@0.4.23, xml2js@^0.5.0:
+xml2js@0.4.23, xml2js@0.6.0, xml2js@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.5.0.tgz#d9440631fbb2ed800203fad106f2724f62c493b7"
   integrity sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==

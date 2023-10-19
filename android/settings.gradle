@@ -2,8 +2,6 @@ rootProject.name = 'transformers_example'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 includeBuild('../node_modules/react-native-gradle-plugin')
-include ':onnxruntime-patched'
-project(':onnxruntime-patched').projectDir = new File(rootProject.projectDir, '../onnxruntime-patched')
 
 include ':android:gcanvas_library'
 project(':android:gcanvas_library').projectDir = new File(rootProject.projectDir, '../node_modules/@flyskywhy/react-native-gcanvas/android/gcanvas_library')
