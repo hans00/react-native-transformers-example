@@ -14,7 +14,7 @@
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
     "@shopify/react-native-skia": "./shopify-react-native-skia-0.1.2.tgz",
-    "@xenova/transformers": "https://github.com/hans00/transformers.js#merge",
+    "@xenova/transformers": "https://github.com/hans00/transformers.js.git#merge",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "color-parse": "^2.0.0",
@@ -24,7 +24,7 @@
     "mp3": "^0.1.0",
     "node-fetch": "^2.6.7",
     "node-wav": "^0.0.2",
-    "onnxruntime-react-native": "1.14.0",
+    "onnxruntime-react-native": "1.16.1",
     "path-browserify": "^1.0.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
@@ -70,6 +70,8 @@
   "resolutions": {
     "jpeg-js": "^0.4.4",
     "node-fetch": "^2.6.7",
-    "xml2js": "^0.5.0"
+    "xml2js": "^0.5.0",
+    "onnxruntime-common": "1.16.1",
+    "onnxruntime-react-native": "1.16.1"
   }
 }
