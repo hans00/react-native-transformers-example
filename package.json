@@ -15,7 +15,7 @@
     "@flyskywhy/react-native-browser-polyfill": "^2.0.1",
     "@flyskywhy/react-native-gcanvas": "^6.0.3",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
-    "@xenova/transformers": "https://github.com/hans00/transformers.js#merge",
+    "@xenova/transformers": "https://github.com/hans00/transformers.js.git#merge",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "events": "^3.3.0",
@@ -70,6 +70,7 @@
     "jpeg-js": "^0.4.4",
     "node-fetch": "^2.6.7",
     "xml2js": "^0.5.0",
-    "onnxruntime-common": "1.16.1"
+    "onnxruntime-common": "1.16.1",
+    "onnxruntime-react-native": "1.16.1"
   }
 }
