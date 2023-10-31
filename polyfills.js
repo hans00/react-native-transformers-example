@@ -23,6 +23,19 @@ const newRegExp = (...args) => {
 };
 global.RegExp = newRegExp;
 
+// Optional polyfill for console.time
+const timers = new Map();
+console.time ??= ((label) => {
+  timers.set(label, Date.now());
+});
+console.timeEnd ??= ((label) => {
+  const start = timers.get(label);
+  if (start) {
+    console.log(`${label}: ${Date.now() - start}ms`);
+    timers.delete(label);
+  }
+});
+
 // OffscreenCanvas, Image, etc.
 global.Image = class ImagePolyfill extends EventEmitter {
   constructor(width, height) {
@@ -155,6 +168,7 @@ global.CanvasRenderingContext2D = class CanvasRenderingContext2DPolyfill {
   }
 
   putImageData(imageData, dx, dy, dirtyX, dirtyY, dirtyWidth, dirtyHeight) {
+    console.time('putImageData');
     const { data, width, height } = imageData;
     const skData = Skia.Data.fromBytes(data);
     const image = Skia.Image.MakeImage(getImageInfo(width, height), skData, 4 * width);
@@ -180,16 +194,20 @@ global.CanvasRenderingContext2D = class CanvasRenderingContext2DPolyfill {
       );
     }
     image.dispose();
+    console.timeEnd('putImageData');
   }
 
   getImageData(sx=0, sy=0, sw, sh) {
+    console.time('getImageData');
     const width = sw ?? this.canvas.width;
     const height = sh ?? this.canvas.height;
     const pixels = this._ctx.readPixels(sx, sy, getImageInfo(width, height), undefined, 4 * width);
+    console.timeEnd('getImageData');
     return new ImageData(pixels, width, height);
   }
 
   drawImage(image, dx, dy, dw, dh, sx, sy, sw, sh) {
+    console.time('drawImage');
     let img;
     let width;
     let height;
@@ -244,6 +262,7 @@ global.CanvasRenderingContext2D = class CanvasRenderingContext2DPolyfill {
     if (image.surface) {
       img.dispose();
     }
+    console.timeEnd('drawImage');
   }
 
   fillText(text, x, y, maxWidth) {
