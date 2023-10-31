@@ -29,7 +29,7 @@ interface Result {
 }
 
 export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
-  const [results, setResults] = useState<Result[]>(null);
+  const [results, setResults] = useState<Result[]|null>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
   const [input, setInput] = useState<string>('');
   const img = useImage(input);
@@ -38,6 +38,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
+      setResults(null);
       setInput(input);
       const data = await getImageData(input, 128);
       const predicts = await runPipe('object-detection', model, createRawImage(data));
