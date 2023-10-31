@@ -1,6 +1,8 @@
-# JS Polyfills
+# JS Polyfills & Fixes
 
 The [polyfills](./polyfills.js) to support some pipeline.
+
+[Add babel plugins to support some syntax](https://github.com/hans00/react-native-transformers-example/blob/eaeda2d76b5ff50be710da0e89ce06821f71ec4b/babel.config.js#L4-L5)
 
 # Android
 
