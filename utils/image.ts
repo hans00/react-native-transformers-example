@@ -1,8 +1,6 @@
 import { RawImage } from '@xenova/transformers/src/utils/image';
 
-const maxSize = 768;
-
-export async function getImageData(uri: string): global.Image {
+export async function getImageData(uri: string, maxSize: number = 512): global.Image {
   return await new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => {
