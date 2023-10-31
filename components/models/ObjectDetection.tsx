@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import uniqolor from 'uniqolor';
-import { Canvas, Image, useImage, Text, Rect } from '@shopify/react-native-skia';
+import { Canvas, Image, useImage, Text, Rect, Group } from '@shopify/react-native-skia';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
@@ -81,20 +81,24 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
           const [x, y, w, h] = calcPosition(
             'contain',
             size.width, size.height,
-            img.width(), img.height(),
+            img?.width(), img?.height(),
             xmin, ymin, xmax, ymax,
           );
           return (
             <>
-              <Rect
-                key={`rect-${i}`}
-                x={x}
-                y={y}
-                width={w}
-                height={h}
-                color={color}
+              <Group
+                key={`group-${i}`}
+                style="stroke"
                 strokeWidth={2}
-              />
+                color={color}
+              >
+                <Rect
+                  x={x}
+                  y={y}
+                  width={w}
+                  height={h}
+                />
+              </Group>
               <Text
                 key={`text-${i}`}
                 x={x > 10 ? x : x + 4}

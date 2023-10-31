@@ -35,12 +35,14 @@ export function calcPosition(
   x: number,
   y: number
 ): [number, number, number, number] {
-  const containerRatio = containerWidth / containerHeight;
-  const imageRatio = imageWidth / imageHeight;
-  const ratio = mode === 'contain' ? Math.min(containerRatio, imageRatio) : Math.max(containerRatio, imageRatio);
+  const w = Math.min(containerWidth, imageWidth);
+  const h = Math.min(containerHeight, imageHeight);
+  const ratio = mode === 'contain' ? Math.min(w / imageWidth, h / imageHeight) : Math.max(w / imageWidth, h / imageHeight);
+  const offsetX = (containerWidth - imageWidth * ratio) / 2;
+  const offsetY = (containerHeight - imageHeight * ratio) / 2;
   const newWidth = imageWidth * ratio;
   const newHeight = imageHeight * ratio;
-  const newX = (containerWidth - newWidth) * x;
-  const newY = (containerHeight - newHeight) * y;
+  const newX = (containerWidth - newWidth) * x + offsetX;
+  const newY = (containerHeight - newHeight) * y + offsetY;
   return [newX, newY, newWidth, newHeight];
 }
