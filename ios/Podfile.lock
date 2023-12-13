@@ -337,7 +337,8 @@ PODS:
     - React-Core
   - react-native-quick-base64 (2.0.7):
     - React-Core
-  - react-native-skia (0.1.2):
+  - react-native-skia (0.1.227):
+    - RCT-Folly (= 2021.07.22.00)
     - React
     - React-callinvoker
     - React-Core
@@ -645,7 +646,7 @@ SPEC CHECKSUMS:
   React-logger: 342f358b8decfbf8f272367f4eacf4b6154061be
   react-native-image-picker: 3269f75c251cdcd61ab51b911dd30d6fff8c6169
   react-native-quick-base64: a5dbe4528f1453e662fcf7351029500b8b63e7bb
-  react-native-skia: 4067b2a0db0adbb310a7d0b1a00f140d332ab6f3
+  react-native-skia: eb4f8cc3db264f498b60a67050249bc26b96471d
   React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
   React-RCTActionSheet: 0151f83ef92d2a7139bba7dfdbc8066632a6d47b
   React-RCTAnimation: 5ec9c0705bb2297549c120fe6473aa3e4a01e215
