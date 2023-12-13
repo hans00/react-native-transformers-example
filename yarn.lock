@@ -1867,12 +1867,12 @@
   resolved "https://registry.npmjs.org/@react-native/polyfills/-/polyfills-2.0.0.tgz"
   integrity sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==
 
-"@shopify/react-native-skia@./shopify-react-native-skia-0.1.2.tgz":
-  version "0.1.2"
-  resolved "file:shopify-react-native-skia-0.1.2.tgz"
-  integrity sha512-vY2gTmV8eTjPYRZeU6OBpFX3vLfym/xoGVFCFh4bZOBboUkBgGsUxOsDfjVWFNuwI0H6Nfdb/C5L1XkD5GkB9A==
+"@shopify/react-native-skia@^0.1.227":
+  version "0.1.227"
+  resolved "https://registry.yarnpkg.com/@shopify/react-native-skia/-/react-native-skia-0.1.227.tgz#2065fcf76cbee88458343e7a10eb3c7506b429e1"
+  integrity sha512-DsFzQnxt5zX3wtTTX1MiBNUAc/qxIWtLLRmXk/bkj63B3ZfgORJWa19lsFjHDzdoWUMNMLagiCv1oebXyCxW2g==
   dependencies:
-    canvaskit-wasm "0.38.2"
+    canvaskit-wasm "0.39.1"
     react-reconciler "^0.27.0"
 
 "@sideway/address@^4.1.3":
@@ -2143,6 +2143,11 @@
   dependencies:
     "@typescript-eslint/types" "5.62.0"
     eslint-visitor-keys "^3.3.0"
+
+"@webgpu/types@0.1.21":
+  version "0.1.21"
+  resolved "https://registry.yarnpkg.com/@webgpu/types/-/types-0.1.21.tgz#b181202daec30d66ccd67264de23814cfd176d3a"
+  integrity sha512-pUrWq3V5PiSGFLeLxoGqReTZmiiXwY3jRkIG5sLLKjyqNxrwm/04b4nw7LSmGWJcKk59XOM/YRTUwOzo4MMlow==
 
 "@xenova/transformers@https://github.com/hans00/transformers.js.git#merge":
   version "2.7.0"
@@ -2822,10 +2827,12 @@ caniuse-lite@^1.0.30001517:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001532.tgz"
   integrity sha512-FbDFnNat3nMnrROzqrsg314zhqN5LGQ1kyyMk2opcrwGbVGpHRhgCWtAgD5YJUqNAiQ+dklreil/c3Qf1dfCTw==
 
-canvaskit-wasm@0.38.2:
-  version "0.38.2"
-  resolved "https://registry.npmjs.org/canvaskit-wasm/-/canvaskit-wasm-0.38.2.tgz"
-  integrity sha512-ieRb6DO4yL91qUfyRgmyhp2Hi1KmQ9lIMfKacxHVlfp/CpKCkzgAxRGUbCsJFzwLKjs9fufGrIyvnzEYRwm1XQ==
+canvaskit-wasm@0.39.1:
+  version "0.39.1"
+  resolved "https://registry.yarnpkg.com/canvaskit-wasm/-/canvaskit-wasm-0.39.1.tgz#c3c8f3962cbabbedf246f7bcf90e859013c7eae9"
+  integrity sha512-Gy3lCmhUdKq+8bvDrs9t8+qf7RvcjuQn+we7vTVVyqgOVO1UVfHpsnBxkTZw+R4ApEJ3D5fKySl9TU11hmjl/A==
+  dependencies:
+    "@webgpu/types" "0.1.21"
 
 chalk@^2.4.2:
   version "2.4.2"
