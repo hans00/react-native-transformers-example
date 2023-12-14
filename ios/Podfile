@@ -43,9 +43,6 @@ target 'transformers_example' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  # Required by react-native-gcanvas for install GCanvas v1.1.1
-  pod "GCanvas", :path => "../node_modules/@flyskywhy/react-native-gcanvas/GCanvas.podspec"
-
   target 'transformers_exampleTests' do
     inherit! :complete
     # Pods for testing

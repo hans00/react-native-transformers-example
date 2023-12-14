@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.0.5",
-    "@flyskywhy/react-native-browser-polyfill": "^2.0.1",
-    "@flyskywhy/react-native-gcanvas": "^6.0.3",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
+    "@shopify/react-native-skia": "^0.1.227",
     "@xenova/transformers": "https://github.com/hans00/transformers.js.git#merge",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
+    "color-parse": "^2.0.0",
     "events": "^3.3.0",
     "image-decode": "^1.2.2",
     "image-encode": "^1.3.1",
@@ -37,6 +37,7 @@
     "sha.js": "^2.4.11",
     "stream-browserify": "^3.0.0",
     "text-encoding-polyfill": "^0.6.7",
+    "tseep": "^1.1.1",
     "uniqolor": "^1.1.0",
     "util": "^0.12.5",
     "xregexp": "^5.1.1"
