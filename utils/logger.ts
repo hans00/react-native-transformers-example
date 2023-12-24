@@ -5,6 +5,8 @@ const cleanData = (data: any) => {
     return `RawImage(${data.width}x${data.height}x${data.channels}, data: ${data.data.length})`;
   } else if (data instanceof ImageData) {
     return `ImageData(${data.width}x${data.height}, data: ${data.data.length})`;
+  } else if (data instanceof Float32Array) {
+    return `Float32Array(${data.length})`;
   } else if (Array.isArray(data)) {
     return data.map(cleanData);
   } else if (data && typeof data === 'object') {
