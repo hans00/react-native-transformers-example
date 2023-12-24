@@ -13,9 +13,18 @@ export interface AudioData {
 
 export const encodeBuffer = (audio: AudioData): Buffer => {
   const { data, sampleRate, channels } = audio;
+  const lenPerChannel = data.length / channels;
   const samples = [];
-  for (let i = 0; i < data.length; i += channels) {
-    samples.push(data.slice(i, i + channels));
+  if (channels === 1) {
+    samples.push(data);
+  } else {
+    for (let c = 0; c < channels; c++) {
+      const sample = new Float32Array(lenPerChannel);
+      for (let i = 0; i < lenPerChannel; i++) {
+        sample[i] = data[i * channels + c];
+      }
+      samples.push(sample);
+    }
   }
   return wav.encode(samples, { sampleRate });
 }
