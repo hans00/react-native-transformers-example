@@ -9,7 +9,7 @@ import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import { encodeBuffer } from '../../utils/audio';
 
-export const title = 'Test To Speech';
+export const title = 'Text To Speech';
 
 export { default as Settings } from './common/Settings';
 
