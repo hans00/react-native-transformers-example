@@ -2156,7 +2156,7 @@
 
 "@xenova/transformers@https://github.com/hans00/transformers.js.git#merge":
   version "2.12.1"
-  resolved "https://github.com/hans00/transformers.js.git#24726fa0da19d36ffbf3b3dbd4f6d1948910e326"
+  resolved "https://github.com/hans00/transformers.js.git#880348aaa419f98e4d49fea38316f7c6791d6c5c"
   dependencies:
     "@huggingface/jinja" "^0.1.0"
     image-decode "^1.2.2"
