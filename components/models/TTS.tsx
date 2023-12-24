@@ -43,7 +43,7 @@ interface InteractProps {
   runPipe: (args: any) => Promise<any>;
 }
 
-const sampleText = 'Hello, my dog is cute';
+const sampleText = 'How are you';
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [text, setText] = useState<string>(sampleText);
