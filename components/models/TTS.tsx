@@ -72,7 +72,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
     setWIP(false);
   }, [clear, model, text, params]);
 
-  const play = useCallback(() => {
+  const playAudio = useCallback(() => {
     if (!output) return;
     play(output);
   }, [output]);
@@ -92,7 +92,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       />
       <Button
         title="Play"
-        onPress={play}
+        onPress={playAudio}
         disabled={isWIP || !output}
       />
       <Button
