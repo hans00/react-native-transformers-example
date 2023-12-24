@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
-import SoundPlayer from 'react-native-sound-player';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
@@ -10,7 +9,7 @@ import Recorder from '../../utils/recorder';
 import InlineSection from '../form/InlineSection';
 import Section from '../form/Section';
 import { useColor } from '../../utils/style';
-import { decodeBuffer, toSingleChannel, downsample } from '../../utils/audio';
+import { decodeBuffer, toSingleChannel, downsample, play } from '../../utils/audio';
 import { getFile } from '../../utils/fs-cache';
 import * as logger from '../../utils/logger';
 
@@ -93,7 +92,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
 
   const playExample = useCallback(async () => {
     if (!example) return;
-    SoundPlayer.playUrl(example);
+    play(example);
   }, [example]);
 
   return (

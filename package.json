@@ -32,7 +32,7 @@
     "react-native-image-picker": "^5.3.1",
     "react-native-quick-base64": "^2.0.6",
     "react-native-select-dropdown": "^3.3.3",
-    "react-native-sound-player": "^0.13.2",
+    "react-native-sound": "^0.11.2",
     "resize-image-data": "^0.3.1",
     "sha.js": "^2.4.11",
     "stream-browserify": "^3.0.0",

@@ -1,6 +1,7 @@
 import wav from 'node-wav';
 import AV from 'av';
 import 'mp3';
+import Sound from 'react-native-sound';
 import type { Buffer } from 'buffer';
 
 const SCALING_FACTOR = Math.sqrt(2);
@@ -10,6 +11,18 @@ export interface AudioData {
   sampleRate: number;
   channels: number;
 }
+
+export const play = (uri: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const sound = new Sound(uri, '', (err) => {
+    if (err) return reject(err);
+      sound.play(() => {
+        sound.release();
+        resolve();
+      });
+    });
+  });
+};
 
 export const encodeBuffer = (audio: AudioData): Buffer => {
   const { data, sampleRate, channels } = audio;

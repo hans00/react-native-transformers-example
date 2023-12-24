@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Text, Platform, Alert } from 'react-native';
-import SoundPlayer from 'react-native-sound-player';
 import RNFS from 'react-native-fs';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
-import { encodeBuffer } from '../../utils/audio';
+import { encodeBuffer, play } from '../../utils/audio';
 
 export const title = 'Text To Speech';
 
@@ -75,7 +74,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
 
   const play = useCallback(() => {
     if (!output) return;
-    SoundPlayer.playSoundFile(output.replace('.wav', ''), 'wav');
+    play(output);
   }, [output]);
 
   return (
