@@ -7,7 +7,7 @@ import type { Buffer } from 'buffer';
 const SCALING_FACTOR = Math.sqrt(2);
 
 export interface AudioData {
-  data: Float32Arrays;
+  data: Float32Array;
   sampleRate: number;
   channels: number;
 }
@@ -15,7 +15,7 @@ export interface AudioData {
 export const play = (uri: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const sound = new Sound(uri, '', (err) => {
-    if (err) return reject(err);
+      if (err) return reject(err);
       sound.play(() => {
         sound.release();
         resolve();
@@ -39,7 +39,7 @@ export const encodeBuffer = (audio: AudioData): Buffer => {
       samples.push(sample);
     }
   }
-  return wav.encode(samples, { sampleRate });
+  return wav.encode(samples, { sampleRate, float: true });
 }
 
 export const decodeBuffer = async (buf: Buffer): AudioData => {
