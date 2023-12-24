@@ -75,7 +75,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
 
   const play = useCallback(() => {
     if (!output) return;
-    SoundPlayer.playUrl(output);
+    SoundPlayer.playSoundFile(output.replace('.wav', ''), 'wav');
   }, [output]);
 
   return (
