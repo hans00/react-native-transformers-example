@@ -1,12 +1,12 @@
 diff --git a/node_modules/react-native-sound-player/android/src/main/java/com/johnsonsu/rnsoundplayer/RNSoundPlayerModule.java b/node_modules/react-native-sound-player/android/src/main/java/com/johnsonsu/rnsoundplayer/RNSoundPlayerModule.java
-index 2a1561c..dd3834e 100644
+index 2a1561c..0f3ef18 100644
 --- a/node_modules/react-native-sound-player/android/src/main/java/com/johnsonsu/rnsoundplayer/RNSoundPlayerModule.java
 +++ b/node_modules/react-native-sound-player/android/src/main/java/com/johnsonsu/rnsoundplayer/RNSoundPlayerModule.java
 @@ -164,6 +164,8 @@ public class RNSoundPlayerModule extends ReactContextBaseJavaModule implements L
          this.mediaPlayer = MediaPlayer.create(getCurrentActivity(), this.getUriFromFile(name, type));
        }
  
-+      if (this.mediaPlayer == null) return
++      if (this.mediaPlayer == null) return;
 +
        this.mediaPlayer.setOnCompletionListener(
          new OnCompletionListener() {
@@ -15,7 +15,7 @@ index 2a1561c..dd3834e 100644
      if (this.mediaPlayer == null) {
        Uri uri = Uri.parse(url);
        this.mediaPlayer = MediaPlayer.create(getCurrentActivity(), uri);
-+      if (this.mediaPlayer == null) return
++      if (this.mediaPlayer == null) return;
        this.mediaPlayer.setOnCompletionListener(
          new OnCompletionListener() {
            @Override
