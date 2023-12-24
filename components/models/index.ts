@@ -12,6 +12,7 @@ import * as ImageClassification from './ImageClassification';
 import * as ZeroShotImageClassification from './ZeroShotImageClassification';
 import * as ImageSegmentation from './ImageSegmentation';
 import * as ObjectDetection from './ObjectDetection';
+import * as TTS from './TTS';
 
 export default {
   Translation,
@@ -28,4 +29,5 @@ export default {
   ZeroShotImageClassification,
   ImageSegmentation,
   ObjectDetection,
+  TTS,
 }

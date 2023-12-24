@@ -11,6 +11,15 @@ export interface AudioData {
   channels: number;
 }
 
+export const encodeBuffer = (audio: AudioData): Buffer => {
+  const { data, sampleRate, channels } = audio;
+  const samples = [];
+  for (let i = 0; i < data.length; i += channels) {
+    samples.push(data.slice(i, i + channels));
+  }
+  return wav.encode(samples, { sampleRate });
+}
+
 export const decodeBuffer = async (buf: Buffer): AudioData => {
   // WAV
   if (buf.slice(0, 4).toString() === 'RIFF') {
