@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.6.0
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -58,7 +58,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.6.0
         with:
-          node-version: 16.x
+          node-version: 18.x
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
