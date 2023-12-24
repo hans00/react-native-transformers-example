@@ -51,11 +51,18 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const [isWIP, setWIP] = useState<boolean>(false);
   const [output, setOutput] = useState<string>('');
 
+  const clear = useCallback(async () => {
+    if (!output) return;
+    await RNFS.unlink(output);
+    setOutput('');
+  }, [output]);
+
   const call = useCallback(async () => {
     setWIP(true);
     try {
+      await clear();
       const { audio, sampling_rate } = await runPipe('text-to-speech', model, text, params);
-      const file = `${RNFS.CachesDirectoryPath}/tts-${Date.now()}.wav`;
+      const file = `${RNFS.TemporaryDirectoryPath}/tts-${Date.now()}.wav`;
       await RNFS.writeFile(
         file,
         encodeBuffer({ data: audio, sampleRate: sampling_rate, channels: 1 }).toString('base64'),
@@ -64,7 +71,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setOutput(file);
     } catch {}
     setWIP(false);
-  }, [model, text, params]);
+  }, [clear, model, text, params]);
 
   const play = useCallback(() => {
     if (!output) return;
@@ -87,6 +94,11 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       <Button
         title="Play"
         onPress={play}
+        disabled={isWIP || !output}
+      />
+      <Button
+        title="Clear"
+        onPress={clear}
         disabled={isWIP || !output}
       />
     </>
