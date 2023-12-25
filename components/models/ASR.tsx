@@ -44,7 +44,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       logger.time('TRANSFORM');
       audio = downsample(toSingleChannel(audio), 16000);
       logger.timeEnd('TRANSFORM');
-      const { text } = await runPipe('automatic-speech-recognition', model, audio.data, params);
+      const { text } = await runPipe('automatic-speech-recognition', model, null, audio.data, params);
       setOutput(text);
     } catch {}
     setWIP(false);

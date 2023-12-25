@@ -29,7 +29,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async (input) => {
     setWIP(true);
     try {
-      const [{ generated_text: text }] = await runPipe('image-to-text', model, input, params);
+      const [{ generated_text: text }] = await runPipe('image-to-text', model, null, input, params);
       setImage(input);
       setOutput(text);
     } catch {}

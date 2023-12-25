@@ -25,7 +25,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const [{ summary_text: text }] = await runPipe('summarization', model, input, params);
+      const [{ summary_text: text }] = await runPipe('summarization', model, null, input, params);
       setOutput(text);
     } catch {}
     setWIP(false);

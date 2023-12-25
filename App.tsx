@@ -60,12 +60,12 @@ function App(): JSX.Element {
     }
   }, []);
 
-  const run = useCallback(async (useTask, model, ...args) => {
+  const run = useCallback(async (useTask, model, modelOpt, ...args) => {
     if (!task || !useTask || !args?.length) return;
     let pipe;
     try {
       logger.time('LOAD');
-      pipe = await pipeline(useTask, model, { progress_callback: onProgress });
+      pipe = await pipeline(useTask, model, { ...modelOpt, progress_callback: onProgress });
       logger.timeEnd('LOAD');
       logger.time('INFER');
       const result = await pipe._call(...args);

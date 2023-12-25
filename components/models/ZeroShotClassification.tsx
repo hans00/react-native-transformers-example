@@ -59,6 +59,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       const { labels, scores } = await runPipe(
         'zero-shot-classification',
         model,
+        null,
         input,
         classes.split(/\s*,+\s*/g).filter(x => x)
       );

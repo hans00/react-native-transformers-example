@@ -23,7 +23,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('fill-mask', model, input, params);
+      const predicts = await runPipe('fill-mask', model, null, input, params);
       setOutput(predicts.map(({ sequence }) => sequence).join('\n'));
     } catch {}
     setWIP(false);

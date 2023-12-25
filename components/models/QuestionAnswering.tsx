@@ -26,7 +26,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const { answer, score } = await runPipe('question-answering', model, question, context);
+      const { answer, score } = await runPipe('question-answering', model, null, question, context);
       setAnswer(answer);
     } catch {}
     setWIP(false);

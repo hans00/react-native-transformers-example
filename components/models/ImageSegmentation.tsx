@@ -51,7 +51,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
     try {
       setInput(input);
       const data = await getImageData(input);
-      const predicts = await runPipe('image-segmentation', model, createRawImage(data));
+      const predicts = await runPipe('image-segmentation', model, null, createRawImage(data));
       setResults(predicts);
     } catch {}
     setWIP(false);

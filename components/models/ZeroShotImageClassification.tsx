@@ -62,6 +62,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       const predicts = await runPipe(
         'zero-shot-image-classification',
         model,
+        null,
         createRawImage(inferImage.current),
         classes.split(/\s*,+\s*/g).filter(x => x)
       );

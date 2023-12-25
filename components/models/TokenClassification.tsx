@@ -35,7 +35,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('token-classification', model, input);
+      const predicts = await runPipe('token-classification', model, null, input);
       setTokens(predicts);
     } catch {}
     setWIP(false);

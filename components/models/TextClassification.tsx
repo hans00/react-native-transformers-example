@@ -31,7 +31,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const predicts = await runPipe('text-classification', model, input, params);
+      const predicts = await runPipe('text-classification', model, null, input, params);
       setLabels(predicts);
     } catch {}
     setWIP(false);

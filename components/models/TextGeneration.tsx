@@ -57,7 +57,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async () => {
     setWIP(true);
     try {
-      const [{ generated_text }] = await runPipe('text-generation', model, text, params);
+      const [{ generated_text }] = await runPipe('text-generation', model, null, text, params);
       setText(generated_text);
     } catch {}
     setWIP(false);

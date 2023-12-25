@@ -58,6 +58,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       const [{ translation_text: text }] = await runPipe(
         `translation_${settings.languageFrom}_to_${settings.languageTo}`,
         null,
+        null,
         [input],
         params
       );

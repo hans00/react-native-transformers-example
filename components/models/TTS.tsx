@@ -60,7 +60,13 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
     setWIP(true);
     try {
       await clear();
-      const { audio, sampling_rate } = await runPipe('text-to-speech', model, text, params);
+      const { audio, sampling_rate } = await runPipe(
+        'text-to-speech',
+        model,
+        { quantized: false },
+        text,
+        params,
+      );
       const file = `${RNFS.TemporaryDirectoryPath}/tts-${Date.now()}.wav`;
       await RNFS.writeFile(
         file,

@@ -41,7 +41,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResults(null);
       setInput(input);
       const data = await getImageData(input, 128);
-      const predicts = await runPipe('object-detection', model, createRawImage(data));
+      const predicts = await runPipe('object-detection', model, null, createRawImage(data));
       setResults(predicts);
     } catch {}
     setWIP(false);
