@@ -33,6 +33,8 @@ The [polyfills](./polyfills.js) to support some pipeline.
 
 ### GCanvas
 
+https://github.com/hans00/react-native-transformers-example/tree/gcanvas
+
 > May make app unstable.
 > Should more reuse canvas instance
 
@@ -44,3 +46,9 @@ The [polyfills](./polyfills.js) to support some pipeline.
 - The offscreen canvas too small will not get full decoded image data.
 - The canvas too large will crash.
 - Create too many canvas may cause crash (include refresh app).
+
+### Skia
+
+> Stable, but slightly slower than gcanvas
+
+https://github.com/hans00/react-native-transformers-example/blob/92887443a624402d6e35b9609a4dd2cd9ffb37a7/polyfills.js#L26-L367
