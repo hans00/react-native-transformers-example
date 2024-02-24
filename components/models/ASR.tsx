@@ -41,10 +41,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const call = useCallback(async (audio) => {
     setWIP(true);
     try {
-      logger.time('TRANSFORM');
-      audio = downsample(toSingleChannel(audio), 16000);
-      logger.timeEnd('TRANSFORM');
-      const { text } = await runPipe('automatic-speech-recognition', model, null, audio.data, params);
+      const { text } = await runPipe('automatic-speech-recognition', model, null, audio, params);
       setOutput(text);
     } catch {}
     setWIP(false);
@@ -83,11 +80,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
 
   const runExample = useCallback(async () => {
     if (!example) return;
-    const buf = await getFile(example);
-    logger.time('DECODE');
-    const audio = await decodeBuffer(buf);
-    logger.timeEnd('DECODE');
-    call(audio);
+    call(await getFile(example));
   }, [call, example]);
 
   const playExample = useCallback(async () => {
