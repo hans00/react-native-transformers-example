@@ -6436,10 +6436,10 @@ onnx-proto@^4.0.4:
   dependencies:
     protobufjs "^6.8.8"
 
-onnxruntime-common@1.16.1, onnxruntime-common@~1.14.0, onnxruntime-common@~1.16.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.16.1.tgz#694cd68964d2b0e4e96af8413c34763461f43aae"
-  integrity sha512-dmKye7bL4/aKhF561h+o9yw1hCCcGfYRN1BoycXm+WUjWhAVlGkP6JdBcRk7MQ1qX/ASFk+8Ibl+yVgCTSP0Fg==
+onnxruntime-common@1.17.0, onnxruntime-common@~1.14.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/onnxruntime-common/-/onnxruntime-common-1.17.0.tgz#b2534ce021b1c1b19182bec39aaea8d547d2013e"
+  integrity sha512-Vq1remJbCPITjDMJ04DA7AklUTnbYUp4vbnm6iL7ukSt+7VErH0NGYfekRSTjxxurEtX7w41PFfnQlE6msjPJw==
 
 onnxruntime-node@1.14.0:
   version "1.14.0"
@@ -6448,14 +6448,14 @@ onnxruntime-node@1.14.0:
   dependencies:
     onnxruntime-common "~1.14.0"
 
-onnxruntime-react-native@1.14.0, onnxruntime-react-native@1.16.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/onnxruntime-react-native/-/onnxruntime-react-native-1.16.1.tgz#ff3de790241a6b9e94b47fa0d826b68ed13da2b0"
-  integrity sha512-EcCPCr7fdZ41AuxaixMC/lofJ7IFjmqccV3FM6cxn05g2PCmwV5pG/Z5uLW/MGUFqGj8uvePTgRZpLeZJNE8JA==
+onnxruntime-react-native@1.14.0, onnxruntime-react-native@1.17.0:
+  version "1.17.0"
+  resolved "https://registry.yarnpkg.com/onnxruntime-react-native/-/onnxruntime-react-native-1.17.0.tgz#565df926eaea55605a0dfe12821e46ee481b040d"
+  integrity sha512-leakzleuCL6P69j10pPemZhFc7avo2kLO5b12HPiGHGKepZVzXTq7Ss1x1CS5ZjOIxMj9q0s5O9yYAUp++vBpg==
   dependencies:
     "@expo/config-plugins" "^7.2.4"
     buffer "^6.0.3"
-    onnxruntime-common "~1.16.1"
+    onnxruntime-common "1.17.0"
 
 onnxruntime-web@1.14.0:
   version "1.14.0"

@@ -24,7 +24,7 @@
     "mp3": "^0.1.0",
     "node-fetch": "^2.6.7",
     "node-wav": "^0.0.2",
-    "onnxruntime-react-native": "1.16.1",
+    "onnxruntime-react-native": "1.17.0",
     "path-browserify": "^1.0.1",
     "react": "18.2.0",
     "react-native": "0.71.8",
@@ -71,7 +71,7 @@
     "jpeg-js": "^0.4.4",
     "node-fetch": "^2.6.7",
     "xml2js": "^0.5.0",
-    "onnxruntime-common": "1.16.1",
-    "onnxruntime-react-native": "1.16.1"
+    "onnxruntime-common": "1.17.0",
+    "onnxruntime-react-native": "1.17.0"
   }
 }

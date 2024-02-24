@@ -25,7 +25,7 @@ The [polyfills](./polyfills.js) to support some pipeline.
 
 - [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556) (It included in v1.16.1)
 - [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116) (It included in v1.15)
-- [[js/rn] Support create boolean tensor](https://github.com/microsoft/onnxruntime/pull/17052)
+- [[js/rn] Support create boolean tensor](https://github.com/microsoft/onnxruntime/pull/17052) (It included in v1.17.0)
 
 # Performance Improvement
 
