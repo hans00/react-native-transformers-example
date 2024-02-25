@@ -6971,10 +6971,10 @@ react-native-select-dropdown@^3.3.3:
   resolved "https://registry.npmjs.org/react-native-select-dropdown/-/react-native-select-dropdown-3.4.0.tgz"
   integrity sha512-9xK1z4tYpwMxp3hsM0y1+xfqq/JoMh+l7sBsJ81b2eikFwT6ZbndFBqupQXrsQ1akce9hgC/10Nkzj0LjVjeXQ==
 
-react-native-skia-offscreencanvas@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-skia-offscreencanvas/-/react-native-skia-offscreencanvas-0.1.0.tgz#e7c9269a8f2ac87891ddc444ca0e94d651fb630b"
-  integrity sha512-1Mbec5/SAq/WuZB/5axixnuBOdhjm44/Okmz6jZKsL2xzxew0ZF4E7S857TYsmm0qAyPfHveUw9NeE2pH31cWg==
+react-native-skia-offscreencanvas@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-skia-offscreencanvas/-/react-native-skia-offscreencanvas-0.1.1.tgz#abd795a8be55deb93db33696b7ea9f7bc22e646e"
+  integrity sha512-V7XwNrq/vlosA6s5BfQn8WvsR07knFDKDQVf9GrfYB2oEsLBXGH/sg2NGuYeGilBrfvwUzphB05hhy+/1HHXCw==
   dependencies:
     tseep "^1.2.1"
 
