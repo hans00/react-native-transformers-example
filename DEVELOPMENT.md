@@ -1,6 +1,6 @@
 # Basic Polyfills & Fixes
 
-https://github.com/hans00/react-native-transformers-example/blob/74fd92546bd054177272d5155f1389a159f35f1f/polyfills.js#L9-L24
+https://github.com/hans00/react-native-transformers-example/blob/a0060d16550891618fb47ec8766ca4e460b1f1a6/polyfills.js#L2-L16
 
 https://github.com/hans00/react-native-transformers-example/blob/74fd92546bd054177272d5155f1389a159f35f1f/babel.config.js#L4-L5
 
@@ -47,7 +47,7 @@ index d2699da..b9cd563 100644
 
 ## ONNX Runtime patch work for LM models
 
-> Current has some changes not publish.
+> If you use `onnxruntime-react-native<1.17.0`, you should patch the library.
 
 - [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556) (It included in v1.16.1)
 - [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116) (It included in v1.15)
@@ -57,7 +57,7 @@ index d2699da..b9cd563 100644
 
 ## Image Process
 
-### GCanvas
+### Way 1: GCanvas
 
 https://github.com/hans00/react-native-transformers-example/tree/gcanvas
 
@@ -73,8 +73,8 @@ https://github.com/hans00/react-native-transformers-example/tree/gcanvas
 - The canvas too large will crash.
 - Create too many canvas may cause crash (include refresh app).
 
-### Skia
+### Way 2: Skia
 
 > Stable, but slightly slower than gcanvas
 
-https://github.com/hans00/react-native-transformers-example/blob/92887443a624402d6e35b9609a4dd2cd9ffb37a7/polyfills.js#L26-L367
+https://github.com/hans00/react-native-transformers-example/blob/a0060d16550891618fb47ec8766ca4e460b1f1a6/polyfills.js#L1
