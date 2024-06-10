@@ -64,7 +64,8 @@ index d2699da..b9cd563 100644
 Should ensure `onnxruntime-common` and `onnxruntime-react-native` version are same.
 You could using `resolution` (yarn) or `overrides` (npm) to force them.
 
-https://github.com/hans00/react-native-transformers-example/blob/2487917c52560c4dd477d4e7fabe7bb8f2d37f64/package.json#L75-L76
+For example.
+https://github.com/hans00/react-native-transformers-example/blob/16550bac60d2d383c0ee32cd41ee31adc57766a7/package.json#L71-L77
 
 ## ONNX Runtime patch work for LM models
 
