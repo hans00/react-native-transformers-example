@@ -1,3 +1,15 @@
+# Installation
+
+Before [PR](https://github.com/xenova/transformers.js/pull/118) merge, you should use this installation step.
+
+```sh
+# Install from source
+ npm i 'hans00/transformers.js#merge'
+
+# or prerelease maintained by BRICKS
+npm i @fugood/transformers
+```
+
 # Basic Polyfills & Fixes
 
 https://github.com/hans00/react-native-transformers-example/blob/a0060d16550891618fb47ec8766ca4e460b1f1a6/polyfills.js#L2-L16
