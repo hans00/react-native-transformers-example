@@ -45,13 +45,23 @@ index d2699da..b9cd563 100644
 +  android:largeHeap="true">
 ```
 
+# Onnxruntime
+
+## Version
+
+Should ensure `onnxruntime-common` and `onnxruntime-react-native` version are same.
+You could using `resolution` (yarn) or `overrides` (npm) to force them.
+
+https://github.com/hans00/react-native-transformers-example/blob/2487917c52560c4dd477d4e7fabe7bb8f2d37f64/package.json#L75-L76
+
 ## ONNX Runtime patch work for LM models
 
 > If you use `onnxruntime-react-native<1.17.0`, you should patch the library.
 
-- [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556) (It included in v1.16.1)
-- [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116) (It included in v1.15)
-- [[js/rn] Support create boolean tensor](https://github.com/microsoft/onnxruntime/pull/17052) (It included in v1.17.0)
+- [Allow the creation of boolean tensors from ByteBuffer](https://github.com/microsoft/onnxruntime/pull/15556) (It included in v1.16.1, Required for language model)
+- [Allows the creation and extraction of zero length tensors](https://github.com/microsoft/onnxruntime/pull/15116) (It included in v1.15, Required for LLM KV cache)
+- [[js/rn] Support create boolean tensor](https://github.com/microsoft/onnxruntime/pull/17052) (It included in v1.17.0, Required for language model)
+- [[js/rn] Support load external data](https://github.com/microsoft/onnxruntime/pull/20090) (It included in v1.18.0, Required for large model)
 
 # Performance Improvement
 
