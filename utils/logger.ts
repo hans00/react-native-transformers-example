@@ -1,4 +1,4 @@
-import { RawImage } from '@xenova/transformers/src/utils/image';
+import { RawImage } from '@huggingface/transformers';
 
 const cleanData = (data: any) => {
   if (data instanceof RawImage) {

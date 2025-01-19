@@ -1,4 +1,4 @@
-import { RawImage } from '@xenova/transformers/src/utils/image';
+import { RawImage } from '@huggingface/transformers';
 
 export async function getImageData(uri: string, maxSize: number = 512): global.Image {
   return await new Promise((resolve, reject) => {

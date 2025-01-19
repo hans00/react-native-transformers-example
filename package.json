@@ -13,8 +13,8 @@
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
-    "@shopify/react-native-skia": "^0.1.227",
-    "@xenova/transformers": "https://github.com/hans00/transformers.js.git#merge",
+    "@shopify/react-native-skia": "^1.10.2",
+    "@huggingface/transformers": "https://github.com/hans00/transformers.js.git#merge",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
     "color-parse": "^2.0.0",
@@ -26,12 +26,11 @@
     "node-wav": "^0.0.2",
     "onnxruntime-react-native": "1.17.0",
     "path-browserify": "^1.0.1",
-    "react": "18.2.0",
-    "react-native": "0.71.8",
+    "react": "18.3.1",
+    "react-native": "0.76.6",
     "react-native-fs": "^2.20.0",
     "react-native-image-picker": "^5.3.1",
-    "react-native-quick-base64": "^2.0.6",
-    "react-native-select-dropdown": "^3.3.3",
+    "react-native-quick-base64": "^2.1.2",
     "react-native-skia-offscreencanvas": "^0.1.1",
     "react-native-sound": "^0.11.2",
     "resize-image-data": "^0.3.1",
@@ -44,35 +43,41 @@
     "xregexp": "^5.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.25.2",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/runtime": "^7.21.5",
-    "@react-native-community/eslint-config": "^3.2.0",
-    "@tsconfig/react-native": "^2.0.2",
-    "@types/jest": "^29.2.1",
-    "@types/react": "^18.0.24",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/runtime": "^7.25.0",
+    "@react-native-community/cli": "15.0.1",
+    "@react-native-community/cli-platform-android": "15.0.1",
+    "@react-native-community/cli-platform-ios": "15.0.1",
+    "@react-native/babel-preset": "0.76.6",
+    "@react-native/eslint-config": "0.76.6",
+    "@react-native/metro-config": "0.76.6",
+    "@react-native/typescript-config": "0.76.6",
+    "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
-    "babel-jest": "^29.2.1",
+    "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-define": "^2.1.1",
     "babel-plugin-transform-import-meta": "^2.2.0",
     "eslint": "^8.19.0",
-    "jest": "^29.2.1",
-    "metro-react-native-babel-preset": "0.73.9",
+    "jest": "^29.6.3",
     "patch-package": "^7.0.0",
-    "prettier": "^2.4.1",
-    "react-test-renderer": "18.2.0",
-    "typescript": "4.8.4"
+    "prettier": "2.8.8",
+    "react-test-renderer": "18.3.1",
+    "typescript": "5.0.4"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "resolutions": {
     "jpeg-js": "^0.4.4",
     "node-fetch": "^2.6.7",
     "xml2js": "^0.5.0",
-    "onnxruntime-common": "1.17.0",
-    "onnxruntime-react-native": "1.17.0"
+    "onnxruntime-common": "1.20.1",
+    "onnxruntime-react-native": "1.20.1"
   }
 }

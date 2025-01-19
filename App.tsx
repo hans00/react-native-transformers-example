@@ -15,7 +15,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { pipeline } from '@xenova/transformers';
+import { pipeline } from '@huggingface/transformers';
 import { useColor } from './utils/style';
 import InlineSection from './components/form/InlineSection';
 import Section from './components/form/Section';
@@ -24,18 +24,17 @@ import Progress from './components/Progress';
 import Models from './components/models';
 import * as logger from './utils/logger';
 
-const tasks = Object.keys(Models);
-const taskDisplayNames = tasks.map((task) => Models[task].title);
+const taskDisplayNames = Object.values(Models).map((model) => model.title);
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = useColor('background');
   const color = useColor('foreground');
   const textColor = { color };
 
-  const [task, setTask] = useState<Nullable<string>>(null);
+  const [task, setTask] = useState<string | null>(null);
   const [settings, setSettings] = useState<object>({});
-  const [params, setParams] = useState<Nullable<object>>(null);
+  const [params, setParams] = useState<object | null>(null);
   const [download, setDownload] = useState<object>({});
   const [isLoading, setLoading] = useState<boolean>(false);
 
@@ -60,7 +59,7 @@ function App(): JSX.Element {
     }
   }, []);
 
-  const run = useCallback(async (useTask, model, modelOpt, ...args) => {
+  const run = useCallback(async (useTask: string, model: string, modelOpt: object, ...args: any[]) => {
     if (!task || !useTask || !args?.length) return;
     let pipe;
     try {
@@ -97,10 +96,12 @@ function App(): JSX.Element {
           <Text style={[styles.title, textColor]}># transformers.js</Text>
           <InlineSection title="Task">
             <SelectField
-              options={Object.keys(Models)}
+              options={Object.entries(Models).map(([key, value]) => ({
+                label: value.title,
+                value: key,
+              }))}
               value={task}
-              onChange={setTask}
-              optionLabels={taskDisplayNames}
+              onChange={(value) => setTask(value)}
               placeholder="Select a task"
             />
           </InlineSection>

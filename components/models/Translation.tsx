@@ -28,12 +28,14 @@ export function Settings(props: Props): JSX.Element {
         options={['en']}
         value={languageFrom}
         onChange={setFrom}
+        inline
       />
       <SelectField
         title="to"
         options={['fr', 'de', 'ro']}
         value={languageTo}
         onChange={setTo}
+        inline
       />
     </>
   )
