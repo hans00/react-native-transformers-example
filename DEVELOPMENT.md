@@ -4,7 +4,7 @@ Before [PR](https://github.com/xenova/transformers.js/pull/118) merge, you shoul
 
 ```sh
 # Install from source
- npm i 'hans00/transformers.js#merge'
+ npm i 'mybigday/transformers.js#merge'
 
 # or prerelease maintained by BRICKS
 npm i @fugood/transformers

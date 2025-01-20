@@ -6,8 +6,8 @@ import {
   Pressable,
   FlatList,
   Modal,
+  useColorScheme,
 } from 'react-native';
-import type { TextStyle } from 'react-native';
 import { useColor } from '../../utils/style';
 
 export type Option = { value: any; label: string };
@@ -33,7 +33,14 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
   const selectedIndex = data.findIndex(item => item.value === value);
   const showTitle = data[selectedIndex]?.label ?? placeholder;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [listHeight, setListHeight] = useState(0);
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const color = useColor('foreground');
+  const textColor = { color };
+
+  const backgroundColorStyle = { backgroundColor: isDarkMode ? '#333' : '#eee' };
+
+  const selectedRowStyle = { backgroundColor: isDarkMode ? '#666' : '#ddd' };
 
   const handlePress = useCallback((index: number) => {
     onSelect(data[index].value);
@@ -43,7 +50,7 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
   return (
     <>
       <Pressable onPress={() => setIsOpen(!isOpen)}>
-        <Text>{showTitle} {isOpen ? '▲' : '▼'}</Text>
+        <Text style={textColor}>{showTitle} {isOpen ? '▲' : '▼'}</Text>
       </Pressable>
       <Modal 
         animationType="fade"
@@ -52,23 +59,28 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
         onRequestClose={() => setIsOpen(false)}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+          <View style={[styles.modalView, backgroundColorStyle]}>
             <FlatList
               data={data}
-              onLayout={({ nativeEvent }) => setListHeight(Math.min(nativeEvent.layout.height, 300))}
               renderItem={({ item, index }) => (
-                <Pressable
-                onPress={() => handlePress(index)}
-                onHoverIn={() => setHoveredIndex(index)}
-                onHoverOut={() => setHoveredIndex(null)}>
-                  <Text
+                <View>
+                  <Pressable
+                    onPress={() => handlePress(index)}
+                    onHoverIn={() => setHoveredIndex(index)}
+                    onHoverOut={() => setHoveredIndex(null)}
+                  >
+                    <Text
                       style={[
                         styles.row,
-                        index % 2 === 0 ? styles.evenRow : styles.oddRow,
-                        hoveredIndex === index && styles.hoveredRow,
-                        index === selectedIndex && styles.selectedRow
-                    ]}>{item.label}</Text>
-                </Pressable>
+                        index === selectedIndex && selectedRowStyle,
+                        textColor,
+                      ]}
+                    >
+                        {item.label}
+                    </Text>
+                  </Pressable>
+                  {index < data.length - 1 && <View style={styles.separator} />}
+                </View>
               )}
               keyExtractor={(item) => item.value.toString()}
             />
@@ -148,16 +160,11 @@ const styles = StyleSheet.create({
   row: {
     padding: 10,
   },
-  evenRow: {
-    backgroundColor: '#fff',
-  },
-  oddRow: {
-    backgroundColor: '#f0f0f0',
-  },
-  hoveredRow: {
-    backgroundColor: '#eee',
-  },
   selectedRow: {
     backgroundColor: '#ddd',
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#ccc',
   },
 });

@@ -42,7 +42,7 @@ export const encodeBuffer = (audio: AudioData): Buffer => {
   return wav.encode(samples, { sampleRate, float: true });
 }
 
-export const decodeBuffer = async (buf: Buffer): AudioData => {
+export const decodeBuffer = async (buf: Buffer): Promise<AudioData> => {
   // WAV
   if (buf.slice(0, 4).toString() === 'RIFF') {
     const decoded = wav.decode(buf);
@@ -103,7 +103,7 @@ export const downsample = (audio: AudioData, toSampleRate: number): AudioData =>
   };
 }
 
-export const toFloatArray = (arr: Float32Arrays|Int16Array|Uint8Array): Float32Array => {
+export const toFloatArray = (arr: Float32Array|Int16Array|Uint8Array): Float32Array => {
   if (arr instanceof Float32Array) {
     return arr;
   } else if (arr instanceof Int16Array) {

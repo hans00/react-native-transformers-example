@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import RNFS from 'react-native-fs';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
@@ -9,7 +10,7 @@ import Recorder from '../../utils/recorder';
 import InlineSection from '../form/InlineSection';
 import Section from '../form/Section';
 import { useColor } from '../../utils/style';
-import { decodeBuffer, toSingleChannel, downsample, play } from '../../utils/audio';
+import { decodeBuffer, toSingleChannel, downsample, toFloatArray, play } from '../../utils/audio';
 import { getFile } from '../../utils/fs-cache';
 import * as logger from '../../utils/logger';
 
@@ -26,19 +27,19 @@ interface InteractProps {
 }
 
 const examples = {
-  'Example 1': 'https://xenova.github.io/transformers.js/audio/jfk.wav',
-  'Example 2': 'https://xenova.github.io/transformers.js/audio/ted.wav',
-  'Example 3': 'https://xenova.github.io/transformers.js/audio/ted_60.wav',
+  'Example 1': 'https://huggingface.github.io/transformers.js/audio/jfk.wav',
+  'Example 2': 'https://huggingface.github.io/transformers.js/audio/ted.wav',
+  'Example 3': 'https://huggingface.github.io/transformers.js/audio/ted_60.wav',
 }
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
-  const recorder = useRef<Nullable<Recorder>>(null);
+  const recorder = useRef<Recorder|null>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
   const [example, setExample] = useState<string>(Object.values(examples)[0]);
 
-  const call = useCallback(async (audio) => {
+  const call = useCallback(async (audio: RawAudio | string) => {
     setWIP(true);
     try {
       const { text } = await runPipe('automatic-speech-recognition', model, null, audio, params);
@@ -69,9 +70,15 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   }, []);
 
   const stopRecord = useCallback(async () => {
-    const result = await recorder.current?.stop();
-    setRecording(false);
-    if (result?.length) call(result);
+    try {
+      const result = await recorder.current?.stop();
+      setRecording(false);
+      if (result) {
+        call(result.data);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   }, [call]);
 
   useEffect(() => () => {
@@ -79,8 +86,14 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   }, []);
 
   const runExample = useCallback(async () => {
-    if (!example) return;
-    call(await getFile(example));
+    try {
+      if (!example) return;
+      const file = await getFile(example);
+      const audio = await decodeBuffer(Buffer.from(await RNFS.readFile(file, 'base64'), 'base64'));
+      call(toFloatArray(downsample(toSingleChannel(audio), 16000).data));
+    } catch (e) {
+      console.error(e);
+    }
   }, [call, example]);
 
   const playExample = useCallback(async () => {
@@ -93,10 +106,8 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       <InlineSection title="Run on example">
         <SelectField
           value={example}
-          options={Object.values(examples)}
-          optionLabels={Object.keys(examples)}
+          options={Object.entries(examples).map(([key, value]) => ({ label: key, value }))}
           onChange={setExample}
-          width={150}
         />
         <Button
           title="Run"

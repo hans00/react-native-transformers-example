@@ -9,6 +9,13 @@ const decodeS16LE = (buffer) =>
   )
 
 export default class AudioRecorder {
+  private sampleRate: number;
+  private bitDepth: number;
+  private channels: number;
+  private bufferSize: number;
+  private samples: Buffer;
+  private listener: any;
+
   constructor({
     sampleRate = 16000,
     bitDepth = 16,
@@ -19,7 +26,7 @@ export default class AudioRecorder {
     this.bitDepth = bitDepth
     this.channels = channels
     this.bufferSize = bufferSize
-    this.samples = [];
+    this.samples = Buffer.alloc(0);
     this.listener = null;
   }
 
@@ -30,17 +37,23 @@ export default class AudioRecorder {
       bitsPerSample: this.bitDepth,
       channels: this.channels,
     });
-    this.listener = AudioStream.on('data', (data) => {
-      this.samples = this.samples.concat(decodeS16LE(Buffer.from(data, 'base64')));
+    this.listener = AudioStream.on('data', (data: string) => {
+      this.samples = Buffer.concat([this.samples, Buffer.from(data, 'base64')]);
     });
     await AudioStream.start();
   }
 
-  async stop(): AudioData {
+  async stop(): Promise<AudioData> {
     await AudioStream.stop();
     this.listener?.remove();
+    let data: Uint8Array | Int16Array;
+    if (this.bitDepth === 16) {
+      data = new Int16Array(this.samples.buffer);
+    } else {
+      data = new Uint8Array(this.samples.buffer);
+    }
     return {
-      data: toFloatArray(this.samples),
+      data: toFloatArray(data),
       sampleRate: this.sampleRate,
       channels: this.channels,
     };
