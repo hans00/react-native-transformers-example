@@ -14,33 +14,7 @@ npm i @fugood/transformers
 
 https://github.com/hans00/react-native-transformers-example/blob/a0060d16550891618fb47ec8766ca4e460b1f1a6/polyfills.js#L2-L16
 
-https://github.com/hans00/react-native-transformers-example/blob/74fd92546bd054177272d5155f1389a159f35f1f/babel.config.js#L4-L5
-
-Alternative for `babel-plugin-transform-import-meta` you could do `patch-package`
-
-```diff
-diff --git a/node_modules/@fugood/transformers/src/env.js b/node_modules/@fugood/transformers/src/env.js
-index d2699da..b9cd563 100644
---- a/node_modules/@xenova/transformers/src/env.js
-+++ b/node_modules/@xenova/transformers/src/env.js
-@@ -24,7 +24,6 @@
- 
- import fs from 'fs';
- import path from 'path';
--import url from 'url';
- import { Buffer } from 'buffer';
- 
- import { ONNX } from './backends/onnx.js';
-@@ -44,7 +43,7 @@ let localPath = './';
- if (IS_REACT_NATIVE) {
-     localPath = fs.DocumentDirectoryPath;
- } else if (RUNNING_LOCALLY) {
--    localPath = path.dirname(path.dirname(url.fileURLToPath(import.meta.url)));
-+    localPath = path.dirname(path.dirname(__filename));
- }
- 
- // Only used for environments with access to file system
-```
+https://github.com/hans00/react-native-transformers-example/blob/b8321a715e14004d096c6487a255fc4be625c9d9/babel.config.js#L4
 
 # Android
 
