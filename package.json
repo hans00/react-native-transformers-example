@@ -13,7 +13,7 @@
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
-    "@huggingface/transformers": "npm:@fugood/transformers@^3.6.1-beta.0",
+    "@huggingface/transformers": "npm:@fugood/transformers@^3.6.1-beta.1",
     "@shopify/react-native-skia": "^1.10.2",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",

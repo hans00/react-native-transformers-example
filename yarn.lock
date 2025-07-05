@@ -1110,10 +1110,10 @@
   resolved "https://registry.yarnpkg.com/@huggingface/jinja/-/jinja-0.4.1.tgz#a71deab443c4badb6498d28e784ea1cd5eb369e2"
   integrity sha512-3WXbMFaPkk03LRCM0z0sylmn8ddDm4ubjU7X+Hg4M2GOuMklwoGAFXp9V2keq7vltoB/c7McE5aHUVVddAewsw==
 
-"@huggingface/transformers@npm:@fugood/transformers@^3.6.1-beta.0":
-  version "3.6.1-beta.0"
-  resolved "https://registry.yarnpkg.com/@fugood/transformers/-/transformers-3.6.1-beta.0.tgz#a719998462449cc8863f74015305d4ae1cc80da2"
-  integrity sha512-NX0TuAsSArbkpl7U25CwhiifOmFqB/Kek8Z3F5A6PRzH1szSzdVkelNjlcOtBSM2aicTOnoeDvZk/J2lH5yAcg==
+"@huggingface/transformers@npm:@fugood/transformers@^3.6.1-beta.1":
+  version "3.6.1-beta.1"
+  resolved "https://registry.yarnpkg.com/@fugood/transformers/-/transformers-3.6.1-beta.1.tgz#5c991ecf03aa67847c124554b8deadd62dc3d511"
+  integrity sha512-V8orWBs/L+XkKRMbwePUdP0XwIL3LzDsF5+6lig9YGWcjeV8LkbZT040EmfZvOYU+2KhTwTibT3h46n4Q8FWMQ==
   dependencies:
     "@huggingface/jinja" "^0.4.1"
     native-universal-fs "^0.2.0"
