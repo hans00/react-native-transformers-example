@@ -2,19 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
 import Button from '../form/Button';
-import type { InteractProps } from './common/types';
+import type { InteractProps, InputParams } from './common/types';
 
 export const title = 'Text Generation';
 
 export { default as Settings } from './common/Settings';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: InputParams) => void;
 }
 
-export function Parameters(props: Props): JSX.Element {
+export function Parameters(props: Props): React.JSX.Element {
   const { onChange } = props;
-  const [params, setParams] = useState<object>({
+  const [params, setParams] = useState<InputParams>({
     topk: 5,
     max_new_tokens: 50,
   });
@@ -27,12 +27,12 @@ export function Parameters(props: Props): JSX.Element {
     <>
       <NumberField
         title="No. samples"
-        value={params.topk}
+        value={params.topk as number}
         onChange={(value) => setParams({ ...params, topk: value })}
       />
       <NumberField
         title="Max length"
-        value={params.max_new_tokens}
+        value={params.max_new_tokens as number}
         onChange={(value) => setParams({ ...params, max_new_tokens: value })}
       />
     </>
@@ -41,7 +41,7 @@ export function Parameters(props: Props): JSX.Element {
 
 const sampleText = 'I enjoy walking with my cute dog,';
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [text, setText] = useState<string>(sampleText);
   const [isWIP, setWIP] = useState<boolean>(false);
 

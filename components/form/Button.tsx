@@ -11,7 +11,7 @@ interface Props {
   disabled?: boolean;
 }
 
-export default function Button({ onPress, title, disabled }: Props): JSX.Element {
+export default function Button({ onPress, title, disabled }: Props): React.JSX.Element {
   return (
     <Pressable
       disabled={disabled}

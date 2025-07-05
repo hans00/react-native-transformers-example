@@ -3,19 +3,19 @@ import TextField from '../form/TextField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Progress from '../Progress';
-import type { InteractProps } from './common/types';
+import type { InteractProps, InputParams } from './common/types';
 
 export const title = 'Zero Shot Classification';
 
 export { default as Settings } from './common/Settings';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: InputParams) => void;
 }
 
 export function Parameters(props: Props) {
   const { onChange } = props;
-  const [params, setParams] = useState<object>({
+  const [params, setParams] = useState<InputParams>({
     multi_label: false,
   });
 
@@ -27,7 +27,7 @@ export function Parameters(props: Props) {
     <>
       <BooleanField
         title="Multi label"
-        value={params.multi_label}
+        value={params.multi_label as boolean}
         onChange={(value) => setParams({ ...params, multi_label: value })}
       />
     </>
@@ -42,7 +42,7 @@ interface Label {
 const sampleText = 'I have a problem with my iphone that needs to be resolved asap!';
 const sampleClass = 'urgent, not urgent, phone, tablet, microwave';
 
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
@@ -58,7 +58,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         input,
         classes.split(/\s*,+\s*/g).filter(x => x)
       );
-      const predicts = labels.map((label, index) => ({
+      const predicts = labels.map((label: string, index: number) => ({
         label,
         score: scores[index],
       }));

@@ -21,7 +21,7 @@ interface Token {
 
 const sampleText = 'Hugging Face is a technology company that was founded in 2016 by Clément Delangue, Julien Chaumond, and Thomas Wolf. The company is headquartered in New York City, and is focused on developing natural language processing software and tools.';
 
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [tokens, setTokens] = useState<Token[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);

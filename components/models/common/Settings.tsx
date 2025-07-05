@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '../../form/TextField';
+import type { Settings } from './types';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: Settings) => void;
 }
 
-export default function Settings(props: Props): JSX.Element {
+export default function Settings(props: Props): React.JSX.Element {
   const { onChange } = props;
   const [ model, setModel ] = useState<string>('');
 

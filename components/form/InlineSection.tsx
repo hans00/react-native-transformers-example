@@ -11,7 +11,7 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-export default function InlineSection({children, title}: SectionProps): JSX.Element {
+export default function InlineSection({children, title}: SectionProps): React.JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 

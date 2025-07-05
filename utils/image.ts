@@ -1,6 +1,7 @@
 import { RawImage } from '@huggingface/transformers';
+import { Image, OffscreenCanvas, ImageData } from 'react-native-skia-offscreencanvas';
 
-export async function getImageData(uri: string, maxSize: number = 512): global.Image {
+export async function getImageData(uri: string, maxSize: number = 512): Promise<ImageData> {
   return await new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => {

@@ -9,7 +9,7 @@ export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string>('The goal of life is [MASK].');
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);
@@ -18,7 +18,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
     setWIP(true);
     try {
       const predicts = await runPipe('fill-mask', model, null, input, params);
-      setOutput(predicts.map(({ sequence }) => sequence).join('\n'));
+      setOutput(predicts.map(({ sequence }: { sequence: string }) => sequence).join('\n'));
     } catch {}
     setWIP(false);
   }, [model, input, params, runPipe]);

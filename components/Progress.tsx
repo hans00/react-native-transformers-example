@@ -8,7 +8,7 @@ type ProgressProps = {
   status?: 'initiate' | 'download' | 'done';
 };
 
-export default function Progress(props: ProgressProps): JSX.Element {
+export default function Progress(props: ProgressProps): React.JSX.Element {
   const { value, title, status } = props;
   const width = (value ?? (status === 'done' ? 1 : 0)) * 100;
 

@@ -11,7 +11,7 @@ type SectionProps = {
   children: React.ReactNode;
 };
 
-export default function Section({children, title}: SectionProps): JSX.Element {
+export default function Section({children, title}: SectionProps): React.JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 

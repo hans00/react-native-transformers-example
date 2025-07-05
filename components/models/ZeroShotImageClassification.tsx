@@ -6,19 +6,19 @@ import Button from '../form/Button';
 import Progress from '../Progress';
 import { getImageData, createRawImage } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
-import type { InteractProps } from './common/types';
+import type { InteractProps, InputParams } from './common/types';
 
 export const title = 'Zero Shot Image Classification';
 
 export { default as Settings } from './common/Settings';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: InputParams) => void;
 }
 
 export function Parameters(props: Props) {
   const { onChange } = props;
-  const [params, setParams] = useState<object>({
+  const [params, setParams] = useState<InputParams>({
     multi_label: false,
   });
 
@@ -30,7 +30,7 @@ export function Parameters(props: Props) {
     <>
       <BooleanField
         title="Multi label"
-        value={params.multi_label}
+        value={params.multi_label as boolean}
         onChange={(value) => setParams({ ...params, multi_label: value })}
       />
     </>
@@ -44,7 +44,7 @@ interface Label {
 
 const sampleClass = 'phone, tablet, microwave, controller, remoter, pen, cutter';
 
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string|null>(null);
   const [classes, setClasses] = useState<string>(sampleClass);
   const [result, setResult] = useState<Label[]>([]);
@@ -89,7 +89,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         disabled={isWIP}
       />
       <Image
-        source={{ uri: input }}
+        source={{ uri: input ?? undefined }}
         style={styles.image}
       />
       <Button

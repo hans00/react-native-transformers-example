@@ -3,19 +3,19 @@ import RNFS from 'react-native-fs';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
 import { encodeBuffer, play } from '../../utils/audio';
-import type { InteractProps } from './common/types';
+import type { InteractProps, Settings } from './common/types';
 
 export const title = 'Text To Speech';
 
 export { default as Settings } from './common/Settings';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: Settings) => void;
 }
 
-export function Parameters(props: Props): JSX.Element {
+export function Parameters(props: Props): React.JSX.Element {
   const { onChange } = props;
-  const [params, setParams] = useState<object>({
+  const [params, setParams] = useState<Settings>({
     speaker_embeddings: 'https://huggingface.co/datasets/Xenova/transformers.js-docs/resolve/main/speaker_embeddings.bin',
   });
 
@@ -27,7 +27,7 @@ export function Parameters(props: Props): JSX.Element {
     <>
       <TextField
         title="Speaker Embeddings"
-        value={params.speaker_embeddings}
+        value={(params as any).speaker_embeddings}
         onChange={(value) => setParams({ ...params, speaker_embeddings: value })}
       />
     </>
@@ -36,7 +36,7 @@ export function Parameters(props: Props): JSX.Element {
 
 const sampleText = 'How are you';
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [text, setText] = useState<string>(sampleText);
   const [isWIP, setWIP] = useState<boolean>(false);
   const [output, setOutput] = useState<string>('');

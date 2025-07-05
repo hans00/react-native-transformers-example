@@ -23,6 +23,7 @@ import SelectField from './components/form/SelectField';
 import Progress from './components/Progress';
 import Models from './components/models';
 import * as logger from './utils/logger';
+import type { Settings, InputParams } from './components/models/common/types';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,9 +32,9 @@ function App(): React.JSX.Element {
   const textColor = { color };
 
   const [task, setTask] = useState<keyof typeof Models | null>(null);
-  const [settings, setSettings] = useState<object>({});
-  const [params, setParams] = useState<object | null>(null);
-  const [download, setDownload] = useState<object>({});
+  const [settings, setSettings] = useState<Settings>({});
+  const [params, setParams] = useState<any>({});
+  const [download, setDownload] = useState<Record<string, any>>({});
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const backgroundStyle = { backgroundColor };
@@ -106,14 +107,14 @@ function App(): React.JSX.Element {
           </InlineSection>
           <InlineSection title="Settings">
             {SettingsComponent ? (
-              <SettingsComponent onChange={setSettings} />
+              <SettingsComponent onChange={(newSettings: Settings) => setSettings(newSettings)} />
             ) : (
               <Text style={textColor}>Select task first</Text>
             )}
           </InlineSection>
           <InlineSection title="Parameters">
             {ParametersComponent ? (
-              <ParametersComponent onChange={setParams} />
+              <ParametersComponent onChange={(newParams: InputParams) => setParams(newParams)} />
             ) : (
               <Text style={textColor}>N/A</Text>
             )}
@@ -127,7 +128,7 @@ function App(): React.JSX.Element {
           </Section>
           {isLoading && (
             <Section title="Progress">
-              {Object.entries(download).map(([key, { progress, status }]) => (
+              {Object.entries(download).map(([key, { progress, status }]: [string, any]) => (
                 <Progress key={key} title={key} value={progress} status={status} />
               ))}
             </Section>

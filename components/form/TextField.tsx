@@ -14,9 +14,10 @@ interface Props {
   onChange?: (value: string) => void;
   editable?: boolean;
   multiline?: boolean;
+  disabled?: boolean;
 }
 
-export default function TextField(props: Props): JSX.Element {
+export default function TextField(props: Props): React.JSX.Element {
   const {
     title,
     onChange,

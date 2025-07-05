@@ -16,7 +16,7 @@ interface Props {
   editable?: boolean;
 }
 
-export default function NumberField(props: Props): JSX.Element {
+export default function NumberField(props: Props): React.JSX.Element {
   const { title, onChange, placeholder, value, isInteger, editable } = props;
 
   const color = useColor('foreground');

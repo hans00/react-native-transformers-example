@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { PermissionsAndroid, Platform, Alert } from 'react-native';
 import RNFS from 'react-native-fs';
+import type { RawAudio } from '@huggingface/transformers';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
@@ -23,14 +24,14 @@ const examples = {
   'Example 3': 'https://huggingface.github.io/transformers.js/audio/ted_60.wav',
 };
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [output, setOutput] = useState<string>('');
   const [isRecording, setRecording] = useState<boolean>(false);
   const recorder = useRef<Recorder|null>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
   const [example, setExample] = useState<string>(Object.values(examples)[0]);
 
-  const call = useCallback(async (audio: RawAudio | string) => {
+  const call = useCallback(async (audio: RawAudio | Float32Array| string) => {
     setWIP(true);
     try {
       const { text } = await runPipe('automatic-speech-recognition', model, null, audio, params);

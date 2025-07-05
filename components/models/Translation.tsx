@@ -2,15 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
-import type { InteractProps } from './common/types';
+import type { InteractProps, Settings } from './common/types';
 
 export const title = 'Translation';
 
 interface Props {
-  onChange: (settings: object) => void;
+  onChange: (settings: Settings) => void;
 }
 
-export function Settings(props: Props): JSX.Element {
+export function Settings(props: Props): React.JSX.Element {
   const { onChange } = props;
   const [languageFrom, setFrom] = useState<string>('en');
   const [languageTo, setTo] = useState<string>('fr');
@@ -41,7 +41,7 @@ export function Settings(props: Props): JSX.Element {
 
 export { default as Parameters } from './common/LMParameters';
 
-export function Interact({ settings, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings, params, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string>('Hello, how are you?');
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);

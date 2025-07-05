@@ -13,7 +13,7 @@ interface Props {
   onChange?: (value: boolean) => void;
 }
 
-export default function BooleanField(props: Props): JSX.Element {
+export default function BooleanField(props: Props): React.JSX.Element {
   const { title, onChange, value } = props;
 
   const color = useColor('foreground');

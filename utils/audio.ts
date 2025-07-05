@@ -63,7 +63,7 @@ export const decodeBuffer = async (buf: Buffer): Promise<AudioData> => {
   // MP3
   if (buf.slice(0, 3).toString() === 'ID3') {
     const mp3 = AV.Asset.fromBuffer(buf);
-    const decoded = new Promise((resolve) => mp3.decodeToBuffer(resolve));
+    const decoded = new Promise<Float32Array>((resolve) => mp3.decodeToBuffer(resolve));
     return {
       data: await decoded,
       sampleRate: mp3.format.sampleRate,

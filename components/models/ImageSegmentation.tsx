@@ -10,14 +10,15 @@ import {
   Fill,
   ColorType,
   AlphaType,
+  SkImage,
 } from '@shopify/react-native-skia';
-import { RawImage } from '@xenova/transformers/src/utils/image';
 import uniqolor from 'uniqolor';
 import parseColor from 'color-parse';
 import Button from '../form/Button';
 import { getImageData, createRawImage } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
 import type { InteractProps } from './common/types';
+import type { ImageSegmentationPipelineOutput } from '@huggingface/transformers';
 
 export const title = 'Image Segmentation';
 
@@ -25,23 +26,17 @@ export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
-interface Segment {
-  label: string;
-  score: number;
-  mask: RawImage;
-}
-
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
-  const [results, setResults] = useState<Segment[]>([]);
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
+  const [results, setResults] = useState<ImageSegmentationPipelineOutput[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
-  const [input, setInput] = useState<string>('');
-  const img = useImage(input);
+  const [inputImage, setInputImage] = useState<string>('');
+  const img = useImage(inputImage);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  const call = useCallback(async (input) => {
+  const call = useCallback(async (input: string) => {
     setWIP(true);
     try {
-      setInput(input);
+      setInputImage(input);
       const data = await getImageData(input);
       const predicts = await runPipe('image-segmentation', model, null, createRawImage(data));
       setResults(predicts);
@@ -49,11 +44,11 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
     setWIP(false);
   }, [model, runPipe]);
 
-  const masks = useRef<Skia.Image[]>([]);
+  const masks = useRef<SkImage[]>([]);
   useEffect(() => {
     if (results?.length) {
       masks.current = results.map(({ mask }) => {
-        const data = Skia.Data.fromBytes(mask.data);
+        const data = Skia.Data.fromBytes(mask.data as Uint8Array);
         const image = Skia.Image.MakeImage({
           width: mask.width,
           height: mask.height,
@@ -61,15 +56,15 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
           alphaType: AlphaType.Unpremul,
         }, data, mask.width);
         data.dispose();
-        return image;
+        return image as SkImage;
       });
     }
     return () => masks.current.forEach((mask) => mask.dispose());
   }, [results]);
 
   const colors = useMemo(() => results?.map(({ label }) => {
-    const lightness = label.startsWith('LABEL_') ? 40 : 80;
-    const { color } = uniqolor(label, { lightness });
+    const lightness = label?.startsWith('LABEL_') ? 40 : 80;
+    const { color } = uniqolor(label ?? '', { lightness });
     const { values } = parseColor(color);
     return { text: color, mask: `rgba(${values.join(', ')}, 0.8)` };
   }), [results]);
@@ -94,7 +89,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
           width: e.nativeEvent.layout.width,
           height: e.nativeEvent.layout.height,
         })}
-        onSize={(width, height) => setSize({ width, height })}
+        onSize={(width: number, height: number) => setSize({ width, height })}
       >
         <Image
           image={img}
@@ -127,9 +122,9 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       {results?.map(({ label, score }, i) => (
         <Text
           key={`text-${i}`}
-          style={{ fontSize: 14, color: colors?.[i]?.text }}
+          style={[{ color: colors?.[i]?.text }, styles.text]}
         >
-          {`${label} (${score.toFixed(2)})`}
+          {`${label} (${score?.toFixed(2) ?? ''})`}
         </Text>
       ))}
     </>
@@ -140,5 +135,8 @@ const styles = StyleSheet.create({
   canvas: {
     width: '100%',
     height: 512,
+  },
+  text: {
+    fontSize: 14,
   },
 });

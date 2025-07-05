@@ -16,12 +16,12 @@ interface LabelScore {
   score: number;
 }
 
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
   const [image, setImage] = useState<string|null>(null);
   const [results, setResults] = useState<LabelScore[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);
 
-  const call = useCallback(async (input) => {
+  const call = useCallback(async (input: any) => {
     setWIP(true);
     try {
       const predicts = await runPipe('image-classification', model, null, input);

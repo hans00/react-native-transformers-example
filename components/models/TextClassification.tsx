@@ -17,7 +17,7 @@ interface LabelScore {
 
 const sampleText = 'The Shawshank Redemption is a true masterpiece of cinema, a movie that deserves every bit of its status as one of the greatest films ever made. From its stellar performances to its unforgettable storytelling, everything about this film is a testament to the power of great filmmaking.';
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
   const [labels, setLabels] = useState<LabelScore[]>([]);
   const [isWIP, setWIP] = useState<boolean>(false);

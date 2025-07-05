@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import uniqolor from 'uniqolor';
-import { Canvas, Image, useImage, Text, Rect, Group } from '@shopify/react-native-skia';
+import { Canvas, Image, useImage, Text, Rect, Group, useFont } from '@shopify/react-native-skia';
 import Button from '../form/Button';
 import { getImageData, createRawImage, calcPosition } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
 import type { InteractProps } from './common/types';
+import type { ObjectDetectionPipelineSingle } from '@huggingface/transformers';
 
 export const title = 'Object Detection';
 
@@ -13,24 +14,18 @@ export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
 
-interface Result {
-  boxe: { ymin: number, ymax: number, xmin: number, xmax: number };
-  label: string;
-  score: number;
-}
-
-export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
-  const [results, setResults] = useState<Result[]|null>(null);
+export function Interact({ settings: { model }, runPipe }: InteractProps): React.JSX.Element {
+  const [results, setResults] = useState<ObjectDetectionPipelineSingle[]|null>(null);
   const [isWIP, setWIP] = useState<boolean>(false);
-  const [input, setInput] = useState<string>('');
-  const img = useImage(input);
+  const [inputImage, setInputImage] = useState<string>('');
+  const img = useImage(inputImage);
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  const call = useCallback(async (input) => {
+  const call = useCallback(async (input: string) => {
     setWIP(true);
     try {
       setResults(null);
-      setInput(input);
+      setInputImage(input);
       const data = await getImageData(input, 128);
       const predicts = await runPipe('object-detection', model, null, createRawImage(data));
       setResults(predicts);
@@ -39,6 +34,8 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
   }, [model, runPipe]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
+
+  const font = useFont('serif', 16);
 
   return (
     <>
@@ -58,7 +55,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
           width: e.nativeEvent.layout.width,
           height: e.nativeEvent.layout.height,
         })}
-        onSize={(width, height) => setSize({ width, height })}
+        onSize={(width: number, height: number) => setSize({ width, height })}
       >
         <Image
           image={img}
@@ -68,13 +65,13 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
           width={size.width}
           height={size.height}
         />
-        {results?.map(({ box: { xmin, ymin, xmax, ymax }, label, score }, i) => {
+        {results?.map(({ box: { xmin, ymin }, label, score }, i: number) => {
           const { color } = uniqolor(label, { lightness: 50 });
           const [x, y, w, h] = calcPosition(
             'contain',
             size.width, size.height,
-            img?.width(), img?.height(),
-            xmin, ymin, xmax, ymax,
+            img?.width() ?? 0, img?.height() ?? 0,
+            xmin, ymin
           );
           return (
             <>
@@ -97,7 +94,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
                 y={y > 10 ? y - 5 : y + 16}
                 text={`${label} ${score.toFixed(2)}`}
                 color={color}
-                fontSize={16}
+                font={font}
               />
             </>
           );

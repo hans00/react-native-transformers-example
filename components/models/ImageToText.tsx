@@ -11,12 +11,12 @@ export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
-export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
+export function Interact({ settings: { model }, params, runPipe }: InteractProps): React.JSX.Element {
   const [image, setImage] = useState<string|null>(null);
   const [output, setOutput] = useState<string>('');
   const [isWIP, setWIP] = useState<boolean>(false);
 
-  const call = useCallback(async (input) => {
+  const call = useCallback(async (input: any) => {
     setWIP(true);
     try {
       const [{ generated_text: text }] = await runPipe('image-to-text', model, null, input, params);
