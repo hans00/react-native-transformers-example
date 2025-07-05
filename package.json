@@ -13,7 +13,7 @@
   "dependencies": {
     "@craftzdog/react-native-buffer": "^6.0.5",
     "@fugood/react-native-audio-pcm-stream": "^1.1.4",
-    "@huggingface/transformers": "https://github.com/hans00/transformers.js.git#merge",
+    "@huggingface/transformers": "npm:@fugood/transformers@^3.6.1-beta.0",
     "@shopify/react-native-skia": "^1.10.2",
     "assert": "^2.0.0",
     "browserify-zlib": "^0.2.0",
@@ -24,7 +24,6 @@
     "mp3": "^0.1.0",
     "node-fetch": "^2.6.7",
     "node-wav": "^0.0.2",
-    "onnxruntime-react-native": "1.17.0",
     "path-browserify": "^1.0.1",
     "react": "18.3.1",
     "react-native": "0.76.6",
