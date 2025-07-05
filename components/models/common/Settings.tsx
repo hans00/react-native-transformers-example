@@ -6,8 +6,7 @@ interface Props {
   onChange: (settings: Settings) => void;
 }
 
-export default function Settings(props: Props): React.JSX.Element {
-  const { onChange } = props;
+export default function Settings({ onChange }: Props): React.JSX.Element {
   const [ model, setModel ] = useState<string>('');
 
   useEffect(() => {

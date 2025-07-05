@@ -79,6 +79,14 @@ function App(): React.JSX.Element {
     }
   }, [task, onProgress]);
 
+  const handleSettingsChange = useCallback((newSettings: Settings) => {
+    setSettings(newSettings);
+  }, []);
+
+  const handleParamsChange = useCallback((newParams: InputParams) => {
+    setParams(newParams);
+  }, []);
+
   const SettingsComponent = task && Models[task]?.Settings;
   const ParametersComponent = task && Models[task]?.Parameters;
   const InteractComponent = task && Models[task]?.Interact;
@@ -107,14 +115,14 @@ function App(): React.JSX.Element {
           </InlineSection>
           <InlineSection title="Settings">
             {SettingsComponent ? (
-              <SettingsComponent onChange={(newSettings: Settings) => setSettings(newSettings)} />
+              <SettingsComponent onChange={handleSettingsChange} />
             ) : (
               <Text style={textColor}>Select task first</Text>
             )}
           </InlineSection>
           <InlineSection title="Parameters">
             {ParametersComponent ? (
-              <ParametersComponent onChange={(newParams: InputParams) => setParams(newParams)} />
+              <ParametersComponent onChange={handleParamsChange} />
             ) : (
               <Text style={textColor}>N/A</Text>
             )}
