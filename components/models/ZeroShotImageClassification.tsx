@@ -6,6 +6,7 @@ import Button from '../form/Button';
 import Progress from '../Progress';
 import { getImageData, createRawImage } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
+import type { InteractProps } from './common/types';
 
 export const title = 'Zero Shot Image Classification';
 
@@ -22,8 +23,8 @@ export function Parameters(props: Props) {
   });
 
   useEffect(() => {
-    onChange(params)
-  }, [params])
+    onChange(params);
+  }, [params, onChange]);
 
   return (
     <>
@@ -33,13 +34,7 @@ export function Parameters(props: Props) {
         onChange={(value) => setParams({ ...params, multi_label: value })}
       />
     </>
-  )
-}
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
+  );
 }
 
 interface Label {
@@ -69,7 +64,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResult(predicts);
     } catch {}
     setWIP(false);
-  }, [model, input, classes]);
+  }, [model, classes, runPipe]);
 
   const { selectPhoto, takePhoto } = usePhoto(async (uri) => {
     inferImage.current = await getImageData(uri, 512);
@@ -106,7 +101,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         <Progress key={label} title={label} value={score} />
       ))}
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

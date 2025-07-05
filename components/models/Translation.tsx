@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
+import type { InteractProps } from './common/types';
 
 export const title = 'Translation';
 
@@ -9,17 +10,14 @@ interface Props {
   onChange: (settings: object) => void;
 }
 
-const translateFrom = ['en'];
-const translateTo = ['fr', 'de', 'ro'];
-
 export function Settings(props: Props): JSX.Element {
   const { onChange } = props;
   const [languageFrom, setFrom] = useState<string>('en');
   const [languageTo, setTo] = useState<string>('fr');
 
   useEffect(() => {
-    onChange({ languageFrom, languageTo })
-  }, [languageFrom, languageTo])
+    onChange({ languageFrom, languageTo });
+  }, [languageFrom, languageTo, onChange]);
 
   return (
     <>
@@ -38,16 +36,10 @@ export function Settings(props: Props): JSX.Element {
         inline
       />
     </>
-  )
+  );
 }
 
 export { default as Parameters } from './common/LMParameters';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 export function Interact({ settings, params, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>('Hello, how are you?');
@@ -67,7 +59,7 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [input, settings, params]);
+  }, [input, settings, params, runPipe]);
 
   return (
     <>
@@ -89,5 +81,5 @@ export function Interact({ settings, params, runPipe }: InteractProps): JSX.Elem
         disabled={isWIP}
       />
     </>
-  )
+  );
 }

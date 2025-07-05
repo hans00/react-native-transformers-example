@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SelectField from '../../form/SelectField';
 import NumberField from '../../form/NumberField';
 import BooleanField from '../../form/BooleanField';
 
@@ -18,8 +17,8 @@ export default function Parameters(props: Props): JSX.Element {
   });
 
   useEffect(() => {
-    onChange(params)
-  }, [params])
+    onChange(params);
+  }, [params, onChange]);
 
   return (
     <>
@@ -51,5 +50,5 @@ export default function Parameters(props: Props): JSX.Element {
         onChange={(value) => setParams({ ...params, do_sample: value })}
       />
     </>
-  )
+  );
 }

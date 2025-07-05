@@ -15,7 +15,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { pipeline } from '@huggingface/transformers';
+import { pipeline, PipelineType } from '@huggingface/transformers';
 import { useColor } from './utils/style';
 import InlineSection from './components/form/InlineSection';
 import Section from './components/form/Section';
@@ -24,15 +24,13 @@ import Progress from './components/Progress';
 import Models from './components/models';
 import * as logger from './utils/logger';
 
-const taskDisplayNames = Object.values(Models).map((model) => model.title);
-
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundColor = useColor('background');
   const color = useColor('foreground');
   const textColor = { color };
 
-  const [task, setTask] = useState<string | null>(null);
+  const [task, setTask] = useState<keyof typeof Models | null>(null);
   const [settings, setSettings] = useState<object>({});
   const [params, setParams] = useState<object | null>(null);
   const [download, setDownload] = useState<object>({});
@@ -60,28 +58,29 @@ function App(): React.JSX.Element {
   }, []);
 
   const run = useCallback(async (useTask: string, model: string, modelOpt: object, ...args: any[]) => {
-    if (!task || !useTask || !args?.length) return;
+    if (!task || !useTask || !args?.length) {return;}
     let pipe;
     try {
       logger.time('LOAD');
-      pipe = await pipeline(useTask, model, { ...modelOpt, progress_callback: onProgress });
+      pipe = await pipeline(useTask as PipelineType, model, { ...modelOpt, progress_callback: onProgress });
       logger.timeEnd('LOAD');
       logger.time('INFER');
+      // @ts-ignore
       const result = await pipe._call(...args);
       logger.timeEnd('INFER');
       await pipe.dispose();
       logger.log('Result:', result);
       return result;
     } catch (e) {
-      console.error(e.stack);
+      console.error((e as Error).stack);
       await pipe?.dispose();
       throw e;
     }
   }, [task, onProgress]);
 
-  const SettingsComponent = Models[task]?.Settings;
-  const ParametersComponent = Models[task]?.Parameters;
-  const InteractComponent = Models[task]?.Interact;
+  const SettingsComponent = task && Models[task]?.Settings;
+  const ParametersComponent = task && Models[task]?.Parameters;
+  const InteractComponent = task && Models[task]?.Interact;
 
   return (
     <SafeAreaView style={backgroundStyle}>

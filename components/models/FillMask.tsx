@@ -1,19 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import SelectField from '../form/SelectField';
+import React, { useState, useCallback } from 'react';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
+import type { InteractProps } from './common/types';
 
 export const title = 'Masked language';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>('The goal of life is [MASK].');
@@ -27,7 +21,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setOutput(predicts.map(({ sequence }) => sequence).join('\n'));
     } catch {}
     setWIP(false);
-  }, [model, input, params]);
+  }, [model, input, params, runPipe]);
 
   return (
     <>
@@ -49,5 +43,5 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
         disabled={isWIP}
       />
     </>
-  )
+  );
 }

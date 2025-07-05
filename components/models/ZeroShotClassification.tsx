@@ -3,6 +3,7 @@ import TextField from '../form/TextField';
 import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Progress from '../Progress';
+import type { InteractProps } from './common/types';
 
 export const title = 'Zero Shot Classification';
 
@@ -19,8 +20,8 @@ export function Parameters(props: Props) {
   });
 
   useEffect(() => {
-    onChange(params)
-  }, [params])
+    onChange(params);
+  }, [params, onChange]);
 
   return (
     <>
@@ -30,13 +31,7 @@ export function Parameters(props: Props) {
         onChange={(value) => setParams({ ...params, multi_label: value })}
       />
     </>
-  )
-}
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
+  );
 }
 
 interface Label {
@@ -70,7 +65,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResult(predicts);
     } catch {}
     setWIP(false);
-  }, [model, input, classes]);
+  }, [model, input, classes, runPipe]);
 
   return (
     <>
@@ -94,5 +89,5 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         <Progress key={label} title={label} value={score} />
       ))}
     </>
-  )
+  );
 }

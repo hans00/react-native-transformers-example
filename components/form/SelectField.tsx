@@ -32,7 +32,6 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
   const [isOpen, setIsOpen] = useState(false);
   const selectedIndex = data.findIndex(item => item.value === value);
   const showTitle = data[selectedIndex]?.label ?? placeholder;
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const isDarkMode = useColorScheme() === 'dark';
 
   const color = useColor('foreground');
@@ -52,7 +51,7 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
       <Pressable onPress={() => setIsOpen(!isOpen)}>
         <Text style={textColor}>{showTitle} {isOpen ? '▲' : '▼'}</Text>
       </Pressable>
-      <Modal 
+      <Modal
         animationType="fade"
         transparent={true}
         visible={isOpen}
@@ -66,8 +65,6 @@ const Dropdown = ({ data, onSelect, value, placeholder }: DropdownProps): React.
                 <View>
                   <Pressable
                     onPress={() => handlePress(index)}
-                    onHoverIn={() => setHoveredIndex(index)}
-                    onHoverOut={() => setHoveredIndex(null)}
                   >
                     <Text
                       style={[
@@ -111,7 +108,7 @@ export default function SelectField(props: Props): React.JSX.Element {
         placeholder={placeholder ?? 'Select an option'}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

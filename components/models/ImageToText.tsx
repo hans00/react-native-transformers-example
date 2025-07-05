@@ -1,25 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Image, StyleSheet, Text } from 'react-native';
-import SelectField from '../form/SelectField';
+import React, { useState, useCallback } from 'react';
+import { Image, StyleSheet } from 'react-native';
 import TextField from '../form/TextField';
-import NumberField from '../form/NumberField';
-import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
-import Recorder from '../../utils/recorder';
-import { useColor } from '../../utils/style';
 import { usePhoto } from '../../utils/photo';
+import type { InteractProps } from './common/types';
 
 export const title = 'Image to Text';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [image, setImage] = useState<string|null>(null);
@@ -34,7 +24,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [model, params]);
+  }, [model, params, runPipe]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
@@ -63,7 +53,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
         multiline
       />
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

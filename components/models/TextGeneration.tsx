@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Text, PermissionsAndroid, Platform, Alert } from 'react-native';
-import SelectField from '../form/SelectField';
+import React, { useState, useEffect, useCallback } from 'react';
 import TextField from '../form/TextField';
 import NumberField from '../form/NumberField';
-import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
-import Recorder from '../../utils/recorder';
+import type { InteractProps } from './common/types';
 
 export const title = 'Text Generation';
 
@@ -23,8 +20,8 @@ export function Parameters(props: Props): JSX.Element {
   });
 
   useEffect(() => {
-    onChange(params)
-  }, [params])
+    onChange(params);
+  }, [params, onChange]);
 
   return (
     <>
@@ -39,16 +36,10 @@ export function Parameters(props: Props): JSX.Element {
         onChange={(value) => setParams({ ...params, max_new_tokens: value })}
       />
     </>
-  )
-};
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
+  );
 }
 
-const sampleText = 'I enjoy walking with my cute dog,'
+const sampleText = 'I enjoy walking with my cute dog,';
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [text, setText] = useState<string>(sampleText);
@@ -61,7 +52,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setText(generated_text);
     } catch {}
     setWIP(false);
-  }, [model, text, params]);
+  }, [model, text, params, runPipe]);
 
   return (
     <>
@@ -77,5 +68,5 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
         disabled={isWIP}
       />
     </>
-  )
+  );
 }

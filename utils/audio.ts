@@ -15,7 +15,7 @@ export interface AudioData {
 export const play = (uri: string): Promise<void> => {
   return new Promise((resolve, reject) => {
     const sound = new Sound(uri, '', (err) => {
-      if (err) return reject(err);
+      if (err) {return reject(err);}
       sound.play(() => {
         sound.release();
         resolve();
@@ -40,7 +40,7 @@ export const encodeBuffer = (audio: AudioData): Buffer => {
     }
   }
   return wav.encode(samples, { sampleRate, float: true });
-}
+};
 
 export const decodeBuffer = async (buf: Buffer): Promise<AudioData> => {
   // WAV
@@ -68,13 +68,13 @@ export const decodeBuffer = async (buf: Buffer): Promise<AudioData> => {
       data: await decoded,
       sampleRate: mp3.format.sampleRate,
       channels: mp3.format.channelsPerFrame,
-    }
+    };
   }
   throw new Error('Unsupported Audio Format');
-}
+};
 
 export const toSingleChannel = (audio: AudioData): AudioData => {
-  if (audio.channels === 1) return audio;
+  if (audio.channels === 1) {return audio;}
   const data = new Float32Array(audio.data.length / audio.channels);
   for (let i = 0; i < data.length; i++) {
     data[i] = audio.data
@@ -86,10 +86,10 @@ export const toSingleChannel = (audio: AudioData): AudioData => {
     sampleRate: audio.sampleRate,
     channels: 1,
   };
-}
+};
 
 export const downsample = (audio: AudioData, toSampleRate: number): AudioData => {
-  if (audio.sampleRate === toSampleRate) return audio;
+  if (audio.sampleRate === toSampleRate) {return audio;}
   const compression = audio.sampleRate / toSampleRate;
   const length = audio.data.length / compression;
   const result = new Float32Array(length);
@@ -101,7 +101,7 @@ export const downsample = (audio: AudioData, toSampleRate: number): AudioData =>
     sampleRate: toSampleRate,
     channels: audio.channels,
   };
-}
+};
 
 export const toFloatArray = (arr: Float32Array|Int16Array|Uint8Array): Float32Array => {
   if (arr instanceof Float32Array) {
@@ -113,4 +113,4 @@ export const toFloatArray = (arr: Float32Array|Int16Array|Uint8Array): Float32Ar
   } else {
     throw new Error('Unsupported Array Type');
   }
-}
+};

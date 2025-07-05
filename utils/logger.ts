@@ -25,7 +25,7 @@ const times = new Map<string, number>();
 
 export const time = (name: string) => {
   times.set(name, Date.now());
-}
+};
 
 export const timeEnd = (name: string) => {
   const start = times.get(name);
@@ -34,4 +34,4 @@ export const timeEnd = (name: string) => {
     const duration = end - start;
     console.log(`Time ${name}: ${duration}ms`);
   }
-}
+};

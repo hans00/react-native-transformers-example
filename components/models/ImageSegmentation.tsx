@@ -14,24 +14,16 @@ import {
 import { RawImage } from '@xenova/transformers/src/utils/image';
 import uniqolor from 'uniqolor';
 import parseColor from 'color-parse';
-import SelectField from '../form/SelectField';
-import TextField from '../form/TextField';
 import Button from '../form/Button';
-import Progress from '../Progress';
 import { getImageData, createRawImage } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
+import type { InteractProps } from './common/types';
 
 export const title = 'Image Segmentation';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 interface Segment {
   label: string;
@@ -55,7 +47,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, [model]);
+  }, [model, runPipe]);
 
   const masks = useRef<Skia.Image[]>([]);
   useEffect(() => {
@@ -141,7 +133,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         </Text>
       ))}
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

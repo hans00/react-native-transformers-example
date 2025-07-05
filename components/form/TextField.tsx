@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -45,7 +45,7 @@ export default function TextField(props: Props): JSX.Element {
         multiline={multiline}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import SelectField from '../form/SelectField';
+import React, { useState, useCallback } from 'react';
 import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
+import type { InteractProps } from './common/types';
 
 export const title = 'Token Classification';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 interface Token {
   start: number | null;
@@ -25,7 +19,7 @@ interface Token {
   score: number;
 }
 
-const sampleText = 'Hugging Face is a technology company that was founded in 2016 by Clément Delangue, Julien Chaumond, and Thomas Wolf. The company is headquartered in New York City, and is focused on developing natural language processing software and tools.'
+const sampleText = 'Hugging Face is a technology company that was founded in 2016 by Clément Delangue, Julien Chaumond, and Thomas Wolf. The company is headquartered in New York City, and is focused on developing natural language processing software and tools.';
 
 export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.Element {
   const [input, setInput] = useState<string>(sampleText);
@@ -39,7 +33,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setTokens(predicts);
     } catch {}
     setWIP(false);
-  }, [model, input]);
+  }, [model, input, runPipe]);
 
   return (
     <>
@@ -58,5 +52,5 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         <Progress key={index} title={`${word} [${entity}]`} value={score} />
       ))}
     </>
-  )
+  );
 }

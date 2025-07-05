@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -32,7 +32,7 @@ export default function BooleanField(props: Props): JSX.Element {
           {
             backgroundColor: pressed
               ? 'rgb(210, 230, 255)'
-              : 'white'
+              : 'white',
           },
           styles.button,
         ]}
@@ -42,7 +42,7 @@ export default function BooleanField(props: Props): JSX.Element {
         </Text>
       </Pressable>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

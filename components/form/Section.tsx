@@ -1,5 +1,4 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,9 +6,10 @@ import {
 } from 'react-native';
 import { useColor } from '../../utils/style';
 
-type SectionProps = PropsWithChildren<{
+type SectionProps = {
   title: string;
-}>;
+  children: React.ReactNode;
+};
 
 export default function Section({children, title}: SectionProps): JSX.Element {
   const color = useColor('foreground');

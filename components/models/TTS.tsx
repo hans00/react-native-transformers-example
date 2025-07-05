@@ -1,12 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Text, Platform, Alert } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
 import RNFS from 'react-native-fs';
-import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
-import NumberField from '../form/NumberField';
-import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import { encodeBuffer, play } from '../../utils/audio';
+import type { InteractProps } from './common/types';
 
 export const title = 'Text To Speech';
 
@@ -23,8 +20,8 @@ export function Parameters(props: Props): JSX.Element {
   });
 
   useEffect(() => {
-    onChange(params)
-  }, [params])
+    onChange(params);
+  }, [params, onChange]);
 
   return (
     <>
@@ -34,13 +31,7 @@ export function Parameters(props: Props): JSX.Element {
         onChange={(value) => setParams({ ...params, speaker_embeddings: value })}
       />
     </>
-  )
-};
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
+  );
 }
 
 const sampleText = 'How are you';
@@ -51,7 +42,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   const [output, setOutput] = useState<string>('');
 
   const clear = useCallback(async () => {
-    if (!output) return;
+    if (!output) {return;}
     await RNFS.unlink(output);
     setOutput('');
   }, [output]);
@@ -63,7 +54,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       const { audio, sampling_rate } = await runPipe(
         'text-to-speech',
         model,
-        { quantized: false },
+        { dtype: 'float32' },
         text,
         params,
       );
@@ -76,10 +67,10 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setOutput(file);
     } catch {}
     setWIP(false);
-  }, [clear, model, text, params]);
+  }, [clear, model, text, params, runPipe]);
 
   const playAudio = useCallback(() => {
-    if (!output) return;
+    if (!output) {return;}
     play(output);
   }, [output]);
 
@@ -107,5 +98,5 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
         disabled={isWIP || !output}
       />
     </>
-  )
+  );
 }

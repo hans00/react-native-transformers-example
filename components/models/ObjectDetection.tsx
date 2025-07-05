@@ -1,26 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import uniqolor from 'uniqolor';
 import { Canvas, Image, useImage, Text, Rect, Group } from '@shopify/react-native-skia';
-import SelectField from '../form/SelectField';
-import TextField from '../form/TextField';
 import Button from '../form/Button';
-import Progress from '../Progress';
 import { getImageData, createRawImage, calcPosition } from '../../utils/image';
 import { usePhoto } from '../../utils/photo';
-import { log } from '../../utils/logger';
+import type { InteractProps } from './common/types';
 
 export const title = 'Object Detection';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 interface Result {
   boxe: { ymin: number, ymax: number, xmin: number, xmax: number };
@@ -45,7 +36,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, [model]);
+  }, [model, runPipe]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
@@ -113,7 +104,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         })}
       </Canvas>
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

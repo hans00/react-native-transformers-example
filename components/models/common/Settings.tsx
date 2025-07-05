@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '../../form/TextField';
 
 interface Props {
@@ -10,8 +10,8 @@ export default function Settings(props: Props): JSX.Element {
   const [ model, setModel ] = useState<string>('');
 
   useEffect(() => {
-    onChange({ model })
-  }, [model])
+    onChange({ model });
+  }, [model, onChange]);
 
   return (
     <>
@@ -22,5 +22,5 @@ export default function Settings(props: Props): JSX.Element {
         onChange={setModel}
       />
     </>
-  )
+  );
 }

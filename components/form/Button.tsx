@@ -20,7 +20,7 @@ export default function Button({ onPress, title, disabled }: Props): JSX.Element
         {
           backgroundColor: pressed
             ? 'rgb(210, 230, 255)'
-            : 'white'
+            : 'white',
         },
         styles.button,
         disabled && styles.disabled,

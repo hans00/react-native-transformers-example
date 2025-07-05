@@ -1,8 +1,7 @@
 import RNFS from 'react-native-fs';
-import { Buffer } from 'buffer';
 import sha from 'sha.js';
 
-export const getFile = async (url: string): string => {
+export const getFile = async (url: string): Promise<string> => {
   const filename = sha('sha256').update(url).digest('hex');
   const path = `${RNFS.CachesDirectoryPath}/${filename}.wav`;
 
@@ -14,4 +13,4 @@ export const getFile = async (url: string): string => {
   }
 
   return path;
-}
+};

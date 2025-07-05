@@ -8,4 +8,4 @@ export const useColor = (mode: 'foreground' | 'background') => {
     return isDarkMode ? '#fff' : '#000';
   }
   return isDarkMode ? Colors.darker : Colors.lighter;
-}
+};

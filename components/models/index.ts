@@ -30,4 +30,4 @@ export default {
   'image-segmentation': ImageSegmentation,
   'object-detection': ObjectDetection,
   'text-to-speech': TTS,
-}
+};

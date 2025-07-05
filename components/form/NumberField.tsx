@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -22,14 +22,14 @@ export default function NumberField(props: Props): JSX.Element {
   const color = useColor('foreground');
   const textColor = { color };
 
-  const handleChange = useCallback((val) => {
-    const num = Number(val)
+  const handleChange = useCallback((val: string) => {
+    const num = Number(val);
     if (!Number.isNaN(num) && (!isInteger || Number.isInteger(num))) {
       onChange?.(num);
     } else {
       onChange?.(0);
     }
-  }, [onChange])
+  }, [onChange, isInteger]);
 
   return (
     <View style={styles.container}>
@@ -43,7 +43,7 @@ export default function NumberField(props: Props): JSX.Element {
         editable={editable}
       />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

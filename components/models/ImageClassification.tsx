@@ -1,22 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Image, StyleSheet } from 'react-native';
-import SelectField from '../form/SelectField';
-import TextField from '../form/TextField';
 import Button from '../form/Button';
 import Progress from '../Progress';
 import { usePhoto } from '../../utils/photo';
+import type { InteractProps } from './common/types';
 
 export const title = 'Image Classification';
 
 export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/Empty';
-
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
 
 interface LabelScore {
   label: string;
@@ -36,7 +29,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
       setResults(predicts);
     } catch {}
     setWIP(false);
-  }, [model]);
+  }, [model, runPipe]);
 
   const { selectPhoto, takePhoto } = usePhoto((uri) => call(uri));
 
@@ -62,7 +55,7 @@ export function Interact({ settings: { model }, runPipe }: InteractProps): JSX.E
         <Progress key={label} title={`${label} (${(score * 100).toFixed()}%)`} value={score} />
       ))}
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({

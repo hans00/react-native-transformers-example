@@ -1,13 +1,12 @@
-import type {PropsWithChildren, Props} from 'react';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useColor } from '../utils/style';
 
-type ProgressProps = Props<{
+type ProgressProps = {
   title: string;
   value?: number;
   status?: 'initiate' | 'download' | 'done';
-}>;
+};
 
 export default function Progress(props: ProgressProps): JSX.Element {
   const { value, title, status } = props;

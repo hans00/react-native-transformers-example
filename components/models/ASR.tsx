@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, PermissionsAndroid, Platform, Alert } from 'react-native';
+import { PermissionsAndroid, Platform, Alert } from 'react-native';
 import RNFS from 'react-native-fs';
 import SelectField from '../form/SelectField';
 import TextField from '../form/TextField';
-import NumberField from '../form/NumberField';
-import BooleanField from '../form/BooleanField';
 import Button from '../form/Button';
 import Recorder from '../../utils/recorder';
 import InlineSection from '../form/InlineSection';
 import Section from '../form/Section';
-import { useColor } from '../../utils/style';
 import { decodeBuffer, toSingleChannel, downsample, toFloatArray, play } from '../../utils/audio';
 import { getFile } from '../../utils/fs-cache';
-import * as logger from '../../utils/logger';
+import type { InteractProps } from './common/types';
 
 export const title = 'Speech Recognition';
 
@@ -20,17 +17,11 @@ export { default as Settings } from './common/Settings';
 
 export { default as Parameters } from './common/LMParameters';
 
-interface InteractProps {
-  settings: object;
-  params: object;
-  runPipe: (args: any) => Promise<any>;
-}
-
 const examples = {
   'Example 1': 'https://huggingface.github.io/transformers.js/audio/jfk.wav',
   'Example 2': 'https://huggingface.github.io/transformers.js/audio/ted.wav',
   'Example 3': 'https://huggingface.github.io/transformers.js/audio/ted_60.wav',
-}
+};
 
 export function Interact({ settings: { model }, params, runPipe }: InteractProps): JSX.Element {
   const [output, setOutput] = useState<string>('');
@@ -46,7 +37,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
       setOutput(text);
     } catch {}
     setWIP(false);
-  }, [model, params]);
+  }, [model, params, runPipe]);
 
   const startRecord = useCallback(async () => {
     if (Platform.OS === 'android') {
@@ -87,7 +78,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
 
   const runExample = useCallback(async () => {
     try {
-      if (!example) return;
+      if (!example) {return;}
       const file = await getFile(example);
       const audio = await decodeBuffer(Buffer.from(await RNFS.readFile(file, 'base64'), 'base64'));
       call(toFloatArray(downsample(toSingleChannel(audio), 16000).data));
@@ -97,7 +88,7 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
   }, [call, example]);
 
   const playExample = useCallback(async () => {
-    if (!example) return;
+    if (!example) {return;}
     play(example);
   }, [example]);
 
@@ -139,5 +130,5 @@ export function Interact({ settings: { model }, params, runPipe }: InteractProps
         />
       </Section>
     </>
-  )
+  );
 }

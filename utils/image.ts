@@ -14,7 +14,7 @@ export async function getImageData(uri: string, maxSize: number = 512): global.I
 
       resolve(ctx.getImageData(0, 0, newWidth, newHeight));
       canvas.surface?.destroy();
-    }
+    };
     image.onerror = reject;
     image.src = uri;
   });
