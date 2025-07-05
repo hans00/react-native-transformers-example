@@ -3,18 +3,13 @@
 Before [PR](https://github.com/xenova/transformers.js/pull/118) merge, you should use this installation step.
 
 ```sh
-# Install from source
- npm i 'mybigday/transformers.js#merge'
-
-# or prerelease maintained by BRICKS
+# Install prerelease maintained by BRICKS (since v3.6.0, install from source may not work properly)
 npm i @fugood/transformers
 ```
 
 # Basic Polyfills & Fixes
 
 https://github.com/hans00/react-native-transformers-example/blob/a0060d16550891618fb47ec8766ca4e460b1f1a6/polyfills.js#L2-L16
-
-https://github.com/hans00/react-native-transformers-example/blob/b8321a715e14004d096c6487a255fc4be625c9d9/babel.config.js#L4
 
 # Android
 
